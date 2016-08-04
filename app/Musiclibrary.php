@@ -18,7 +18,6 @@ class Musiclibrary extends BaseModel
         'VOCAL', 'VOCALISTS', 'VOICES', 'INSTRUMENTATION', 'VCFI', 'COMMARRANGEMENT', 'PERFCOMMENTS',
         'UPDATEUSERID',
     ];
-    
     protected static $rules = [
         'CATALOGNUM' => 'required|unique:musiclibraries|min:1|max:5',
         'TITLE' => 'required|min:1|max:80',
@@ -29,12 +28,14 @@ class Musiclibrary extends BaseModel
 
     public function STYLEID()
     {
-        return $this->belongsTo(Style::class);
+        //return $this->belongsTo(Style::class);
+        return $this->hasOne(Style::class);
     }
 
     public function TEMPOID()
     {
-        return $this->belongsTo(Tempo::class);
+        //return $this->belongsTo(Tempo::class);
+        return $this->hasOne(Tempo::class);
     }
-    
+
 }

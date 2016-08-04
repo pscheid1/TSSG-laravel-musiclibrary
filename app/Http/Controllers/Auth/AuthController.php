@@ -10,6 +10,9 @@ use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 
+use App\UserType;
+
+
 class AuthController extends Controller {
     /*
       |--------------------------------------------------------------------------
@@ -88,6 +91,16 @@ use AuthenticatesAndRegistersUsers,
                     'location' => $data['location'],
                     'password' => bcrypt($data['password']),
         ]);
+    }
+    
+    protected function authenticated(Request $request, User $user)
+    {
+        
+        $ut = usertype::where('id', $user->userType)->first()->name;
+        
+        $user->makeMember($ut); 
+        
+          return redirect()->intended($this->redirectPath());
     }
 
 }

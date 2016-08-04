@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
 use App;
 use App\Http\Controllers\Controller;
 use App\Style;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Laracasts\Flash;
+use App\UserType;
+use App\user;
+use App\Policies;
 
 class StylesController extends Controller
 {
@@ -22,9 +26,14 @@ class StylesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        ;
+        if (!(\policy(new Style)->index($request->user())))
+        {
+            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            return redirect()->back();
+        }
+
         $styles = Style::all();
         //return compact('styles');
         return view('style.index', compact('styles'));
@@ -35,8 +44,15 @@ class StylesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+
+        if (!(policy(new Style)->create($request->user())))
+        {
+            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            return redirect()->back();
+        }
+
         return view('style.addStyle');
     }
 
@@ -48,6 +64,12 @@ class StylesController extends Controller
      */
     public function store(Request $request)
     {
+        if (!(\policy(new Style)->store($request->user())))
+        {
+            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            return redirect()->back();
+        }
+
         $style = new Style($request->all());
 
         $this->validate($request, $style::getRules());
@@ -66,10 +88,21 @@ class StylesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $style = App\Style::where('id', $id)->first();
-        //return $style->toArray();
+        $style = Style::findOrFail($id);
+        
+        if ($style == NULL)
+        {
+            flash()->error("Unable to locate requested style in database.")->important();
+        }
+
+        if (!(policy($style)->show($request->user())))
+        {
+            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            return redirect()->back();
+        }
+;
         return view('style.editStyle', compact('style'));
     }
 
@@ -84,6 +117,8 @@ class StylesController extends Controller
         //
     }
 
+    //$style = Style::where('id', $id)->first();
+    //
     /**
      * Update the specified resource in storage.
      *
@@ -93,16 +128,21 @@ class StylesController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $style = Style::findOrFail($id);
+        if (!(policy($style)->update($request->user())))
+        {
+            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            return redirect()->back();
+        }
+
         $this->validate($request, $style->getUpdateRules());
 
         $style->update($request->all());
 
         flash()->success("Style '" . $style->DESCRIPTION . "' successfully updated!");
 
-        //return $this->index();
-        return redirect()->back(); // if you want to keep the update form displayed.
+        //return $this->index();  // use this to return to the list styles page
+        return redirect()->back(); // use this if you want to keep the update form displayed.
     }
 
     /**
@@ -111,30 +151,32 @@ class StylesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $style = App\Style::where('id', $id)->first();
+        $style = Style::findOrFail($id);
         if ($style == NULL)
         {
             flash()->error("Unable to locate requested style in database.")->important();
         }
-        else
-        {
-            try
-            {
-                $style->delete();
-            }
-            catch (\Exception $e)
-            {
-                //flash()->error($e->getMessage());
-                flash()->error("Style '" . "$style->DESCRIPTION" . "' is in use and therefore cannot be deleted")->important();
-                return redirect()->back();
-            }
 
-            flash()->success("Style '" . "$style->DESCRIPTION" . "' has been deleted from the database.");
+        if ($style->musiclibrary()->count() > 0)
+        {
+            flash()->error("Style '" . "$style->DESCRIPTION" . "' is in use and therefore cannot be deleted")->important();
+            return redirect()->back();
         }
 
-        return $this->index();
+        if (!(policy($style)->delete($request->user())))
+        {
+            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            return redirect()->back();
+        }
+
+        $style->delete();
+
+        flash()->success("Style '" . "$style->DESCRIPTION" . "' has been deleted from the database.");
+
+        return redirect()->back();
+        //return $this->index($request);
     }
 
 }

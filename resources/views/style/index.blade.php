@@ -1,7 +1,7 @@
 @extends('layouts\master')
 
 @section('content')
-{{--@include('partials.alerts.errors')--}}
+@include('partials.alerts.errors')
 @include('flash::message')
 
 <form role='form' name="myRqst" id="myRqst" action='/style/'   method='POST'>

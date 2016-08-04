@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tasks</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/app.css">
     <style type="text/css">
         .xsmall
         {
@@ -89,13 +89,6 @@
         }
 
     </style>
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://twitter.github.io/bootstrap/assets/js/bootstrap-transition.js"></script>
-    <script type="text/javascript" src="http://twitter.github.io/bootstrap/assets/js/bootstrap-collapse.js"></script>
-    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>
-
-    {{--<link href="css/bootstrap.min.css" rel="stylesheet">--}}
 
 </head>
 <body>
@@ -181,25 +174,25 @@
             <script>
                 function doSubmit(rqstType, songId)
                 {
-                   //debugger;
-                   if (rqstType === "get")
-                   {
-                       // Show request
-                       // change the form method from POST to GET, _method field remains empty
-                       document.getElementById("myRqst").method = rqstType;
-                   } else
-                   {
-                       // Delete request 
-                       // set the _method field to DELETE, form method remains POST
-                       document.getElementById("_method").value = rqstType;
-                   }
+                    //debugger;
+                    if (rqstType === "get")
+                    {
+                        // Show request
+                        // change the form method from POST to GET, _method field remains empty
+                        document.getElementById("myRqst").method = rqstType;
+                    } else
+                    {
+                        // Delete request 
+                        // set the _method field to DELETE, form method remains POST
+                        document.getElementById("_method").value = rqstType;
+                    }
 
-                   // append songId to form action
-                   var action = document.getElementById("myRqst").action;
-                   action = action.concat(songId);
-                   document.getElementById("myRqst").action = action;
-                   // submit the form
-                   document.getElementById("myRqst").submit();
+                    // append songId to form action
+                    var action = document.getElementById("myRqst").action;
+                    action = action.concat(songId);
+                    document.getElementById("myRqst").action = action;
+                    // submit the form
+                    document.getElementById("myRqst").submit();
                 }
             </script>
 
@@ -207,16 +200,16 @@
         </div>
     </main>
 
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
+     <script src="//code.jquery.com/jquery.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js//bootstrap.min.js"></script>
 
-    <script src="js/bootstrap.min.js"></script>
-
-    <script src="//code.jquery.com/jquery.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js.bootstrap.min.js"></script>
     <script>
-        $('div.alert').not('.alert-important').delay(5000).slideUp(500);
+                /*
+                 $('#flash-overlay-modal').modal();
+                 use flash()-->overlay('message', 'title') to provide a modal dialog message box.
+                 Must enable above line and disable div.alert line below.
+                 */
+                $('div.alert').not('.alert-important').delay(5000).slideUp(500);
     </script>
 
     @yield('footer')

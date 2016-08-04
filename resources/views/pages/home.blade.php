@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('content')
-
+@include('flash::message')
 
 <div class="relative">
     <h4>Welcome to the Musicians' Manager Website</h4>

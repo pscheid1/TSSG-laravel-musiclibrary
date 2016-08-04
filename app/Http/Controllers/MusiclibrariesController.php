@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Musiclibrary;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-use Laracasts\Flash;
+use laracasts\flash;
 
 class MusiclibrariesController extends Controller
 {
@@ -32,14 +32,14 @@ class MusiclibrariesController extends Controller
 
         if ($request->STYLEID === '0')
         {
-            flash()->error('A Style selection is required');
+            flash()->error('A Style selection is required')->important();
             return redirect()->back()->withInput();
  
         }
 
         if ($request->TEMPOID === '0')
         {
-            flash()->error('A Tempo selection is required');
+            flash()->error('A Tempo selection is required')->important();
             return redirect()->back()->withInput();
         }
 

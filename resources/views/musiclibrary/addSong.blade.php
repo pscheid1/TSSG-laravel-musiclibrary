@@ -1,7 +1,7 @@
 @extends('layouts\master')
 
 @section('content')
-{{--@include('partials.alerts.errors')--}}
+@include('partials.alerts.errors')
 @include('flash::message')
 
 <div><h2>Add a New Song</h2></div>

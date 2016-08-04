@@ -2,6 +2,7 @@
 
 @section('content')
 @include('partials.alerts.errors')
+@include('flash::message')
 
 <div class="container">
     <div class="row">

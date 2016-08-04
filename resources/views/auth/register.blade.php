@@ -2,6 +2,8 @@
 
 @section('content')
 @include('partials.alerts.errors')
+@include('flash::message')
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

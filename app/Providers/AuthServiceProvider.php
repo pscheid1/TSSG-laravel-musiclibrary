@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Style;
 use App\Policies\StylePolicy;
+use App\Tempo;
+use App\Policies\TempoPolicy;
 
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -18,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Style::class => StylePolicy::class,
+        Tempo::class => TempoPolicy::class
     ];
 
     /**

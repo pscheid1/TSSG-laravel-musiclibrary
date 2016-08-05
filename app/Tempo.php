@@ -14,6 +14,6 @@ class Tempo extends BaseModel
     
     public function musiclibrary()
     {
-        $this->hasMany(Musiclibrary::class, 'TEMPOID');
+        return $this->hasMany(Musiclibrary::class, 'TEMPOID');
     }
 }

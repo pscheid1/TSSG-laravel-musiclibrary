@@ -65,6 +65,7 @@ class User extends Authenticatable
         throw new UnexpectedValueException;
     }
 
+   // called from AuthController/authenticated()
     public function makeMember($title)
     {
         $assigned_roles = array();

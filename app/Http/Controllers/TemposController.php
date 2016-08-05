@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Gate;
 use App;
 use App\Http\Controllers\Controller;
 use App\Tempo;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Laracasts\Flash;
+use App\UserType;
+use App\User;
+use App\Policies;
 
 class TemposController extends Controller
 {
@@ -22,10 +26,15 @@ class TemposController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if (!(\policy(new Tempo)->index($request->user())))
+        {
+            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            return redirect()->back();
+        }
+
         $tempos = Tempo::all();
-        //return compact('tempos');
         return view('tempo.index', compact('tempos'));
     }
 
@@ -34,8 +43,14 @@ class TemposController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
+        if (!(policy(new Tempo)->create($request->user())))
+        {
+            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            return redirect()->back();
+        }
+
         return view('tempo.addTempo');
     }
 
@@ -47,6 +62,12 @@ class TemposController extends Controller
      */
     public function store(Request $request)
     {
+        if (!(\policy(new Tempo)->store($request->user())))
+        {
+            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            return redirect()->back();
+        }
+
         $tempo = new Tempo($request->all());
 
         $this->validate($request, $tempo::getRules());
@@ -65,10 +86,21 @@ class TemposController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $tempo = App\Tempo::where('id', $id)->first();
-        //return $tempo->toArray();
+        $tempo = Tempo::findOrFail($id);
+
+        if ($tempo == NULL)
+        {
+            flash()->error("Unable to locate requested tempo in database.")->important();
+        }
+
+        if (!(policy($tempo)->show($request->user())))
+        {
+            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            return redirect()->back();
+        }
+
         return view('tempo.editTempo', compact('tempo'));
     }
 
@@ -92,8 +124,13 @@ class TemposController extends Controller
      */
     public function update(Request $request, $id)
     {
-
         $tempo = Tempo::findOrFail($id);
+        if (!(policy($tempo)->update($request->user())))
+        {
+            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            return redirect()->back();
+        }
+
         $this->validate($request, $tempo->getUpdateRules());
 
         $tempo->update($request->all());
@@ -110,31 +147,33 @@ class TemposController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        $tempo = App\Tempo::where('id', $id)->first();
+        $tempo = Tempo::findOrFail($id);
         if ($tempo == NULL)
         {
             flash()->error("Unable to locate requested tempo in database.")->important();
         }
-        else
-        {
-            try
-            {
-                $tempo->delete();
-            }
-            catch (\Exception $e)
-            {
-                //flash()->error($e->getMessage());
-                flash()->error("Tempo '" . "$tempo->DESCRIPTION" . "' is in use and therefore cannot be deleted")->important();
-                
-                return redirect()->back();
-            }
 
-            flash()->success("Tempo '" . "$tempo->DESCRIPTION" . "' has been deleted from the database.");
+        if ($tempo->musiclibrary()->count() > 0)
+        {
+            flash()->error("Tempo '" . "$tempo->DESCRIPTION" . "' is in use and therefore cannot be deleted")->important();
+            return redirect()->back();
         }
 
-        return $this->index();
+        if (!(policy($tempo)->delete($request->user())))
+        {
+            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            return redirect()->back();
+        }
+
+        $tempo->delete();
+
+        flash()->success("Tempo '" . "$tempo->DESCRIPTION" . "' has been deleted from the database.");
+
+
+        return redirect()->back();
+        //return $this->index($request);
     }
 
 }

@@ -15,7 +15,6 @@ class Style extends BaseModel
     public function musiclibrary()
     {
         return $this->hasMany(Musiclibrary::class, 'STYLEID');
-        //$this->belongsTo(Musiclibrary::class, 'STYLEID');
     }
 
 }

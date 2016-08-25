@@ -5,6 +5,7 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateRoleUserPivotTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -12,9 +13,10 @@ class CreateRoleUserPivotTable extends Migration
      */
     public function up()
     {
-        Schema::create('role_user', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
+        Schema::create('role_user', function (Blueprint $table)
+        {
             $table->integer('role_id')->unsigned();
+            $table->integer('user_id')->unsigned();
         });
     }
 
@@ -27,4 +29,5 @@ class CreateRoleUserPivotTable extends Migration
     {
         Schema::drop('role_user');
     }
+
 }

@@ -8,6 +8,7 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 
 class TempoPolicy
 {
+
     use HandlesAuthorization;
 
     /**
@@ -21,74 +22,63 @@ class TempoPolicy
     }
 
     /**
-     * Determine if the given tempo can be indexed by the user.
+     * Determine if the current logged on user can read tempo table
      *
      * @return bool
      */
-    public function index(User $user)
+    public function index()
     {
-        return $user->hasRole('read-tempo');
+        return \Auth::user()->hasRight('read-tempo');
     }
 
     /**
-     * Determine if the given tempo can be created by the user.
+     * Determine if the current logged on user can create a  tempo entry
      *
-     * @param  \App\User  $user
-     * @param  \App\Tempo  $tempo (currently not used)
      * @return bool
      */
-    public function create(User $user)
+    public function create()
     {
-        return $user->hasRole('create-tempo');
+        return \Auth::user()->hasRight('create-tempo');
     }
 
     /**
-     * Determine if the given tempo can be stored by the user.
+     * Determine if the current logged on user can write a tempo entry
      *
-     * @param  \App\User  $user
-     * @param  \App\Tempo  $tempo (currently not used)
      * @return bool
      */
-    public function store(User $user)
+    public function store()
     {
-        return $user->hasRole('create-tempo');
+        return \Auth::user()->hasRight('create-tempo');
     }
 
     /**
-     * Determine if the given tempo can be showed by the user.
+     * Determine if the current logged on user can read a tempo entry
      *
-     * @param  \App\User  $user
-     * @param  \App\Tempo  $tempo (currently not used)
      * @return bool
      */
-    public function show(User $user)
+    public function show()
     {
-        return $user->hasRole('read-tempo');
+        return \Auth::user()->hasRight('read-tempo');
     }
 
     /**
-     * Determine if the given tempo can be updated by the user.
+     * Determine if the current logged on user can update a tempo entry
      *
-     * @param  \App\User  $user
-     * @param  \App\Tempo  $tempo (currently not used)
      * @return bool
      */
-    public function update(User $user)
+    public function update()
     {
-        return $user->hasRole('update-tempo');
+        return \Auth::user()->hasRight('update-tempo');
     }
 
     /**
-     * Determine if the given tempo can be deleted by the user.
+     * Determine if the current logged on user can delete a  tempo entry
      *
-     * @param  \App\User  $user
-     * @param  \App\Tempo  $tempo   $tempo (currently not used)
      * @return bool
      */
-    public function delete(User $user)
+    public function delete()
     {
-        return $user->hasRole('delete-tempo');
+        return \Auth::user()->hasRight('delete-tempo');
     }
 
-    
 }

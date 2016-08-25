@@ -3,10 +3,9 @@
 namespace App\Policies;
 
 use App\User;
-use App\Style;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class StylePolicy
+class UserPolicy
 {
 
     use HandlesAuthorization;
@@ -22,13 +21,13 @@ class StylePolicy
     }
 
     /**
-     * Determine if the current logged on user can read style table
+     * Determine if the current logged on user can read a user
      *
      * @return bool
      */
     public function index()
     {
-        return \Auth::user()->hasRight('read-style');
+        return \Auth::user()->hasRight('read-user');
     }
 
     /**
@@ -38,48 +37,48 @@ class StylePolicy
      */
     public function create()
     {
-        return \Auth::user()->hasRight('create-style');
+        return \Auth::user()->hasRight('create-user');
     }
-
-    /**
-     * Determine if the current logged on user can write a style entry
+    
+       /**
+     * Determine if the current logged on user can write a user entry
      *
      * @return bool
      */
     public function store()
     {
-        return \Auth::user()->hasRight('create-style');
+        return \Auth::user()->hasRight('create-user');
     }
 
     /**
-     * Determine if the current logged on user can read a style entry
-     *
+     * Determine if the current logged on user can show a user entry
+     *r
      * @return bool
      */
     public function show()
     {
-        return \Auth::user()->hasRight('read-style');
+        return \Auth::user()->hasRight('read-user');
     }
-
+    
     /**
-     * Determine if the current logged on user can update a style entry
+     * Determine if the current logged on user can update a user entry
      *
      * @return bool
      */
     public function update()
     {
-        return \Auth::user()->hasRight('update-style');
+        return \Auth::user()->hasRight('update-user');
     }
 
-    /*
-     * Determine if the current logged on user can delete a  style entry
+    /**
+     * Determine if the current logged on user can delete user accounts
      *
+     * @param  \App\User  $user (The current logged on user
      * @return bool
      */
-
     public function delete()
     {
-        return \Auth::user()->hasRight('delete-style');
+        return \Auth::user()->hasRight('delete-user');
     }
 
 }

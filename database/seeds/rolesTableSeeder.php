@@ -14,125 +14,108 @@ class rolesTableSeeder extends Seeder
     public function run()
     {
         DB::table('roles')->insert([
-            'name' => 'create-user',
+            'name' => 'superadmin',
+            'displayname' => 'Super Admin',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'read-user',
+            'name' => 'admin',
+            'displayname' => 'Admin',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'update-user',
+            'name' => 'manager',
+            'displayname' => 'Band Manager',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'delete-user',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        
-        DB::table('roles')->insert([
-            'name' => 'create-song',
+            'name' => 'alumnus',
+            'displayname' => 'Alumnus Musician',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'read-song',
+            'name' => 'composer',
+            'displayname' => 'Composer',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'update-song',
+            'name' => 'eventcontact',
+            'displayname' => 'Event Contact',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'delete-song',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        
-        DB::table('roles')->insert([
-            'name' => 'create-role',
+            'name' => 'groupie',
+            'displayname' => 'Groupie',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'read-role',
+            'name' => 'musician',
+            'displayname' => 'Musician',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'update-role',
+            'name' => 'publisher',
+            'displayname' => 'Publisher',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'delete-role',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        
-        DB::table('roles')->insert([
-            'name' => 'create-style',
+            'name' => 'sub',
+            'displayname' => 'Substitute Musician',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'read-style',
+            'name' => 'supplier',
+            'displayname' => 'Supplier',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'update-style',
+            'name' => 'venuecontact',
+            'displayname' => 'Venue Contact',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('roles')->insert([
-            'name' => 'delete-style',
+            'name' => 'guest',
+            'displayname' => 'Guest',
+            'updateuserid' => null,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
-        
-        DB::table('roles')->insert([
-            'name' => 'create-tempo',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        DB::table('roles')->insert([
-            'name' => 'read-tempo',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        DB::table('roles')->insert([
-            'name' => 'update-tempo',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-
-        DB::table('roles')->insert([
-            'name' => 'delete-tempo',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        
     }
 
 }

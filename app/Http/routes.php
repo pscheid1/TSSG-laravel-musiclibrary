@@ -17,7 +17,6 @@
   });
  */
 
-
 Route::get('/', [
     'as' => 'home',
     'uses' => 'PagesController@home'
@@ -43,6 +42,8 @@ Route::resource('musiclibrary', 'MusiclibrariesController');
 Route::resource('style', 'StylesController');
 
 Route::resource('tempo', 'TemposController');
+
+Route::resource('user', 'UsersController');
 
 Route::get('nya', [
     'as' => 'nya',

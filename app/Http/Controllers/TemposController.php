@@ -9,7 +9,7 @@ use App\Tempo;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Laracasts\Flash;
-use App\UserType;
+//use App\Role;
 use App\User;
 use App\Policies;
 
@@ -26,16 +26,16 @@ class TemposController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if (!(\policy(new Tempo)->index($request->user())))
+        if (!(\policy(new Tempo)->index()))
         {
-            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
 
         $tempos = Tempo::all();
-        return view('tempo.index', compact('tempos'));
+        return view('tempo.indexTempos', compact('tempos'));
     }
 
     /**
@@ -47,7 +47,7 @@ class TemposController extends Controller
     {
         if (!(policy(new Tempo)->create($request->user())))
         {
-            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
 
@@ -64,7 +64,7 @@ class TemposController extends Controller
     {
         if (!(\policy(new Tempo)->store($request->user())))
         {
-            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
 
@@ -88,17 +88,17 @@ class TemposController extends Controller
      */
     public function show(Request $request, $id)
     {
+        if (!(policy(new Tempo)->show()))
+        {
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
+            return redirect()->back();
+        }
+
         $tempo = Tempo::findOrFail($id);
 
         if ($tempo == NULL)
         {
             flash()->error("Unable to locate requested tempo in database.")->important();
-        }
-
-        if (!(policy($tempo)->show($request->user())))
-        {
-            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
-            return redirect()->back();
         }
 
         return view('tempo.editTempo', compact('tempo'));
@@ -127,7 +127,7 @@ class TemposController extends Controller
         $tempo = Tempo::findOrFail($id);
         if (!(policy($tempo)->update($request->user())))
         {
-            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
 
@@ -149,6 +149,13 @@ class TemposController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        if (!(policy(new Tempo)->delete($request->user())))
+        {
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
+            return redirect()->back();
+        }
+
+
         $tempo = Tempo::findOrFail($id);
         if ($tempo == NULL)
         {
@@ -158,12 +165,6 @@ class TemposController extends Controller
         if ($tempo->musiclibrary()->count() > 0)
         {
             flash()->error("Tempo '" . "$tempo->DESCRIPTION" . "' is in use and therefore cannot be deleted")->important();
-            return redirect()->back();
-        }
-
-        if (!(policy($tempo)->delete($request->user())))
-        {
-            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
             return redirect()->back();
         }
 

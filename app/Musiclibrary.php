@@ -28,14 +28,12 @@ class Musiclibrary extends BaseModel
 
     public function STYLEID()
     {
-        //return $this->belongsTo(Style::class);
-        return $this->hasOne(Style::class);
+        return $this->belongsTo(Style::class);
     }
 
     public function TEMPOID()
     {
-        //return $this->belongsTo(Tempo::class);
-        return $this->hasOne(Tempo::class);
+        return $this->belongsTo(Tempo::class);
     }
 
 }

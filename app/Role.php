@@ -4,10 +4,17 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
+class Role extends BaseModel
 {
-    public function users() 
+
+    protected $fillable = [ 'updateuserid'];
+    
+    protected static $rules = [
+       // 'name' => 'required|unique:roles|min:1|max:64'
+   ];
+
+    public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany('User::class');
     }
 }

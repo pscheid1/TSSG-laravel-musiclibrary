@@ -10,8 +10,7 @@
     <div>
         <div class="container">
             <div class="row">
-                <div class="col-sm-5
-                     pull-left" style="background-color:LightCyan;">
+                <div class="col-sm-5 pull-left" style="background-color:LightCyan;">
                     <h3>Basic Song Info</h3>
                     <div>
                         {!! Form::label(null, 'Catalog Num:') !!}
@@ -123,6 +122,7 @@
                     <div>
                         {!! Form::text('ARRANGER' ) !!}
                     </div>
+                    <p/>
                     <div>
                         {!! Form::label(null,'Lyracist:') !!}
                     </div>
@@ -136,6 +136,7 @@
                     <div>
                         {!! Form::text('COPYRIGHT' ) !!}
                     </div>
+                    <p/>
                     <div>
                         {!! Form::label(null,'Publisher:') !!}
                     </div>

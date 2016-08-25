@@ -122,6 +122,7 @@
                 <div>
                     {!! Form::text('ARRANGER' ) !!}
                 </div>
+                <p/>
                 <div>
                     {!! Form::label(null,'Lyracist:') !!}
                 </div>
@@ -135,6 +136,7 @@
                 <div>
                     {!! Form::text('COPYRIGHT' ) !!}
                 </div>
+                <p/>
                 <div>
                     {!! Form::label(null,'Publisher:') !!}
                 </div>

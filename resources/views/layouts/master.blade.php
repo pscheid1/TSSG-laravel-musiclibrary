@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Tasks</title>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">-->
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/app.css">
     <style type="text/css">
         .xsmall
@@ -151,7 +152,14 @@
                             <li><a href="{{ route('nya') }}">Add Group</a></li>
                         </ul>
                     </li> 
-                    <li><a href="#">People</a></li> 
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">Members<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('user.index') }}">List Members</a></li>
+                            <li><a href="{{ route('user.create') }}">Add Member</a></li>
+                        </ul>
+                    </li> 
+
                     @endif
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -194,14 +202,22 @@
                     // submit the form
                     document.getElementById("myRqst").submit();
                 }
+
+                function editRoles()
+                {
+                    //debugger;
+                    document.location.href="{!! route('nya') !!}";
+                }
+
             </script>
 
             @yield('content')
         </div>
     </main>
 
-     <script src="//code.jquery.com/jquery.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js//bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js//bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <script>
                 /*

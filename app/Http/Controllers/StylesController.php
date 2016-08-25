@@ -9,8 +9,7 @@ use App\Style;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Laracasts\Flash;
-use App\UserType;
-use App\user;
+use App\User;
 use App\Policies;
 
 class StylesController extends Controller
@@ -26,17 +25,17 @@ class StylesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        if (!(\policy(new Style)->index($request->user())))
+        if (!(\policy(new Style)->index()))
         {
-            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
 
         $styles = Style::all();
-        //return compact('styles');
-        return view('style.index', compact('styles'));
+        
+        return view('style.indexStyles', compact('styles'));
     }
 
     /**
@@ -44,12 +43,11 @@ class StylesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-
-        if (!(policy(new Style)->create($request->user())))
+        if (!(policy(new User)->create()))
         {
-            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
 
@@ -64,9 +62,9 @@ class StylesController extends Controller
      */
     public function store(Request $request)
     {
-        if (!(\policy(new Style)->store($request->user())))
+        if (!(\policy(new Style)->store()))
         {
-            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
 
@@ -90,19 +88,19 @@ class StylesController extends Controller
      */
     public function show(Request $request, $id)
     {
+        if (!(policy(new Style)->show($request->user())))
+        {
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
+            return redirect()->back();
+        }
+        ;
         $style = Style::findOrFail($id);
-        
+
         if ($style == NULL)
         {
             flash()->error("Unable to locate requested style in database.")->important();
         }
 
-        if (!(policy($style)->show($request->user())))
-        {
-            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
-            return redirect()->back();
-        }
-;
         return view('style.editStyle', compact('style'));
     }
 
@@ -128,13 +126,13 @@ class StylesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $style = Style::findOrFail($id);
-        if (!(policy($style)->update($request->user())))
+        if (!(policy(new Style)->update()))
         {
-            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
 
+        $style = Style::findOrFail($id);
         $this->validate($request, $style->getUpdateRules());
 
         $style->update($request->all());
@@ -153,6 +151,12 @@ class StylesController extends Controller
      */
     public function destroy(Request $request, $id)
     {
+        if (!(policy(new Style)->delete($request->user())))
+        {
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
+            return redirect()->back();
+        }
+
         $style = Style::findOrFail($id);
         if ($style == NULL)
         {
@@ -162,12 +166,6 @@ class StylesController extends Controller
         if ($style->musiclibrary()->count() > 0)
         {
             flash()->error("Style '" . "$style->DESCRIPTION" . "' is in use and therefore cannot be deleted")->important();
-            return redirect()->back();
-        }
-
-        if (!(policy($style)->delete($request->user())))
-        {
-            flash()->error("User '" . request()->user()->username . "' does not have sufficient  access level for the requested function")->important();
             return redirect()->back();
         }
 

@@ -21,7 +21,7 @@ class MusiclibrariesController extends Controller
     {
         $musiclibrary = Musiclibrary::all();
 
-        return view('musiclibrary.index', compact('musiclibrary'));
+        return view('musiclibrary.indexSongs', compact('musiclibrary'));
     }
 
     // public function store(CreateAddSongRequest $request)
@@ -55,11 +55,9 @@ class MusiclibrariesController extends Controller
 
     public function create()
     {
-        $styles = App\Style::pluck('DESCRIPTION', 'id')->toArray();
-        $stylesAdd = array_slice($styles, 0, count($styles), true) + array('--- Select one ---');
+        $stylesAdd =  array('--- Select one ---') + App\Style::pluck('DESCRIPTION', 'id')->toArray();
         //return $stylesAdd;
-        $tempos = App\Tempo::pluck('DESCRIPTION', 'id')->toArray();
-        $temposAdd = array_slice($tempos, 0, 5, true) + array('--- Select one ---');
+        $temposAdd =  array('--- Select one ---') + App\Tempo::pluck('DESCRIPTION', 'id')->toArray();
         //return $temposAdd;
         return view('musiclibrary.addSong', compact('song', 'stylesAdd', 'temposAdd'));
     }

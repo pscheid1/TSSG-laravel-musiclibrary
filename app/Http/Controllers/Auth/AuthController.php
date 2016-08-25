@@ -9,14 +9,12 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use App\Role;
 
-use App\UserType;
-
-
-class AuthController extends Controller {
+class AuthController extends Controller
+{
     /*
       |--------------------------------------------------------------------------
-      | Registration & Login Controller
       |--------------------------------------------------------------------------
       |
       | This controller handles the registration of new users, as well as the
@@ -69,9 +67,12 @@ use AuthenticatesAndRegistersUsers,
     protected function validator(array $data)
     {
         return Validator::make($data, [
+                    'firstname' => 'required',
+                    'lastname' => 'required',
                     'username' => 'required|max:255|unique:users',
-                    'email' => 'required|email|max:255|unique:users',
                     'password' => 'required|min:6|confirmed',
+                    'phone1' => 'required',
+                    'email' => 'required|email|max:255|unique:users',
         ]);
     }
 
@@ -92,15 +93,15 @@ use AuthenticatesAndRegistersUsers,
                     'password' => bcrypt($data['password']),
         ]);
     }
-    
+
     protected function authenticated(Request $request, User $user)
     {
-        
-        $ut = usertype::where('id', $user->userType)->first()->name;
-        
-        $user->makeMember($ut); 
-        
-          return redirect()->intended($this->redirectPath());
+
+        $currentRole = Role::where('id', $user->currentRole)->first()->name;
+
+        $user->makeMember($currentRole);
+
+        return redirect()->intended($this->redirectPath());
     }
 
 }

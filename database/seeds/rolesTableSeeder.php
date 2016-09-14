@@ -13,13 +13,6 @@ class rolesTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('roles')->insert([
-            'name' => 'superadmin',
-            'displayname' => 'Super Admin',
-            'updateuserid' => null,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
 
         DB::table('roles')->insert([
             'name' => 'admin',

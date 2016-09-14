@@ -4,7 +4,7 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
-<div><h2>Edit User: {{ $user->username }}</h2></div>
+<div><h2>Add Role to User: {{ $user->username }}</h2></div>
 <div class="row">
     <div class="required cod-md-12 pull-right">
         <b>(required fields indicated with an *)</b>
@@ -17,7 +17,7 @@
 </div>
 
 <div class=""col-md-12>
-    {!! Form::model($user, ['method' => 'PATCH', 'route' => ['user.update', $user]]) !!}
+    {!! Form::model($user, ['method' => 'post', 'route' => ['user.addrole', $user]]) !!}
     <div class="container">
         <div class="col-md-5 pull-left" style="background-color:LightCyan; adding:4px;border:4px solid blue; border-radius:25px;">
             <h4 style="margin-top: -10px; background:white; width:160px">&nbsp;<b>Basic Information</b></h4>
@@ -102,22 +102,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-md-offset-1">
-                    {!! Form::label(null,'Created at:') !!}
-                </div>
-                <div class="col-md-1 pull-left">
-                    {!! Form::text('created_at', null , ['disabled' => 'true']) !!}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-md-offset-1">
-                    {!! Form::label(null,'Updated at:') !!}
-                </div>
-                <div class="col-md-1 pull-left">
-                    {!! Form::text('updated_at', null , ['disabled' => 'true']) !!}
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-md-5">
                     &nbsp;
                 </div>
@@ -132,14 +116,14 @@
                     {!! Form::label('currentRole', '* Current Role:') !!} 
                 </div>
                 <div class="col-md-1 pull-left">
-                    {!! Form::select('currentRole', $userRoles, $user->currentRole) !!}
+                    {!! Form::select('currentRole', $availableRoles, null, ['placeholder' => '--- select one ---']) !!}                    
                 </div>
             </div>
             {{--
                 By adding the following Form::model binding of contact, the contact attributes can be filled with the view.
                 Posting the Form::model($user) above, still works the same and sends all the attributes (User and Contact).
             --}}    
-            {!! Form::model($contact, ['method' => 'PATCH', 'route' => ['user.update', $user]]) !!}
+            {{--{!! Form::model($contact, ['method' => 'PATCH', 'route' => ['user.update', $user]]) !!}--}}
             <div class="row">
                 <div class="col-md-4 col-md-offset-1">
                     {!! Form::label('address1', 'Address One:') !!}
@@ -213,22 +197,6 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-md-offset-1">
-                    {!! Form::label(null,'Created at:') !!}
-                </div>
-                <div class="col-md-1 pull-left">
-                    {!! Form::text('contact_created_at', null , ['disabled' => 'true']) !!}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-md-offset-1">
-                    {!! Form::label(null,'Updated at:') !!}
-                </div>
-                <div class="col-md-1 pull-left">
-                    {!! Form::text('contact_updated_at', null , ['disabled' => 'true']) !!}
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-md-5">
                     &nbsp;{!! Form::hidden('id') !!}
                 </div>
@@ -253,27 +221,9 @@
                         {!! Form::submit('Update', ['class' => 'button']) !!}
                         {!! Form::close() !!}
                     </td>
-                    @if (Auth::check())
-                    @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('manager'))
-                    <td>&nbsp;</td>
-                    <td>
-                        {{-- request add role to user form  --}}
-                        {!! Form::model($user, ['method' => 'get', 'route' => ['user.edit', $user]]) !!}
-                        {!! Form::submit('Add Role', ['class' => 'button']) !!}
-                        {!! Form::close() !!}
-                    </td>
-                    <td>&nbsp;</td>
-                    <td>
-                        {{-- delete selected role and associaed contact info from user  --}}
-                        {!! Form::model($user, ['method' => 'get', 'route' => ['user.delrole', $user]]) !!}
-                        {!! Form::submit('Delete Role', ['class' => 'button']) !!}
-                        {!! Form::close() !!}
-                    </td>
-                    @endif
-                    @endif
-                    <td>&nbsp;</td>
-                    <td>
-                        {!! Form::model($user, ['method' => 'get', 'route' => 'user.index']) !!}
+                     <td>&nbsp;</td>
+                    <td>                   
+                        {!! Form::model($user, ['method' => 'get', 'route' => ['user.show', $user]]) !!}
                         {!! Form::submit('Cancel', ['class' => 'button']) !!}
                         {!! Form::close() !!}
                     </td>

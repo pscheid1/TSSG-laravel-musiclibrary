@@ -71,8 +71,8 @@ use AuthenticatesAndRegistersUsers,
                     'lastname' => 'required',
                     'username' => 'required|max:255|unique:users',
                     'password' => 'required|min:6|confirmed',
-                    'phone1' => 'required',
-                    'email' => 'required|email|max:255|unique:users',
+                   // 'phone1' => 'required',
+                    'email' => 'required|email|max:255',
         ]);
     }
 
@@ -89,7 +89,7 @@ use AuthenticatesAndRegistersUsers,
                     'firstname' => $data['firstname'],
                     'lastname' => $data['lastname'],
                     'email' => $data['email'],
-                    'location' => $data['location'],
+                   // 'location' => $data['location'],
                     'password' => bcrypt($data['password']),
         ]);
     }
@@ -102,6 +102,12 @@ use AuthenticatesAndRegistersUsers,
         $user->makeMember($currentRole);
 
         return redirect()->intended($this->redirectPath());
+    }
+    
+    //override getRegister()
+    public function getRegister()
+    {
+        return \view('auth.register');
     }
 
 }

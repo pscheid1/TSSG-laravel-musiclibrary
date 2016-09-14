@@ -88,6 +88,11 @@
             left: 1%;
             /*border: 3px solid #73AD21;*/
         }
+        
+        .required
+        {
+            color: red;
+        }
 
     </style>
 
@@ -203,6 +208,10 @@
                     document.getElementById("myRqst").submit();
                 }
 
+                function getCurrentRole(sel){
+                    alert(sel);
+                } 
+                
                 function editRoles()
                 {
                     //debugger;

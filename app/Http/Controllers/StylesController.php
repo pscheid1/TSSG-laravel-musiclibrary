@@ -149,9 +149,9 @@ class StylesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $id)
+    public function destroy($id)
     {
-        if (!(policy(new Style)->delete($request->user())))
+        if (!(policy(new Style)->delete()))
         {
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();

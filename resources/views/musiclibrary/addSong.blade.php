@@ -7,6 +7,7 @@
 <div><h2>Add a New Song</h2></div>
 <div class=""col-sm-6>
     {!!Form::open(['route' => 'musiclibrary.store']) !!}
+    {!! csrf_field() !!}
     <div>
         <div class="container">
             <div class="row">
@@ -172,6 +173,7 @@
             </div>
         </div>
         <div>
+            <p/>
             <table border='0'>
                 <tr>
                     <td>

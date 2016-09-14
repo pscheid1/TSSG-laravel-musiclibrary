@@ -16,7 +16,7 @@
         <th> First Name </th>
         <th> Group </th>
         <th> Instrument </th>
-        <th> Role </th>
+        <th> Current Role </th>
         <th>Can Login</th>
         <th> Action </th>
     </tr>
@@ -28,7 +28,7 @@
         <td></td>        
         <td></td>        
         <td>{{ App\Role::where('id', $user->currentRole)->first()->displayname }}</td>
-        @if ($user->usercanlogin == 1)
+        @if ($user->loginpermitted == 1)
         <td>True</td>
         @else
         <td>False</td>

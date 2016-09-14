@@ -37,6 +37,11 @@ Route::get('auth/register', [
     'uses' => 'Auth\AuthController@getRegister'
 ]);
 
+Route::post('auth/register', [
+   'as' => 'register',
+    'uses' => 'Auth\AuthController@register'
+]);
+
 Route::resource('musiclibrary', 'MusiclibrariesController');
  
 Route::resource('style', 'StylesController');
@@ -44,6 +49,16 @@ Route::resource('style', 'StylesController');
 Route::resource('tempo', 'TemposController');
 
 Route::resource('user', 'UsersController');
+
+Route::get('user/{user}/delrole', [
+    'as' => 'user.delrole',
+    'uses' => 'UsersController@deleteRole'
+]);
+
+Route::post('user/{user}/addrole', [
+    'as' => 'user.addrole',
+    'uses' => 'UsersController@addRole'
+]);
 
 Route::get('nya', [
     'as' => 'nya',

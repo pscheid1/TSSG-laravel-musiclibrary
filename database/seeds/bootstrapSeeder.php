@@ -35,31 +35,6 @@ class usersTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        DB::table('role_user')->insert([
-            'role_id' => 1,
-            'user_id' => 1
-        ]);
-
-        DB::table('contacts')->insert([
-            'address1' => '123 Filler street',
-            'address2' => 'Apt. 23A',
-            'city' => 'Timbuktu',
-            'state' => 'ME',
-            'zipcode' => '12345-1934',
-            'phone1' => '999-888-1234',
-            'phone2' => '',
-            'email' => 'admin.some.one@someplace.org',
-            'weburl' => 'whc.unesco.org/en/list/119',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        
-        DB::table('contact_user')->insert([
-            'contact_id' => 1,
-            'user_id' => 1,
-            'role_id' => '1'
-        ]);
-
         DB::table('users')->insert([
             'username' => 'pscheid',
             'prefix' => '',
@@ -68,7 +43,7 @@ class usersTableSeeder extends Seeder
             'lastname' => 'Scheidemantel',
             'suffix' => '',
             'currentRole' => 2,
-            'company' => '',
+             'company' => '',
             'title' => '',
             'note' => '',
             'location' => '',
@@ -82,31 +57,6 @@ class usersTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        DB::table('role_user')->insert([
-            'role_id' => 1,
-            'user_id' => 2
-        ]);
-
-       DB::table('contacts')->insert([
-            'address1' => '123 Filler street',
-            'address2' => 'Apt. 23B',
-            'city' => 'Timbuktu',
-            'state' => 'ME',
-            'zipcode' => '12345-1934',
-            'phone1' => '999-888-1234',
-            'phone2' => '',
-            'email' => 'pscheid.some.one@someplace.org',
-            'weburl' => 'whc.unesco.org/en/list/119',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        
-        DB::table('contact_user')->insert([
-            'contact_id' => 2,
-            'user_id' => 2,
-            'role_id' => '1'
-        ]);
-        
         DB::table('users')->insert([
             'username' => 'gjetson',
             'prefix' => '',
@@ -129,31 +79,6 @@ class usersTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        DB::table('role_user')->insert([
-            'role_id' => 3,
-            'user_id' => 3
-        ]);
-
-       DB::table('contacts')->insert([
-            'address1' => '123 Filler street',
-            'address2' => 'Apt. 23C',
-            'city' => 'Timbuktu',
-            'state' => 'ME',
-            'zipcode' => '12345-1934',
-            'phone1' => '999-888-1234',
-            'phone2' => '',
-            'email' => 'pscheid.some.one@someplace.org',
-            'weburl' => 'whc.unesco.org/en/list/119',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        
-        DB::table('contact_user')->insert([
-            'contact_id' => 3,
-            'user_id' => 3,
-            'role_id' => '3'
-        ]);
-        
         DB::table('users')->insert([
             'username' => 'casper',
             'prefix' => '',
@@ -180,27 +105,6 @@ class usersTableSeeder extends Seeder
             'role_id' => 12,
             'user_id' => 4
         ]);
-
-       DB::table('contacts')->insert([
-            'address1' => '123 Filler street',
-            'address2' => 'Apt. 23D',
-            'city' => 'Timbuktu',
-            'state' => 'ME',
-            'zipcode' => '12345-1934',
-            'phone1' => '999-888-1234',
-            'phone2' => '',
-            'email' => 'pscheid.some.one@someplace.org',
-            'weburl' => 'whc.unesco.org/en/list/119',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
-        ]);
-        
-        DB::table('contact_user')->insert([
-            'contact_id' => 4,
-            'user_id' => 4,
-            'role_id' => '12'
-        ]);
-       
     }
 
 }

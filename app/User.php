@@ -5,6 +5,7 @@ namespace App;
 use App\Role;
 use App\Right;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use App\Contact;
 
 class User extends Authenticatable
 {
@@ -15,14 +16,15 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'username', 'prefix', 'firstname', 'middlename', 'lastname', 'sufix', 'currentRole',
-        'email', 'url', 'address1', 'address2', 'city', 'state', 'zipcode', 'phone1', 'phone2',
-        'companyname', 'title', 'note', 'location', 'activated', 'terminated', 'usercanlogin',
-        'forcepwchange', 'password',
+        'username', 'prefix', 'firstname', 'middlename', 'lastname', 'suffix', 'currentRole',
+        'companyname', 'title', 'note', 'location', 'activated', 'terminated', 'loginpermitted',
+        'forcepwchange', 'password'
     ];
     public static $rules = [
         'username' => 'required|unique:users|min:6|max:45',
-        'email' => 'required|email'
+        'firstname' => 'required',
+        'lastname' => 'required',
+        'currentRole' => 'required'
     ];
 
     /**
@@ -33,6 +35,16 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function contacts()
+    {
+        return $this->belongsToMany(Contact::class)->withPivot('role_id');
+    }
+
+    public function contactForRole($roleId)
+    {
+        return $this->contacts()->wherePivot('role_id', '=', $roleId);
+    }
 
     public function roles()
     {
@@ -76,12 +88,14 @@ class User extends Authenticatable
         switch ($role) {
             case 'super-admin':
             case 'admin':
-            case 'manager':
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-user');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-user');
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-role');
+                $assigned_rights[] = $this->getIdInArray($rights, 'read-role');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-role');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-role');
+            // fall through
+            case 'manager':
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-style');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-style');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-style');
@@ -91,7 +105,9 @@ class User extends Authenticatable
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-song');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-song');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-song');
-                $assigned_rights[] = $this->getIdInArray($rights, 'read-role');
+                $assigned_rights[] = $this->getIdInArray($rights, 'create-contact');
+                // contact info is deleted if a user role is deleted
+                $assigned_rights[] = $this->getIdInArray($rights, 'delete-contact');
             // fall through                
             case 'musician':
             case 'sub':
@@ -104,9 +120,13 @@ class User extends Authenticatable
             case 'venuecontact':
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-style');
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-tempo');
+                // everyone needs read-user/update-user rights in order to update their account and change their current role                
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-user');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-user');
-            // fall through                   
+                // everyone needs read-contact/update-contact rights in order to update their contact info                   
+                $assigned_rights[] = $this->getIdInArray($rights, 'read-contact');                
+                $assigned_rights[] = $this->getIdInArray($rights, 'update-contact');
+                // fall through                   
             case 'guest':
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-song');
                 break;

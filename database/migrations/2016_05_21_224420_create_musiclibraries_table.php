@@ -19,8 +19,8 @@ class CreateMusiclibrariesTable extends Migration {
             $table->string('CATALOGNUM', 10)->unique('CATALOGNUM_NDX');
             $table->string('TITLE', 80);
             $table->text('DESCRIPTION', 65535)->nullable();
-            $table->integer('STYLEID')->unsigned()->nullable();
-            $table->foreign('STYLEID')->references('id')->on('styles');
+            $table->integer('STYLEID')->unsigned();
+            //$table->foreign('STYLEID')->references('id')->on('styles');
             $table->string('COPYRIGHT', 40)->nullable();
             $table->string('COMPOSER', 40);
             $table->string('ARRANGER', 40);
@@ -29,8 +29,8 @@ class CreateMusiclibrariesTable extends Migration {
             $table->date('PUBYEAR', 4)->nullable();
             $table->integer('PERFGRADE')->nullable();
             $table->boolean('TRANSCRIPTION')->nullable();
-            $table->integer('TEMPOID')->unsigned()->nullable();
-            $table->foreign('TEMPOID')->references('id')->on('tempos');
+            $table->integer('TEMPOID')->unsigned();
+            //$table->foreign('TEMPOID')->references('id')->on('tempos');
             $table->time('STDPLAYTIME')->nullable();
             $table->time('EXTPLAYTIME')->nullable();
             $table->boolean('VOCAL')->nullable();

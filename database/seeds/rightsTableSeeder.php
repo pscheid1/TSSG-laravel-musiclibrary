@@ -133,6 +133,30 @@ class rightsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
         
+       DB::table('rights')->insert([
+            'name' => 'create-contact',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('rights')->insert([
+            'name' => 'read-contact',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('rights')->insert([
+            'name' => 'update-contact',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('rights')->insert([
+            'name' => 'delete-contact',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        
     }
 
 }

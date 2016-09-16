@@ -21,6 +21,17 @@ use Illuminate\Support\Facades\Input;
 
 class UsersController extends Controller
 {
+    /*
+     *  using this function to rename an array key.
+     *  it will does not maintain key order in case that is important.
+     */
+
+    public function renameKey($array, $old_key, $new_key)
+    {
+        $array[$new_key] = $array[$old_key];
+        unset($array['$old_key']);
+        return $array;
+    }
 
     /**
      * Display a listing of the resource.
@@ -105,6 +116,7 @@ class UsersController extends Controller
         // Get new user input
         $user = new User($request->only([$request->username, $request->prefix, $request->firsname, $request->middlename, $request->lastname, $request->suffix,
                     $request->currentRole, $request->password, $request->password_confirmation, $request->company, $request->title, $request->note]));
+
         /* Input::get() also works
           $u1 = new User(array(
           'username' => Input::get('username'),
@@ -114,9 +126,18 @@ class UsersController extends Controller
           ));
          * 
          */
+
+        /*
+        $reqest->only([]) wil not work for non user model
+        $c1 = new Contact(
+                $request->only([
+                    $request->address1, $request->address2, $request->city, $request->state, $request->zipcode, $request->phone1, $request->phone2, $request->email, $request->weburl
+        ]));
+         * 
+         */
+
         // Get contact information
-        // $reqest->only([]) does not work for non user model
-        //$c1 = new Contact($request->only([$request->address1, $request->address2, $request->city, $request->state, $request->zipcode, $request->phone1, $request->phone2, $request->email, $request->weburl]));
+        // instansiate a new contact
         $contact = new Contact(array(
             'address1' => Input::get('address1'),
             'address2' => Input::get('address2'),
@@ -128,21 +149,8 @@ class UsersController extends Controller
             'email' => Input::get('email'),
             'weburl' => Input::get('weburl')
         ));
-        // Direct access of Request object works also
-        /*
-          $contact = new Contact();
-          $contact->address1 = $request->address1;
-          $contact->address2 = $request->address2;
-          $contact->city = $request->city;
-          $contact->state = $request->state;
-          $contact->zipcode = $request->zipcode;
-          $contact->phone1 = $request->phone1;
-          $contact->phone2 = $request->phone2;
-          $contact->email = $request->email;
-          $contact->weburl = $request->weburl;
-         * 
-         */
-
+;
+        $contact->role_id = $request->currentRole;
         // User model does not extend BaseModel so getUpdateRules() has been copied to the User class.
         $this->validate($request, $user->getUpdateRules(User::$rules));
         ;
@@ -150,9 +158,10 @@ class UsersController extends Controller
 
         $user->save();
         $contact->save();
+        $lastInsertId = $contact->id;
 
-        $user->roles()->sync([$user->currentRole]);
-        $user->contacts()->sync([$contact->id => ['role_id' => $user->currentRole]]);
+        $user->roles()->sync([$user->currentRole => ['contact_id' => $lastInsertId]]);
+        $rolename = App\Role::where('id', $user->currentRole)->first()->displayname;
 
         flash()->success("User '" . $user->username . "' successfully added!");
 
@@ -180,6 +189,10 @@ class UsersController extends Controller
             flash()->error("Unable to locate requested user in database.")->important();
         }
 
+
+        // Do we need to check for Contact rightsl
+        // Seems to me User rights and Contact rights ought to be the same so
+        // we could possibly delete Contact rights.
         // Admin or Band Manger may edit any user account.
         // All other users may only edit their own account
         if (\Auth::user()->username == $user->username)
@@ -196,20 +209,14 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-        // get all available roles
-        //$allRoles = Role::pluck('displayname', 'id')->toArray();
-        //$selectedRoles = $user->roles()->pluck('id')->toArray();
         // get the roles currently assigned to this user
         $userRoles = $user->roles()->pluck('displayname', 'id')->toArray();
-        $contact = null;
-        foreach ($user->contacts as $contact1)
-        {
-            if ($contact1->pivot->role_id === $user->currentRole)
-            {
-                $contact = $contact1;
-                break;
-            }
-        }
+        // get the contact info for this user/role
+        $contact = Contact::findOrFail($user->contactIdForRole($user->currentRole));
+
+        // change the contact timestamp keys to separate them from the user model keys
+        $contact = $this->renameKey($contact, 'created_at', 'contact_created_at');
+        $contact = $this->renameKey($contact, 'updated_at', 'contact_updated_at');
 
         // return the edit user form with user info, user roles and contact info
         return view('user.editUser', compact('user', 'userRoles', 'contact'));
@@ -229,20 +236,20 @@ class UsersController extends Controller
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
-        /*
-          if (!(\policy(new Contact)->update()))
-          {
-          flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
-          return redirect()->back();
-          }
-         */
+
+        if (!(\policy(new Contact)->update()))
+        {
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
+            return redirect()->back();
+        }
+
         //$request->merge(['password' => Hash::make($request->password)]);
         // Find the current user record
         $user = User::findOrFail($id);
 
         // Find the contact recored for the user.currentRole
-        $contact = Contact::findOrFail($request->id);
-
+        // $contact = Contact::findOrFail($request->id);
+        $contact = $user->contactForRole($request->currentRole);
         // User model does not extend BaseModel so getUpdateRules() has been copied to the User class.
         $this->validate($request, $user->getUpdateRules(User::$rules));
 
@@ -253,8 +260,6 @@ class UsersController extends Controller
 
         flash()->success("User '" . $user->username . "' successfully updated!");
 
-        //$ur = $user->roles()->sync([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]);  // modified during developement to setup new accounts
-        //$ur = $user->roles()->sync([5, 7, 8, 9, 12]);  // modified during developement to setup new accounts
         //return $this->index(); // if you want to return to the list users view
         return redirect()->back(); // if you want to keep the updated form displayed.
     }
@@ -347,10 +352,9 @@ class UsersController extends Controller
         $userRoles = $user->roles()->pluck('displayname', 'id')->toArray();
         // return only roles that have not already been selected
         $availableRoles = array_diff($allRoles, $userRoles);
-
         $user->currentRole = 0;
         // return the edit user form with user info, user roles and contact info
-        return view('user.addUserRole', compact('user', 'availableRoles', null));
+        return view('user.addUserRole', compact('user', 'availableRoles'));
     }
 
     /**
@@ -367,13 +371,13 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-        /*
-          if (!(\policy(new Contact)->update()))
-          {
-          flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
-          return redirect()->back();
-          }
-         */
+
+        if (!(\policy(new Contact)->update()))
+        {
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
+            return redirect()->back();
+        }
+
 
         $user = User::findOrFail($id);
         if ($user == NULL)
@@ -435,7 +439,8 @@ class UsersController extends Controller
             'email' => Input::get('email'),
             'weburl' => Input::get('weburl')
         ));
-
+        $contact->user_id = $id;
+        $contact->role_id = $request->currentRole;
         // User model does not extend BaseModel so getUpdateRules() has been copied to the User class.
         $this->validate($request, $user->getUpdateRules(User::$rules));
         ;
@@ -443,18 +448,14 @@ class UsersController extends Controller
 
         $user->update($request->all());
         ;
-        $rslt = $contact->save();
+        $contact->save();
+        $lastInsertId = $contact->id;
 
-        //$user->roles()->sync([$user->currentRole]);
-        $user->roles()->attach($user->currentRole);
-        $user->contacts()->attach($contact->id, ['role_id' => $user->currentRole]);
+        $user->roles()->attach($user->currentRole, ['contact_id' => $lastInsertId]);
         $rolename = App\Role::where('id', $user->currentRole)->first()->displayname;
         flash()->success("Role '" . $rolename . "' successfully assigned to User '" . $user->username . "'.");
 
         return redirect()->route('user.show', $id);
-
-        //return redirect()->back(); // if you want to keep the updated form displayed.
-        //return $this->index(); // if you want to return to the list users view
     }
 
     /**
@@ -480,46 +481,41 @@ class UsersController extends Controller
         }
 
         $user = User::findOrFail($id);
-        $count = $user->contacts()->count();
+        $count = $user->contacts->count();
+//        $firstContact = $user->contacts->wherePivot('user_id', '=', '$id');
         if ($user->contacts->count() < 2)
         {
             flash()->error("Attempting to delete last user contact.  Operation not permitted.")->important();
             return redirect()->back();
         }
 
-        $contact2;
-        foreach ($user->contacts as $contact1)
-        {
-            echo $contact1->pivot->role_id . "<br>";
-            if ($contact1->pivot->role_id === $user->currentRole)
-            {
-                $contact2 = $contact1;
-                break;
-            }
-        }
+        $rolename = App\Role::where('id', $user->currentRole)->first()->displayname;
 
-            $rolename = App\Role::where('id', $user->currentRole)->first()->displayname;
+        // get the contact record for the currentRole
+        $contact = $user->contactForRole($user->currentRole);
+        // delete the role from the role_user pivot table
+        $user->roles()->detach($user->currentRole);
+        // delete the contact record
+        $contact->delete();
+        // get the roles currently assigned to this user
+        $userRoles = $user->roles()->pluck('displayname', 'id')->toArray();
+        $userRoles = array_reverse($userRoles, true);
+        $keys = array_keys($userRoles);
+        $user->currentRole = $keys[0];
+        $user->save();
 
-            // get the contact record for the currentRole
-            $contact = $user->contactForRole($user->currentRole);
-            // delete the role from the role_user pivot table
-            $user->roles()->detatch($user->currentRole);
-            // delete the pivot table contact entry
-            $user->contacts()->detach(contact_id);
-            // delete the contact record
-            $contact->delete();
-            // get the roles currently assigned to this user
-            $userRoles = $user->roles()->pluck('displayname', 'id')->toArray();
-            //$contact = null;
-            /*
-              }
-             */
-            flash()->success("Role '" . $rolename . "' successfully deleted from User '" . $user->username . "'.");
+        // get the contact info for this user/role
+        //$contact = Contact::findOrFail($user->contactIdForRole($user->currentRole));
+        $contact = $user->contactForRole($user->currentRole);
 
-            // return the edit user form with user info, user roles and contact info
-            return view('user.editUser', compact('user', 'userRoles', null));
+        // change the timestamp keys to separate them from the user model keys
+        $contact = $this->renameKey($contact, 'created_at', 'contact_created_at');
+        $contact = $this->renameKey($contact, 'updated_at', 'contact_updated_at');
 
-            return redirect()->back();
-        }
+        flash()->success("Role '" . $rolename . "' successfully deleted from User '" . $user->username . "'.");
+
+        // return the edit user form with user info, user roles and contact info
+        return view('user.editUser', compact('user', 'userRoles', 'contact'));
     }
-    
+
+}

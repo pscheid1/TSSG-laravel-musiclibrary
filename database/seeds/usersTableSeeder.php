@@ -35,12 +35,9 @@ class usersTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        DB::table('role_user')->insert([
-            'role_id' => 1,
-            'user_id' => 1
-        ]);
-
         DB::table('contacts')->insert([
+            'role_id' => 1,
+            'user_id' => 1,
             'address1' => '123 Filler street',
             'address2' => 'Apt. 23A',
             'city' => 'Timbuktu',
@@ -53,11 +50,11 @@ class usersTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
-        
-        DB::table('contact_user')->insert([
-            'contact_id' => 1,
+
+        DB::table('role_user')->insert([
+            'role_id' => 1,
             'user_id' => 1,
-            'role_id' => '1'
+            'contact_id' => 1
         ]);
 
         DB::table('users')->insert([
@@ -82,12 +79,9 @@ class usersTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        DB::table('role_user')->insert([
-            'role_id' => 1,
-            'user_id' => 2
-        ]);
-
-       DB::table('contacts')->insert([
+        DB::table('contacts')->insert([
+            'role_id' => 2,
+            'user_id' => 2,            
             'address1' => '123 Filler street',
             'address2' => 'Apt. 23B',
             'city' => 'Timbuktu',
@@ -100,13 +94,13 @@ class usersTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
-        
-        DB::table('contact_user')->insert([
-            'contact_id' => 2,
+
+        DB::table('role_user')->insert([
+            'role_id' => 2,
             'user_id' => 2,
-            'role_id' => '1'
+            'contact_id' => 2
         ]);
-        
+
         DB::table('users')->insert([
             'username' => 'gjetson',
             'prefix' => '',
@@ -114,7 +108,7 @@ class usersTableSeeder extends Seeder
             'middlename' => '',
             'lastname' => 'Jetson',
             'suffix' => '',
-            'currentRole' => 4,
+            'currentRole' => 7,
             'company' => '',
             'title' => '',
             'note' => '',
@@ -129,12 +123,9 @@ class usersTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        DB::table('role_user')->insert([
-            'role_id' => 3,
-            'user_id' => 3
-        ]);
-
-       DB::table('contacts')->insert([
+        DB::table('contacts')->insert([
+            'role_id' => 7,
+            'user_id' => 3,            
             'address1' => '123 Filler street',
             'address2' => 'Apt. 23C',
             'city' => 'Timbuktu',
@@ -148,10 +139,10 @@ class usersTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
         
-        DB::table('contact_user')->insert([
-            'contact_id' => 3,
+        DB::table('role_user')->insert([
+            'role_id' => 7,
             'user_id' => 3,
-            'role_id' => '3'
+            'contact_id' => 3
         ]);
         
         DB::table('users')->insert([
@@ -176,12 +167,9 @@ class usersTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
-        DB::table('role_user')->insert([
+        DB::table('contacts')->insert([
             'role_id' => 12,
-            'user_id' => 4
-        ]);
-
-       DB::table('contacts')->insert([
+            'user_id' => 4,            
             'address1' => '123 Filler street',
             'address2' => 'Apt. 23D',
             'city' => 'Timbuktu',
@@ -194,13 +182,12 @@ class usersTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
-        
-        DB::table('contact_user')->insert([
-            'contact_id' => 4,
-            'user_id' => 4,
-            'role_id' => '12'
+
+        DB::table('role_user')->insert([
+            'role_id' => '12',
+            'user_id' => 4,            
+            'contact_id' => 4,            
         ]);
-       
     }
 
 }

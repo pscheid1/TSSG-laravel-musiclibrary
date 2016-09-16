@@ -111,9 +111,10 @@
                 {!! Html::image('images/PnS-header-img2.jpg', 'band photo part 2', array('height' => '115', 'clear' => 'left')) !!}
             </div>
         </div>
-    </div>
+    </div>    
     --}}
-    <nav class="navbar navbar-default navbar-inverse">
+{{--<nav class="navbar navbar-default navbar-inverse  navbar-fixed-top">--}}
+    <nav class="navbar navbar-default navbar-inverse ">
         <div class="container-fluid">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">

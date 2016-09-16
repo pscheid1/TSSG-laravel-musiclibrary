@@ -75,10 +75,10 @@
                     </div>
                     <p/>
                     <div>
-                        {!! Form::label(null,'Company Name:') !!}
+                        {!! Form::label(null,'Company:') !!}
                     </div>
                     <div>
-                        {!! Form::text('companyname' ) !!}
+                        {!! Form::text('company' ) !!}
                     </div>
                     <p/>
                     <div>

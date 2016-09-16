@@ -18,7 +18,7 @@ class Contact extends BaseModel
     
     public function users()
     {
-        return $this->belongsToMany(User::class)->withPivot('role_id');
+        return $this->belongsTo(User::class);
     }
 
 }

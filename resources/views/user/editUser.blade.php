@@ -34,7 +34,15 @@
                     {!! Form::label('canlogin', '* Login Permitted:') !!}
                 </div>
                 <div class="col-md-1 pull-left">
-                    {!! Form::checkbox('loginpermitted', null, ['disabled' => 'true']) !!}
+                    @if (Auth::check())
+                    @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('manager'))
+                    {!! Form::checkbox('loginpermitted') !!}
+                    @elseif ($user->loginpermitted)
+                    {!! Form::text('loginpermitted', 'Permitted', ['disabled' => 'true']) !!}
+                    @else
+                    {!! Form::text('loginpermitted', 'Not Permitted', ['disabled' => 'true']) !!}
+                    @endif
+                    @endif
                 </div>
             </div>
             <div class="row">

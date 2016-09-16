@@ -17,6 +17,7 @@ class CreateRoleUserPivotTable extends Migration
         {
             $table->integer('role_id')->unsigned();
             $table->integer('user_id')->unsigned();
+            $table->integer('contact_id')->unsigned();
         });
     }
 

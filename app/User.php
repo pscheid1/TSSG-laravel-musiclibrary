@@ -17,7 +17,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'username', 'prefix', 'firstname', 'middlename', 'lastname', 'suffix', 'currentRole',
-        'companyname', 'title', 'note', 'location', 'activated', 'terminated', 'loginpermitted',
+        'company', 'title', 'note', 'location', 'activated', 'terminated', 'loginpermitted',
         'forcepwchange', 'password'
     ];
     public static $rules = [
@@ -38,22 +38,56 @@ class User extends Authenticatable
 
     public function contacts()
     {
-        return $this->belongsToMany(Contact::class)->withPivot('role_id');
+        return $this->hasMany(Contact::class);
     }
 
     public function contactForRole($roleId)
     {
-        return $this->contacts()->wherePivot('role_id', '=', $roleId);
+        // get the contacts for this user
+        $c = $this->contacts;
+        foreach($c as $contact)
+        {
+            // look for a contact with a matching role_id
+            // there should be only one or none.
+            if ($contact->role_id == $roleId)
+            {
+                return $contact;
+            }
+        }
+        
+        return null;
+
     }
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class)->withPivot('contact_id');;
     }
 
     public function hasRole($roleName)
     {
-        return $this->roles()->pluck('name')->contains($roleName);
+        $rslt = $this->roles()->pluck('name')->contains($roleName);
+        return $rslt;
+    }
+    
+    public function contactIdForRole($roleId)
+    {
+        $assignedRole = $this->roles()->where('id', '=', $roleId)->get();
+        
+        return $assignedRole[0]->pivot->contact_id;
+        /*
+        $ar = $assignedRole[0];
+        $cid = $ar->pivot->contact_id;
+        // there should only be one
+        foreach($assignedRole as $role)
+        {
+            $cid = $role->pivot->contact_id;
+        }
+        return $cid;
+        //$role2->$this->hasRole('groupie');
+        //$role3 = $this->roles()->find($roleId)->pivot->contact_id;
+         * 
+         */
     }
 
     public function rights()

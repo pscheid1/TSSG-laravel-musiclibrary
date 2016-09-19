@@ -46,9 +46,9 @@ class MusiclibrariesController extends Controller
             return redirect()->back();
         }
 
-        $stylesAdd = array('--- Select one ---') + App\Style::pluck('DESCRIPTION', 'id')->toArray();
+        $stylesAdd = App\Style::pluck('DESCRIPTION', 'id')->toArray();
         //return $stylesAdd;
-        $temposAdd = array('--- Select one ---') + App\Tempo::pluck('DESCRIPTION', 'id')->toArray();
+        $temposAdd = App\Tempo::pluck('DESCRIPTION', 'id')->toArray();
         //return $temposAdd;
         return view('musiclibrary.addSong', compact('song', 'stylesAdd', 'temposAdd'));
     }

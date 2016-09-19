@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Contact;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
@@ -67,11 +68,13 @@ use AuthenticatesAndRegistersUsers,
     protected function validator(array $data)
     {
         return Validator::make($data, [
+                    'username' => 'required|max:255|unique:users',
+                    'loginpermitted' => 'required',
                     'firstname' => 'required',
                     'lastname' => 'required',
-                    'username' => 'required|max:255|unique:users',
                     'password' => 'required|min:6|confirmed',
-                   // 'phone1' => 'required',
+                    'userRoles' => 'required',
+                    'phone1' => 'required',
                     'email' => 'required|email|max:255',
         ]);
     }
@@ -84,14 +87,64 @@ use AuthenticatesAndRegistersUsers,
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
                     'username' => $data['username'],
+                    'prefix' => $data['prefix'],
                     'firstname' => $data['firstname'],
+                    'middlename' => $data['middlename'],
                     'lastname' => $data['lastname'],
-                    'email' => $data['email'],
-                   // 'location' => $data['location'],
+                    'suffix' => $data['suffix'],
+                    'currentRole' => $data['userRoles'][0],
+                    'company' => $data['company'],
+                    'title' => $data['title'],
+                    'note' => $data['note'],
+                    //'location' => $data['location'],
+                    //'activated' => $data['activated'],
+                    //'terminated' => $data['terminated'],
+                    'loginpermitted' => $data['loginpermitted'],
+                    //'forcepwchange' => $data['forcepwchange'],
                     'password' => bcrypt($data['password']),
         ]);
+
+        if ($user === false)
+        {
+            // User:: create failed
+            return false;
+        }
+
+        // create a new contact record and save contact info
+        // instansiate a new contact
+        $contact = new Contact(array(
+            'role_id' => $user->currentRole,
+            'user_id' => $user->id,
+            'address1' => $data['address1'],
+            'address2' => $data['address2'],
+            'city' => $data['city'],
+            'state' => $data['state'],
+            'zipcode' => $data['zipcode'],
+            'phone1' => $data['phone1'],
+            'phone2' => $data['phone2'],
+            'email' => $data['email'],
+            'weburl' => $data['weburl']
+        ));
+
+        // save contact info
+        if ($contact->save() === false)
+        {
+            // failed to create contact info record.
+            // delete user record.
+            $user->delete();
+            // return false
+            return $rslt;
+        }
+        $lastInsertId = $contact->id;
+        $user->roles()->sync([$user->currentRole => ['contact_id' => $lastInsertId]]);
+        
+        // initialize the user's roles
+        $currentRoleName = Role::where('id', $user->currentRole)->first()->name;
+        $user->makeMember($currentRoleName);
+
+        return $user;
     }
 
     protected function authenticated(Request $request, User $user)
@@ -103,8 +156,8 @@ use AuthenticatesAndRegistersUsers,
 
         return redirect()->intended($this->redirectPath());
     }
-    
-    //override getRegister()
+
+//override getRegister()
     public function getRegister()
     {
         return \view('auth.register');

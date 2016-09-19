@@ -4,7 +4,7 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
-<div><h2>Add a New User</h2></div>
+<div><h2>Add a New Member</h2></div>
 <div class="row">
     <div class="required cod-md-12 pull-right">
         <b>(required fields indicated with an *)</b>

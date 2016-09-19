@@ -39,7 +39,7 @@ Route::get('auth/register', [
 
 Route::post('auth/register', [
    'as' => 'register',
-    'uses' => 'Auth\AuthController@register'
+    'uses' => 'Auth\AuthController@postRegister'
 ]);
 
 Route::resource('musiclibrary', 'MusiclibrariesController');

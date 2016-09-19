@@ -27,7 +27,7 @@ class stylesTableSeeder extends Seeder {
         ]);
 
         DB::table('styles')->insert([
-            'DESCRIPTION' => 'Scottish traditionai',
+            'DESCRIPTION' => 'Scottish traditional',
             'UPDATEUSERID' => 2003431,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()

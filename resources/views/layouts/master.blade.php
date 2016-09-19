@@ -98,7 +98,7 @@
 
 </head>
 <body>
-    {{--
+    @if (Request::path() === '/' || Request::path() === 'auth/login')
     <div id="header">
         <div id="logo">
             <div class='imageContainer'>
@@ -112,7 +112,7 @@
             </div>
         </div>
     </div>    
-    --}}
+    @endif
 {{--<nav class="navbar navbar-default navbar-inverse  navbar-fixed-top">--}}
     <nav class="navbar navbar-default navbar-inverse ">
         <div class="container-fluid">

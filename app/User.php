@@ -45,7 +45,7 @@ class User extends Authenticatable
     {
         // get the contacts for this user
         $c = $this->contacts;
-        foreach($c as $contact)
+        foreach ($c as $contact)
         {
             // look for a contact with a matching role_id
             // there should be only one or none.
@@ -54,14 +54,14 @@ class User extends Authenticatable
                 return $contact;
             }
         }
-        
-        return null;
 
+        return null;
     }
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class)->withPivot('contact_id');;
+        return $this->belongsToMany(Role::class)->withPivot('contact_id');
+        ;
     }
 
     public function hasRole($roleName)
@@ -69,23 +69,23 @@ class User extends Authenticatable
         $rslt = $this->roles()->pluck('name')->contains($roleName);
         return $rslt;
     }
-    
+
     public function contactIdForRole($roleId)
     {
         $assignedRole = $this->roles()->where('id', '=', $roleId)->get();
-        
+
         return $assignedRole[0]->pivot->contact_id;
         /*
-        $ar = $assignedRole[0];
-        $cid = $ar->pivot->contact_id;
-        // there should only be one
-        foreach($assignedRole as $role)
-        {
-            $cid = $role->pivot->contact_id;
-        }
-        return $cid;
-        //$role2->$this->hasRole('groupie');
-        //$role3 = $this->roles()->find($roleId)->pivot->contact_id;
+          $ar = $assignedRole[0];
+          $cid = $ar->pivot->contact_id;
+          // there should only be one
+          foreach($assignedRole as $role)
+          {
+          $cid = $role->pivot->contact_id;
+          }
+          return $cid;
+          //$role2->$this->hasRole('groupie');
+          //$role3 = $this->roles()->find($roleId)->pivot->contact_id;
          * 
          */
     }
@@ -122,6 +122,7 @@ class User extends Authenticatable
         switch ($role) {
             case 'super-admin':
             case 'admin':
+                // any one can create a user account by self regisering as a guest
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-user');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-user');
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-role');
@@ -152,17 +153,17 @@ class User extends Authenticatable
             case 'publisher':
             case 'supplier':
             case 'venuecontact':
-                $assigned_rights[] = $this->getIdInArray($rights, 'read-style');
-                $assigned_rights[] = $this->getIdInArray($rights, 'read-tempo');
                 // everyone needs read-user/update-user rights in order to update their account and change their current role                
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-user');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-user');
                 // everyone needs read-contact/update-contact rights in order to update their contact info                   
-                $assigned_rights[] = $this->getIdInArray($rights, 'read-contact');                
+                $assigned_rights[] = $this->getIdInArray($rights, 'read-contact');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-contact');
-                // fall through                   
+            // fall through                   
             case 'guest':
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-song');
+                $assigned_rights[] = $this->getIdInArray($rights, 'read-style');
+                $assigned_rights[] = $this->getIdInArray($rights, 'read-tempo');
                 break;
             default:
                 throw new \Exception("The member role '" . $role . "' does not exist");

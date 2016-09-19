@@ -4,7 +4,7 @@
 @include('flash::message')
 
 <div class="relative">
-    <h4>Welcome to the Musicians' Manager Website</h4>
+    <h4><b>Welcome to the Musicians' Manager Website</b></h4>
 
     <p>This site is for use by the band manager to schedule events, to manage the music library, to create music set lists and to manage the band membership.  It is also used by the band members to view the event information, to
         communicate their availability and to download music set lists and music sheets (pdf files).</p>

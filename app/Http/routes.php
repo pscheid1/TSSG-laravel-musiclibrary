@@ -50,6 +50,12 @@ Route::resource('tempo', 'TemposController');
 
 Route::resource('user', 'UsersController');
 
+Route::resource('role', 'RolesController');
+
+Route::resource('group', 'GroupsController');
+
+Route::resource('instrument', 'InstrumentsController');
+
 Route::get('user/{user}/delrole', [
     'as' => 'user.delrole',
     'uses' => 'UsersController@deleteRole'

@@ -109,6 +109,15 @@ class rolesTableSeeder extends Seeder
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
+        
+        DB::table('roles')->insert([
+            'name' => 'grouprec',
+            'displayname' => 'Group Record',
+            'updateuserid' => null,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        
     }
 
 }

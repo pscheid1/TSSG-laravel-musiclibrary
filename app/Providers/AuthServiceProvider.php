@@ -12,6 +12,8 @@ use App\Contact;
 use App\Policies\ContactPolicy;
 use App\Musiclibrary;
 use App\Policies\MusicLibraryPolicy;
+use App\Role;
+use App\Policies\RolePolicy;
 
 
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
@@ -30,7 +32,8 @@ class AuthServiceProvider extends ServiceProvider
         Tempo::class => TempoPolicy::class,
         User::class => UserPolicy::class,
         Musiclibrary::class => MusicLibraryPolicy::class,
-        Contact::class => ContactPolicy::class
+        Contact::class => ContactPolicy::class,
+        Role::class => RolePolicy::class
     ];
 
     /**

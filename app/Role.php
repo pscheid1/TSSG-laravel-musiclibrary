@@ -2,19 +2,21 @@
 
 namespace App;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Role extends BaseModel
 {
 
-    protected $fillable = [ 'updateuserid'];
+    protected $fillable = [ 'name', 'displayname'];
     
     protected static $rules = [
-       // 'name' => 'required|unique:roles|min:1|max:64'
+        'name' => 'required|unique:roles|min:1|max:64',
+        'displayname' => 'required|unique:roles|min:1|max:128'
    ];
 
-    public function users()
+   public function users()
     {
-        return $this->belongsToMany('User::class')->withPivot('contact_id');;
+        return $this->belongsToMany(User::class)->withPivot('contact_id');
     }
 }

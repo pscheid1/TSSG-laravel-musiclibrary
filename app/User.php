@@ -61,7 +61,6 @@ class User extends Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class)->withPivot('contact_id');
-        ;
     }
 
     public function hasRole($roleName)
@@ -75,19 +74,6 @@ class User extends Authenticatable
         $assignedRole = $this->roles()->where('id', '=', $roleId)->get();
 
         return $assignedRole[0]->pivot->contact_id;
-        /*
-          $ar = $assignedRole[0];
-          $cid = $ar->pivot->contact_id;
-          // there should only be one
-          foreach($assignedRole as $role)
-          {
-          $cid = $role->pivot->contact_id;
-          }
-          return $cid;
-          //$role2->$this->hasRole('groupie');
-          //$role3 = $this->roles()->find($roleId)->pivot->contact_id;
-         * 
-         */
     }
 
     public function rights()
@@ -126,11 +112,11 @@ class User extends Authenticatable
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-user');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-user');
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-role');
-                $assigned_rights[] = $this->getIdInArray($rights, 'read-role');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-role');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-role');
             // fall through
             case 'manager':
+                $assigned_rights[] = $this->getIdInArray($rights, 'read-role');                
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-style');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-style');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-style');

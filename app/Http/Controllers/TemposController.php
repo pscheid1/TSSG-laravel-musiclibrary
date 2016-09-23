@@ -94,7 +94,7 @@ class TemposController extends Controller
             return redirect()->back();
         }
 
-        $tempo = Tempo::findOrFail($id);
+        $tempo = Tempo::find($id);
 
         if ($tempo == NULL)
         {
@@ -156,7 +156,7 @@ class TemposController extends Controller
         }
 
 
-        $tempo = Tempo::findOrFail($id);
+        $tempo = Tempo::find($id);
         if ($tempo == NULL)
         {
             flash()->error("Unable to locate requested tempo in database.")->important();

@@ -156,6 +156,9 @@
                             <li><a href="{{ route('nya') }}">Add Instrument</a></li> 
                             <li><a href="{{ route('nya') }}">List Groups</a></li>                       
                             <li><a href="{{ route('nya') }}">Add Group</a></li>
+                            <li><a href="{{ route('role.index') }}">List Roles</a></li>                       
+                            <li><a href="{{ route('role.create') }}">Add Role</a></li>
+                            
                         </ul>
                     </li> 
                     <li class="dropdown">

@@ -183,7 +183,7 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         if ($user == NULL)
         {
             flash()->error("Unable to locate requested user in database.")->important();
@@ -279,7 +279,7 @@ class UsersController extends Controller
         }
 
         // Verify the user to be deleted
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         if ($user == NULL)
         {
             flash()->error("Unable to locate requested user in database.")->important();
@@ -325,7 +325,7 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         if ($user == NULL)
         {
             flash()->error("Unable to locate requested user in database.")->important();
@@ -379,7 +379,7 @@ class UsersController extends Controller
         }
 
 
-        $user = User::findOrFail($id);
+        $user = User::find($id);
         if ($user == NULL)
         {
             flash()->error("Unable to locate requested user in database.")->important();
@@ -459,7 +459,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Delete a role from an existing user
+     * Unassign a role from an user
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

@@ -31,6 +31,7 @@ class usersTableSeeder extends Seeder
             'forcepwchange' => 0,
             'password' => '$2y$10$pFN6emBmHzqtXX8.4rCbR.tmqdluHYyX/RVwNk6afWh9dkGHz/8zK',
             'remember_token' => '',
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -47,6 +48,7 @@ class usersTableSeeder extends Seeder
             'phone2' => '',
             'email' => 'admin.some.one@someplace.org',
             'weburl' => 'whc.unesco.org/en/list/119',
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -75,13 +77,14 @@ class usersTableSeeder extends Seeder
             'forcepwchange' => 1,
             'password' => '$2y$10$A7eTx6aMXVax0i76epbW4eOozLs6Gr2ij6ZZuLa90PVk.WTv/J7lO',
             'remember_token' => '',
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('contacts')->insert([
             'role_id' => 2,
-            'user_id' => 2,            
+            'user_id' => 2,
             'address1' => '123 Filler street',
             'address2' => 'Apt. 23B',
             'city' => 'Timbuktu',
@@ -91,6 +94,7 @@ class usersTableSeeder extends Seeder
             'phone2' => '',
             'email' => 'pscheid.some.one@someplace.org',
             'weburl' => 'whc.unesco.org/en/list/119',
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -119,13 +123,14 @@ class usersTableSeeder extends Seeder
             'forcepwchange' => 1,
             'password' => '$2y$10$3IlSeWxAnNVQ102RM7uK8u9266DVj7sBH0tsHofKLbgWWDN0WCxSC',
             'remember_token' => '',
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('contacts')->insert([
             'role_id' => 7,
-            'user_id' => 3,            
+            'user_id' => 3,
             'address1' => '123 Filler street',
             'address2' => 'Apt. 23C',
             'city' => 'Timbuktu',
@@ -135,16 +140,17 @@ class usersTableSeeder extends Seeder
             'phone2' => '',
             'email' => 'pscheid.some.one@someplace.org',
             'weburl' => 'whc.unesco.org/en/list/119',
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
-        
+
         DB::table('role_user')->insert([
             'role_id' => 7,
             'user_id' => 3,
             'contact_id' => 3
         ]);
-        
+
         DB::table('users')->insert([
             'username' => 'casper',
             'prefix' => '',
@@ -163,13 +169,14 @@ class usersTableSeeder extends Seeder
             'forcepwchange' => 0,
             'password' => '',
             'remember_token' => '',
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('contacts')->insert([
             'role_id' => 12,
-            'user_id' => 4,            
+            'user_id' => 4,
             'address1' => '123 Filler street',
             'address2' => 'Apt. 23D',
             'city' => 'Timbuktu',
@@ -179,14 +186,15 @@ class usersTableSeeder extends Seeder
             'phone2' => '',
             'email' => 'pscheid.some.one@someplace.org',
             'weburl' => 'whc.unesco.org/en/list/119',
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('role_user')->insert([
             'role_id' => '12',
-            'user_id' => 4,            
-            'contact_id' => 4,            
+            'user_id' => 4,
+            'contact_id' => 4,
         ]);
     }
 

@@ -3,8 +3,9 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateInstrumentsTable extends Migration
+class CreateStylesTable extends Migration
 {
+
     /**
      * Run the migrations.
      *
@@ -12,10 +13,11 @@ class CreateInstrumentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('instruments', function (Blueprint $table) {
+        Schema::create('styles', function (Blueprint $table)
+        {
             $table->increments('id');
-            $table->text('name');
-            $table->integer('updateuserid')->unsigned();
+            $table->string('DESCRIPTION');
+            $table->integer('UPDATEUSERID')->unsigned()->default(null);
             $table->timestamps();
         });
     }
@@ -27,6 +29,7 @@ class CreateInstrumentsTable extends Migration
      */
     public function down()
     {
-        Schema::drop('instruments');
+        Schema::drop('styles');
     }
+
 }

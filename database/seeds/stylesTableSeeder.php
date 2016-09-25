@@ -14,28 +14,28 @@ class stylesTableSeeder extends Seeder {
     {
         DB::table('styles')->insert([
             'DESCRIPTION' => 'Classical',
-            'UPDATEUSERID' => 2003431,
+            'UPDATEUSERID' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('styles')->insert([
             'DESCRIPTION' => 'Swing',
-            'UPDATEUSERID' => 2003431,
+            'UPDATEUSERID' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('styles')->insert([
             'DESCRIPTION' => 'Scottish traditional',
-            'UPDATEUSERID' => 2003431,
+            'UPDATEUSERID' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('styles')->insert([
             'DESCRIPTION' => 'Rock',
-            'UPDATEUSERID' => 2003431,
+            'UPDATEUSERID' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);

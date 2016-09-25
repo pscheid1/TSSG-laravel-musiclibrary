@@ -34,7 +34,7 @@ class musiclibrariesTableSeeder extends Seeder {
             'VCFI' => 0,
             'COMMARRANGEMENT' => 1,
             'PERFCOMMENTS' => 'stunk up the hall',
-            'UPDATEUSERID' => NULL,
+            'UPDATEUSERID' => 2,
             'created_at' => '2012-06-25 15:55:40',
             'updated_at' => '2012-06-25 15:55:40'
         ]);
@@ -62,7 +62,7 @@ class musiclibrariesTableSeeder extends Seeder {
             'VCFI' => NULL,
             'COMMARRANGEMENT' => 1,
             'PERFCOMMENTS' => 'Great rehearsal',
-            'UPDATEUSERID' => NULL,
+            'UPDATEUSERID' => 2,
             'created_at' => '2012-06-25 15:55:40',
             'updated_at' => '2012-06-25 15:55:40'
         ]);
@@ -90,7 +90,7 @@ class musiclibrariesTableSeeder extends Seeder {
             'VCFI' => '1',
             'COMMARRANGEMENT' => NULL,
             'PERFCOMMENTS' => 'So, so',
-            'UPDATEUSERID' => '2003431',
+            'UPDATEUSERID' => 2,
             'created_at' => '2012-07-10 19:46:49',
             'updated_at' => '2012-07-10 19:46:49'
         ]);
@@ -118,7 +118,7 @@ class musiclibrariesTableSeeder extends Seeder {
             'VCFI' => '-99',
             'COMMARRANGEMENT' => 1,
             'PERFCOMMENTS' => 'Great rehearsal',
-            'UPDATEUSERID' => NULL,
+            'UPDATEUSERID' => 2,
             'created_at' => '2012-07-11 13:30:45',
             'updated_at' => '2012-07-11 13:30:45'
         ]);

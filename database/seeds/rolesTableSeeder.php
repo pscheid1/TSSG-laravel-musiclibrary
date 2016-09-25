@@ -17,7 +17,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'admin',
             'displayname' => 'Admin',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -25,7 +25,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'manager',
             'displayname' => 'Band Manager',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -33,7 +33,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'alumnus',
             'displayname' => 'Alumnus Musician',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -41,7 +41,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'composer',
             'displayname' => 'Composer',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -49,7 +49,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'eventcontact',
             'displayname' => 'Event Contact',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -57,7 +57,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'groupie',
             'displayname' => 'Groupie',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -65,7 +65,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'musician',
             'displayname' => 'Musician',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -73,7 +73,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'publisher',
             'displayname' => 'Publisher',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -81,7 +81,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'sub',
             'displayname' => 'Substitute Musician',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -89,7 +89,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'supplier',
             'displayname' => 'Supplier',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -97,7 +97,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'venuecontact',
             'displayname' => 'Venue Contact',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -105,7 +105,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'guest',
             'displayname' => 'Guest',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
@@ -113,7 +113,7 @@ class rolesTableSeeder extends Seeder
         DB::table('roles')->insert([
             'name' => 'grouprec',
             'displayname' => 'Group Record',
-            'updateuserid' => null,
+            'updateuserid' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);

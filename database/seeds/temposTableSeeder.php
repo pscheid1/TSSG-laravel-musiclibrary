@@ -14,28 +14,28 @@ class temposTableSeeder extends Seeder
     {
         DB::table('tempos')->insert([
             'DESCRIPTION' => 'Slow',
-            'UPDATEUSERID' => 2003431,
+            'UPDATEUSERID' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('tempos')->insert([
             'DESCRIPTION' => 'Glacial',
-            'UPDATEUSERID' => 2003431,
+            'UPDATEUSERID' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('tempos')->insert([
             'DESCRIPTION' => 'Supersonic',
-            'UPDATEUSERID' => 2003431,
+            'UPDATEUSERID' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);
 
         DB::table('tempos')->insert([
             'DESCRIPTION' => 'Fast',
-            'UPDATEUSERID' => 2003431,
+            'UPDATEUSERID' => 1,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);

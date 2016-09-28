@@ -114,7 +114,7 @@ class UsersController extends Controller
         }
 
         // Get new user input
-        $user = new User($request->only([$request->username, $request->prefix, $request->firsname, $request->middlename, $request->lastname, $request->suffix,
+        $user = new User($request->only([$request->username, $request->loginpermitted, $request->prefix, $request->firsname, $request->middlename, $request->lastname, $request->suffix,
                     $request->currentRole, $request->password, $request->password_confirmation, $request->company, $request->title, $request->note]));
 
         /* Input::get() also works
@@ -128,11 +128,11 @@ class UsersController extends Controller
          */
 
         /*
-        $reqest->only([]) wil not work for non user model
-        $c1 = new Contact(
-                $request->only([
-                    $request->address1, $request->address2, $request->city, $request->state, $request->zipcode, $request->phone1, $request->phone2, $request->email, $request->weburl
-        ]));
+          $reqest->only([]) wil not work for non user model
+          $c1 = new Contact(
+          $request->only([
+          $request->address1, $request->address2, $request->city, $request->state, $request->zipcode, $request->phone1, $request->phone2, $request->email, $request->weburl
+          ]));
          * 
          */
 
@@ -149,14 +149,21 @@ class UsersController extends Controller
             'email' => Input::get('email'),
             'weburl' => Input::get('weburl')
         ));
-;
+        ;
         $contact->role_id = $request->currentRole;
         // User model does not extend BaseModel so getUpdateRules() has been copied to the User class.
         $this->validate($request, $user->getUpdateRules(User::$rules));
         ;
         $this->validate($request, $contact::getRules());
-
-        $user->save();
+        
+        $rqst = $request->all();
+        /// if a checkbox is not checked, it's value is not sent
+        // without an explicit check it would never get set off
+        if (!$request->has('loginpermitted'))
+        {
+            $rqst = \array_merge($rqst, array("loginpermitted" => "0"));
+        }
+        $user->save($rqst);
         $contact->save();
         $lastInsertId = $contact->id;
 
@@ -255,7 +262,14 @@ class UsersController extends Controller
 
         $this->validate($request, $contact::getRules());
 
-        $user->update($request->all());
+        $rqst = $request->all();
+        /// if a checkbox is not checked, it's value is not sent
+        // without an explicit check it would never get set off
+        if (!$request->has('loginpermitted'))
+        {
+            $rqst = \array_merge($rqst, array("loginpermitted" => "0"));
+        }
+        $user->update($rqst);
         $contact->update($request->all());
 
         flash()->success("User '" . $user->username . "' successfully updated!");
@@ -349,6 +363,11 @@ class UsersController extends Controller
 
         // get all available roles
         $allRoles = Role::pluck('displayname', 'id')->toArray();
+        // find the key for the grouprec roll
+        $key = array_search('Group Record', $allRoles);
+        // remove grouprec from available rolls.  
+        // grouprec is a special use roll and assigned programatically
+        unset($allRoles[$key]);
         $userRoles = $user->roles()->pluck('displayname', 'id')->toArray();
         // return only roles that have not already been selected
         $availableRoles = array_diff($allRoles, $userRoles);
@@ -443,11 +462,20 @@ class UsersController extends Controller
         $contact->role_id = $request->currentRole;
         // User model does not extend BaseModel so getUpdateRules() has been copied to the User class.
         $this->validate($request, $user->getUpdateRules(User::$rules));
-        ;
+        
         $this->validate($request, $contact::getRules());
 
-        $user->update($request->all());
-        ;
+       $rqst = $request->all();
+        /// if a checkbox is not checked, it's value is not sent
+        // without an explicit check it would never get set off
+        if (!$request->has('loginpermitted'))
+        {
+            $rqst = \array_merge($rqst, array("loginpermitted" => "0"));
+        }
+        $user->save($rqst);
+           
+        $user->update($rqst);
+     
         $contact->save();
         $lastInsertId = $contact->id;
 

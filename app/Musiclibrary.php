@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Musiclibrary extends BaseModel
 {
@@ -18,16 +19,19 @@ class Musiclibrary extends BaseModel
         'VOCAL', 'VOCALISTS', 'VOICES', 'INSTRUMENTATION', 'VCFI', 'COMMARRANGEMENT', 'PERFCOMMENTS',
         'UPDATEUSERID',
     ];
+    
     protected static $rules = [
         'CATALOGNUM' => 'required|unique:musiclibraries|min:1|max:5',
         'TITLE' => 'required|min:1|max:80',
         'DESCRIPTION' => 'required',
         'STYLEID' => 'required',
-        'TEMPOID' => 'required'
+        'TEMPOID' => 'required',
+        'PUBYEAR' => 'size:4'
     ];
-
+    
     public function STYLEID()
     {
+        $now = Carbon::now();
         return $this->belongsTo(Style::class);
     }
 

@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4 col-md-offset-1">
+                <div class="required col-md-4 col-md-offset-1">
                     {!! Form::label(null,'Title:') !!}
                 </div>
                 <div class="col-md-1 pull-left">
@@ -91,7 +91,7 @@
                     {!! Form::label(null,'Vocal:') !!}
                 </div>
                 <div class="col-md-1 pull-left">
-                    {!! Form::checkbox('VOCAL' ) !!}
+                    {!! Form::checkbox('VOCAL', 1 ) !!}
                 </div>
             </div>
             <div class="row">
@@ -99,7 +99,7 @@
                     {!! Form::label(null,'Vocalists:') !!}
                 </div>
                 <div class="col-md-1 pull-left">
-                    {!! Form::checkbox('VOCALISTS' ) !!}
+                    {!! Form::number('VOCALISTS' ) !!}
                 </div>
             </div>
             <div class="row">
@@ -115,7 +115,7 @@
                     {!! Form::label(null,'Transcription:') !!}
                 </div>
                 <div class="col-md-1 pull-left">
-                    {!! Form::checkbox('TRANSCRIPTION' ) !!}
+                    {!! Form::checkbox('TRANSCRIPTION', 1 ) !!}
                 </div>
             </div>
             <div class="row">
@@ -123,7 +123,7 @@
                     {!! Form::label(null,'Arrangement:') !!}
                 </div>
                 <div class="col-md-1 pull-left">
-                    {!! Form::checkbox('COMMARRANGEMENT' ) !!}
+                    {!! Form::checkbox('COMMARRANGEMENT', 1 ) !!}
                 </div>
             </div>
             <div class="row">
@@ -207,7 +207,7 @@
                     {!! Form::label(null,'Publication Year:') !!}
                 </div>
                 <div class="col-md-1 pull-left">
-                    {!! Form::text('PUBYEAR' ) !!}
+                    {!! Form::text('PUBYEAR', null, ['placeholder' => 'YYYY'] ) !!}
                 </div>
             </div>
             <div class="row">
@@ -235,55 +235,40 @@
                     {!! Form::text('DESCRIPTION' ) !!}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4 col-md-offset-1">
-                    {!! Form::label(null,'Created at:') !!}
-                </div>
-                <div class="col-md-1 pull-left">
-                    {!! Form::text('created_at', null , ['disabled' => 'true']) !!}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 col-md-offset-1">
-                    {!! Form::label(null,'Updated at:') !!}
-                </div>
-                <div class="col-md-1 pull-left">
-                    {!! Form::text('updated_at', null , ['disabled' => 'true']) !!}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-5">
-                    &nbsp;
-                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-5">
+                &nbsp;
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-5">
-            &nbsp;
-        </div>
+</div>
+<div class="row">
+    <div class="col-md-5">
+        &nbsp;
     </div>
-    <div class="row">
-        <div class="col-md-7">
-            &nbsp;
-        </div>
-        <div class='col-sm-2'>
-            <table border='0'>
-                <tr>
-                    <td>
-                        {!! Form::submit('Add', ['class' => 'button']) !!}
-                        {!! Form::close() !!}
-                    </td>
-                    <td>&nbsp;</td>
-                    <td>
-                        {!! Form::model(null, ['method' => 'get', 'route' => 'musiclibrary.index']) !!}
-                        {!! Form::submit('Cancel', ['class' => 'button']) !!}
-                        {!! Form::close() !!}
-                    </td>
-                </tr>
-            </table>
-        </div>
+</div>
+<div class="row">
+    <div class="col-md-7">
+        &nbsp;
     </div>
+    <div class='col-sm-2'>
+        <table border='0'>
+            <tr>
+                <td>
+                    {!! Form::submit('Add', ['class' => 'button']) !!}
+                    {!! Form::close() !!}
+                </td>
+                <td>&nbsp;</td>
+                <td>
+                    {!! Form::model(null, ['method' => 'get', 'route' => 'musiclibrary.index']) !!}
+                    {!! Form::submit('Cancel', ['class' => 'button']) !!}
+                    {!! Form::close() !!}
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 </div>
 @endsection
 

@@ -10,12 +10,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use laracasts\flash;
 use App\Policies;
-
 use Hash;
-
-
-
-
+use Carbon\Carbon;
 
 class MusiclibrariesController extends Controller
 {
@@ -53,8 +49,6 @@ class MusiclibrariesController extends Controller
         return view('musiclibrary.addSong', compact('song', 'stylesAdd', 'temposAdd'));
     }
 
-    // public function store(CreateAddSongRequest $request)
-    //{
     public function store(Request $request)
     {
         if (!(\policy(new Musiclibrary)->store()))
@@ -62,9 +56,9 @@ class MusiclibrariesController extends Controller
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
-
+        
         $musicLibrary = new Musiclibrary($request->all());
-
+ 
         if ($request->STYLEID === '0')
         {
             flash()->error('A Style selection is required')->important();
@@ -79,7 +73,40 @@ class MusiclibrariesController extends Controller
 
         $this->validate($request, $musicLibrary::getRules());
 
-        $musicLibrary->save();
+        $rqst = $request->all();
+        /// if a checkbox is not checked, it's value is not sent
+        // without an explicit check it would never get set off
+        if (!$request->has('VOCAL'))
+        {
+            $rqst = \array_merge($rqst, array("VOCAL" => "0"));
+        }
+        if (!$request->has('TRANSCRIPTION'))
+        {
+            $rqst = \array_merge($rqst, array("TRANSCRIPTION" => "0"));
+        }
+        if (!$request->has('COMMARRANGEMENT'))
+        {
+            $rqst = \array_merge($rqst, array("COMMARRANGEMENT" => "0"));
+        }
+
+        if ($request->has('PUBYEAR'))
+        {
+            {
+                $now = Carbon::now();
+                $pub_year = intval($request->PUBYEAR);
+                if ($pub_year < 1700 || $pub_year > $now->year)
+                {
+                    flash()->error("Publication Year must be > 1700 and less than or equal to the current year.")->important();
+                    return redirect()->back()->withInput();
+                }
+            }
+        }
+        else
+        {
+            $rqst = \array_merge($rqst, array("PUBYEAR" => ''));
+        }
+
+        $musicLibrary->save($rqst);
 
         flash()->success("Song '" . $musicLibrary->TITLE . "' successfully added!");
 
@@ -108,13 +135,48 @@ class MusiclibrariesController extends Controller
         {
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
-        }        
-        
+        }
+
         $song = Musiclibrary::findOrFail($id);
 
         $this->validate($request, $song->getUpdateRules());
 
-        $song->update($request->all());
+        $rqst = $request->all();
+        /// if a checkbox is not checked, it's value is not sent
+        // without an explicit check it would never get set off
+        if (!$request->has('VOCAL'))
+        {
+            $rqst = \array_merge($rqst, array("VOCAL" => "0"));
+        }
+
+        if (!$request->has('TRANSCRIPTION'))
+        {
+            $rqst = \array_merge($rqst, array("TRANSCRIPTION" => "0"));
+        }
+
+        if (!$request->has('COMMARRANGEMENT'))
+        {
+            $rqst = \array_merge($rqst, array("COMMARRANGEMENT" => "0"));
+        }
+
+        if ($request->has('PUBYEAR'))
+        {
+            {
+                $now = Carbon::now();
+                $pub_year = intval($request->PUBYEAR);
+                if ($pub_year < 1700 || $pub_year > $now->year)
+                {
+                    flash()->error("Publication Year must be > 1700 and less than or equal to the current year.")->important();
+                    return redirect()->back()->withInput();
+                }
+            }
+        }
+        else
+        {
+            $rqst = \array_merge($rqst, array("PUBYEAR" => ''));
+        }
+
+        $song->update($rqst);
         flash()->success("Song '" . $song->TITLE . "' successfully updated!");
 
         //return $this->index();

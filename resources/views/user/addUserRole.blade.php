@@ -34,7 +34,7 @@
                     {!! Form::label('canlogin', '* Login Permitted:') !!}
                 </div>
                 <div class="col-md-1 pull-left">
-                    {!! Form::checkbox('loginpermitted', null, ['disabled' => 'true']) !!}
+                    {!! Form::checkbox('loginpermitted', 1) !!}
                 </div>
             </div>
             <div class="row">

@@ -185,7 +185,7 @@
               </a>
     </div>    
     @endif
-    {{--<nav class="navbar navbar-default navbar-inverse  navbar-fixed-top">--}}
+    <!--<nav class="navbar navbar-default navbar-inverse  navbar-fixed-top">-->
     <nav class="navbar navbar-default navbar-inverse ">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -264,7 +264,7 @@
         <div class="container">
 
             <script>
-function doSubmit(rqstType, songId)
+function doSubmit(rqstType, rqstId)
 {
     debugger;
     if (rqstType === "get")
@@ -281,20 +281,10 @@ function doSubmit(rqstType, songId)
 
 // append songId to form action
     var action = document.getElementById("myRqst").action;
-    action = action.concat(songId);
+    action = action.concat(rqstId);
     document.getElementById("myRqst").action = action;
 // submit the form
     document.getElementById("myRqst").submit();
-}
-
-function getCurrentRole(sel) {
-    alert(sel);
-}
-
-function editRoles()
-{
-//debugger;
-    document.location.href = "{!! route('nya') !!}";
 }
 
             </script>

@@ -59,9 +59,10 @@ class UsersController extends Controller
             }
         }
         
+        $instruments = array('trumpet', 'trumbone', 'piano', 'piccolo');
         //return $usrgps;
 
-        return view('user.indexUsers', compact('users', 'usrgps'));
+        return view('user.indexUsers', compact('users', 'usrgps', 'instruments'));
     }
 
     /**
@@ -165,7 +166,10 @@ class UsersController extends Controller
         $this->validate($request, User::$rules);
         $this->validate($request, $contact::getRules());
 
+        $user->updateuserid = \Auth::user()->id;
         $user->save();
+        $contact->user_id = $user->id;
+        $contact->updateuserid = \Auth::user()->id;
         $contact->save();
         $lastInsertId = $contact->id;
 
@@ -501,18 +505,22 @@ class UsersController extends Controller
         $this->validate($request, $user->getUpdateRules(User::$rules));
         ;
         $this->validate($request, $contact::getRules());
-
-        // the following test is for a checkbox not checked.
-        // if so, we don't know if this is a state change or if it was originally not checked.
-        // in either case we want the result to be not checked.
-        // if there was a state change to not checked, using update($request->all()) would not reset it.
-        if ($request->loginpermitted == null)
-        {
-            $user->loginpermitted = 0;
-        }
-
+        
+        // if a form checkbox is not set (= 0) it is not returned in $request.
+        // therefore, we don't know if user reset it or if the database value was already reset.
+        // if a checkbox is set (=1), it is always returned in $request. 
+        // again, we don't know if this is because the user set it or it was originally set in the database..
+        // therefore, if we initialize the boolean to 0, it will be left in that state if the checkbox is not set
+        // and it will be set to 1 if the form checkbox is set.
+        
+        $user->loginpermitted = 0;
+        
+        $user->updateuserid = \Auth::user()->id; // $request->updateuserid = \Auth::user()->id;  ??????????????????????????????????
         $user->update($request->all());
-        ;
+
+        $contact->user_id = $user->id;
+        $contact->updateuserid = \Auth::user()->id;
+        
         $contact->save();
         $lastInsertId = $contact->id;
 

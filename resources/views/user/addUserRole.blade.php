@@ -113,12 +113,7 @@
                     {!! Form::select('currentRole', $availableRoles, null, ['placeholder' => '--- select one ---']) !!}                    
                 </div>
             </div>
-            {{--
-                By adding the following Form::model binding of contact, the contact attributes can be filled with the view.
-                Posting the Form::model($user) above, still works the same and sends all the attributes (User and Contact).
-            --}}    
-            {{--{!! Form::model($contact, ['method' => 'PATCH', 'route' => ['user.update', $user]]) !!}--}}
-            <div class="row">
+             <div class="row">
                 <div class="col-md-4 col-md-offset-1">
                     {!! Form::label('address1', 'Address One:') !!}
                 </div>

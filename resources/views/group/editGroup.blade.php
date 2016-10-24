@@ -178,6 +178,7 @@
                     &nbsp;
                 </div>
             </div>
+            Select one or more members to delete from the group.
             <div class="row">
                 <div class="col-md-5">
                     &nbsp;
@@ -197,6 +198,7 @@
                     &nbsp;
                 </div>
             </div>
+            Select one or more available members to add to the group.
             <div class="row">
                 <div class="col-md-5">
                     &nbsp;

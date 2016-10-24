@@ -14,8 +14,8 @@
         <th> User Name </th>        
         <th> Last Name </th>
         <th> First Name </th>
-        <th> Group Membership </th>
-        <th> Instrument </th>
+        <th> Group Memberships </th>
+        <th> Instruments </th>
         <th> Current Role </th>
         <th>Can Login</th>
         <th> Action </th>
@@ -25,8 +25,13 @@
         <td>{{ $user->username }}</td>        
         <td>{{ $user->lastname }}</td>
         <td>{{ $user->firstname }}</td>
-        <td> {{ Form::select(null, $usrgps[$user->id], 0) }} </td>        
-        <td></td>        
+        <td>{{ Form::select(null, $usrgps[$user->id]) }}</td>        
+        <td>
+            {{ Form::select(null, $instruments) }}
+            <button type="button" class="btn btn-default btn-xs" onClick="doSubmit('get', '{{ $user->id }}')">
+                <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
+            </button>            
+        </td>        
         <td>{{ App\Role::where('id', $user->currentRole)->first()->displayname }}</td>
         @if ($user->loginpermitted == 1)
         <td>True</td>

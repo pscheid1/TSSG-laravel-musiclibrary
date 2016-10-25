@@ -60,12 +60,15 @@ class User extends Authenticatable
         return null;
     }
 
+    /* currently not used
     // groupManagers will return all the groups
     // this user is a manager of.
     public function groupManagers()
     {
         return $this->belongsToMany(Group::class, 'group_manager');
     }
+     * 
+     */
 
     // groupMemberShip will return a list of groups this
     // user is a member of.

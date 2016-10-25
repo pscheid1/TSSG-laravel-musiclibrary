@@ -177,6 +177,13 @@ class GroupsController extends Controller
 
         $group = Group::findOrFail($id);
 
+        // if \Auth::user is not an Admin then they must be the group manager
+        if (\Auth::user()->id !== $group->groupleader &&  Role::where('id', \Auth::user()->currentRole)->first()->name !== 'admin')
+        {
+            flash()->error("Request denied.  Logged on user's current role must be 'admin'<br> or logged on user must be group manager.")->important();
+            return redirect()->back();
+           
+        }
         $this->validate($request, $group->getUpdateRules());
 
         $newmembers = null;

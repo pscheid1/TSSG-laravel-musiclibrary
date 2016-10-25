@@ -3,9 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/TSSG/laravel-musiclibrary/app/Http/Controllers/Auth/AuthController.php</file>
-            <file>file:/C:/TSSG/laravel-musiclibrary/app/Http/Controllers/MusiclibrariesController.php</file>
-            <file>file:/C:/TSSG/laravel-musiclibrary/app/Http/Controllers/UsersController.php</file>
+            <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/resources/views/layouts/master.blade.php</file>
+            <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/resources/views/user/createUser.blade.php</file>
+            <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/resources/views/musiclibrary/addSong.blade.php</file>
+            <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/resources/views/user/indexUsers.blade.php</file>
+            <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/database/migrations/2016_09_24_213342_create_users_table.php</file>
+            <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/resources/views/user/editUser.blade.php</file>
+            <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/app/Http/Controllers/UsersController.php</file>
+            <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/resources/views/user/addUserRole.blade.php</file>
         </group>
     </open-files>
 </project-private>

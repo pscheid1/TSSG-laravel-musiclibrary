@@ -10,6 +10,7 @@
         <b>(required fields indicated with an *)</b>
     </div>
 </div>
+<br/>
 <div class=""col-md-12>
     {!! Form::model($user, ['method' => 'post', 'route' => ['user.addrole', $user]]) !!}
     <div class="container">
@@ -113,7 +114,7 @@
                     {!! Form::select('currentRole', $availableRoles, null, ['placeholder' => '--- select one ---']) !!}                    
                 </div>
             </div>
-             <div class="row">
+            <div class="row">
                 <div class="col-md-4 col-md-offset-1">
                     {!! Form::label('address1', 'Address One:') !!}
                 </div>
@@ -185,11 +186,13 @@
                     {!! Form::text('weburl') !!}
                 </div>
             </div>
+            <br/>
             <div class="row">
-                <div class="col-md-5">
-                    &nbsp;{!! Form::hidden('id') !!}
+                <div class="col-md-12">
+                    <span>Adding a new role automatically assigns it as the users 'Current Role'</span>
                 </div>
             </div>
+            <br/>
         </div>
     </div>
 
@@ -210,7 +213,7 @@
                         {!! Form::submit('Update', ['class' => 'button']) !!}
                         {!! Form::close() !!}
                     </td>
-                     <td>&nbsp;</td>
+                    <td>&nbsp;</td>
                     <td>                   
                         {!! Form::model($user, ['method' => 'get', 'route' => ['user.show', $user]]) !!}
                         {!! Form::submit('Cancel', ['class' => 'button']) !!}

@@ -1,6 +1,7 @@
 storage/
 node_modules/
 vendor/
+tests/
 composer.lock
 composer.json
 

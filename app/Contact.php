@@ -12,13 +12,13 @@ class Contact extends BaseModel
     ];
     
     protected static $rules = [
-        'phone1' => 'required',
+         'phone1' => 'required',
         'email' => 'required|email'
     ];
     
-    public function users()
+    public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
 }

@@ -160,7 +160,7 @@ class UsersController extends Controller
             'email' => Input::get('email'),
             'weburl' => Input::get('weburl')
         ));
-        ;
+        
         $contact->role_id = $request->currentRole;
 
         $this->validate($request, User::$rules);
@@ -280,7 +280,7 @@ class UsersController extends Controller
             $newRole = $request->currentRole != $user->currentRole;
         }
 
-        // Find the contact recored for the user.currentRole
+        // Find the contact record for the user.currentRole
         // any changes are for the current role contact, not a possible new role assigment.
         // therefore use the $user->currentRole and not the $request->currentRole;
         $contact = $user->contactForRole($user->currentRole);        
@@ -515,10 +515,10 @@ class UsersController extends Controller
         
         $user->loginpermitted = 0;
         
-        $user->updateuserid = \Auth::user()->id; // $request->updateuserid = \Auth::user()->id;  ??????????????????????????????????
+        $user->updateuserid = \Auth::user()->id;
         $user->update($request->all());
 
-        $contact->user_id = $user->id;
+        //$contact->user_id = $user->id;
         $contact->updateuserid = \Auth::user()->id;
         
         $contact->save();

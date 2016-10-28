@@ -36,6 +36,13 @@ class User extends Authenticatable
         'password', 'remember_token',
     ];
     
+    // a resource contains an instrument and performance skills
+    // a user may have none to many resources
+   public function resources()
+   {
+       return $this->hasMany(Resource::class);
+   }
+   
     public function contacts()
     {
         return $this->hasMany(Contact::class);

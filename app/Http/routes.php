@@ -56,6 +56,10 @@ Route::resource('group', 'GroupsController');
 
 Route::resource('instrument', 'InstrumentsController');
 
+Route::resource('skill', 'SkillsController');
+
+Route::resource('Resource', 'ResourcesController');
+
 Route::get('user/{user}/delrole', [
     'as' => 'user.delrole',
     'uses' => 'UsersController@deleteRole'

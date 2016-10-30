@@ -16,6 +16,7 @@ class CreateInstrumentsTable extends Migration
         Schema::create('instruments', function (Blueprint $table)
         {
             $table->increments('id');
+            $table->integer('resource_id')->unsigned();
             $table->string('name');
             $table->integer('updateuserid')->unsigned()->default(null);
             $table->timestamps();

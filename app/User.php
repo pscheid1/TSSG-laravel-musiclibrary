@@ -6,6 +6,8 @@ use App\Role;
 use App\Right;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Contact;
+use App\Resource;
+use App\Instrument;
 
 class User extends Authenticatable
 {
@@ -35,6 +37,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    //get all the instruments for a user
+    public function instruments()
+    {
+        return $this->hasManyThrough('App\Instrument', 'App\Resource', 'instrument_id', 'id');
+    }
     
     // a resource contains an instrument and performance skills
     // a user may have none to many resources
@@ -66,7 +74,7 @@ class User extends Authenticatable
 
         return null;
     }
-
+    
     /* currently not used
     // groupManagers will return all the groups
     // this user is a manager of.

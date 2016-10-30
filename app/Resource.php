@@ -9,18 +9,18 @@ class Resource extends BaseModel
     protected $fillable = ['instrument', 'mgrskill', 'skill',  'updateuserid'];
     protected static $rules = [
         'user_id' => 'required',
-        'instrument' => 'required'
+        'instrument_id' => 'required'
     ];
     
-    public function user()
+    public function users()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
     
     // specific instrument assigned to user
     public function instrument()
     {
-        return $this->belongsTo(Instrument::class, 'name');
+        return $this->belongsTo(Instrument::class);
     }
     
     // skill level for a specific instrument assigned by band leader or admin
@@ -32,7 +32,7 @@ class Resource extends BaseModel
     // self assigned skill level for a specific instrument
     public function skill()
     {
-        return $this->belongsTo(skills::class, 'skill');
+        return $this->belongsTo(Skill::class, 'skill');
     }
 
     

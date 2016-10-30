@@ -13,7 +13,9 @@ use Hash;
 use App\BaseModel;
 use App\Role;
 use App\Contact;
+use App\Resource;
 use Illuminate\Support\Facades\Input;
+use App\Instrument;
 
 class UsersController extends Controller
 {
@@ -43,24 +45,33 @@ class UsersController extends Controller
         }
 
         $users = User::all();
+
         $usrgps = array();
+        $instruments = array();
+
+        // iterate through the list of users
         foreach ($users as $user)
         {
+            // build a list of group membershipa for this user, if any
             $groups = $user->groupMemberShip;
             $namelist = array();
             foreach ($groups as $group)
             {
                 array_push($namelist, $group->name);
             }
-            
-            if ($namelist !== null)
+
+            $usrgps[$user->id] = $namelist;
+
+            // build a list of intrusments for this user, if any
+            $userResources = $user->resources;
+            $userInstruments = array();
+            foreach ($userResources as $resource)
             {
-            $usrgps[$user->id] = $namelist;                
+                array_push($userInstruments, $resource->instrument->name);
             }
+
+            $instruments[$user->id] = $userInstruments;
         }
-        
-        $instruments = array('trumpet', 'trumbone', 'piano', 'piccolo');
-        //return $usrgps;
 
         return view('user.indexUsers', compact('users', 'usrgps', 'instruments'));
     }
@@ -160,7 +171,7 @@ class UsersController extends Controller
             'email' => Input::get('email'),
             'weburl' => Input::get('weburl')
         ));
-        
+
         $contact->role_id = $request->currentRole;
 
         $this->validate($request, User::$rules);
@@ -212,9 +223,9 @@ class UsersController extends Controller
         {
             // logged on user is editing his/her own account
         }
-         // old checks, logged on user only needed to have these roles
+        // old checks, logged on user only needed to have these roles
         // else //if (\Auth::user()->hasRole('admin') || \Auth::user()->hasRole('manager'))
-        else     
+        else
         {
             // new checks.  logged on user must have admin or manager as its current role.
             $loggedOnUserRole = Role::where('id', \Auth::user()->currentRole)->first()->name;
@@ -241,8 +252,8 @@ class UsersController extends Controller
         //$userupdatedby = User::find($user->updateuserid)->username;
         //$contactupdatedby = User::find($contact->updateuserid)->username;        
         $userupdatedby = User::find($user->updateuserid)->firstname . ' ' . User::find($user->updateuserid)->lastname;
-        $contactupdatedby = User::find($contact->updateuserid)->firstname . ' ' . User::find($contact->updateuserid)->lastname;        
-        
+        $contactupdatedby = User::find($contact->updateuserid)->firstname . ' ' . User::find($contact->updateuserid)->lastname;
+
         // return the edit user form with user info, user roles and contact info
         return view('user.editUser', compact('user', 'userRoles', 'contact', 'userupdatedby', 'contactupdatedby'));
     }
@@ -270,7 +281,7 @@ class UsersController extends Controller
 
         // Find user record for user to edit
         $user = User::findOrFail($id);
-        
+
         $newRole = false;
         if (\Auth::user()->username == $user->username)
         {
@@ -283,19 +294,19 @@ class UsersController extends Controller
         // Find the contact record for the user.currentRole
         // any changes are for the current role contact, not a possible new role assigment.
         // therefore use the $user->currentRole and not the $request->currentRole;
-        $contact = $user->contactForRole($user->currentRole);        
+        $contact = $user->contactForRole($user->currentRole);
         // User model does not extend BaseModel so getUpdateRules() has been copied to the User class.
         $this->validate($request, $user->getUpdateRules(User::$rules));
 
         $this->validate($request, $contact->getUpdateRules());
-        
+
         // if a form checkbox is not set (= 0) it is not returned in $request.
         // therefore, we don't know if user reset it or if the database value was already reset.
         // if a checkbox is set (=1), it is always returned in $request. 
         // again, we don't know if this is because the user set it or it was originally set in the database..
         // therefore, if we initialize the boolean to 0, it will be left in that state if the checkbox is not set
         // and it will be set to 1 if the form checkbox is set.
-        
+
         $user->loginpermitted = 0;
         $user->update($request->all());
         $contact->update($request->all());
@@ -387,9 +398,9 @@ class UsersController extends Controller
         {
             // logged on user is editing his/her own account
         }
-         // old checks, logged on user only needed to have these roles
+        // old checks, logged on user only needed to have these roles
         // else //if (\Auth::user()->hasRole('admin') || \Auth::user()->hasRole('manager'))
-        else     
+        else
         {
             // new checks, logged on user must have admin or manager as its current role.
             $loggedOnUserRole = Role::where('id', \Auth::user()->currentRole)->first()->name;
@@ -443,9 +454,9 @@ class UsersController extends Controller
             flash()->error("Unable to locate requested user in database.")->important();
         }
 
-         // old checks, logged on user only needed to have these roles
+        // old checks, logged on user only needed to have these roles
         // else //if (\Auth::user()->hasRole('admin') || \Auth::user()->hasRole('manager'))
-        else     
+        else
         {
             // new checks, logged on user must have admin or manager as its current role.
             $loggedOnUserRole = Role::where('id', \Auth::user()->currentRole)->first()->name;
@@ -505,22 +516,22 @@ class UsersController extends Controller
         $this->validate($request, $user->getUpdateRules(User::$rules));
         ;
         $this->validate($request, $contact::getRules());
-        
+
         // if a form checkbox is not set (= 0) it is not returned in $request.
         // therefore, we don't know if user reset it or if the database value was already reset.
         // if a checkbox is set (=1), it is always returned in $request. 
         // again, we don't know if this is because the user set it or it was originally set in the database..
         // therefore, if we initialize the boolean to 0, it will be left in that state if the checkbox is not set
         // and it will be set to 1 if the form checkbox is set.
-        
+
         $user->loginpermitted = 0;
-        
+
         $user->updateuserid = \Auth::user()->id;
         $user->update($request->all());
 
         //$contact->user_id = $user->id;
         $contact->updateuserid = \Auth::user()->id;
-        
+
         $contact->save();
         $lastInsertId = $contact->id;
 

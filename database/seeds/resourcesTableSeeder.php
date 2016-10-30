@@ -13,7 +13,48 @@ class resourcesTableSeeder extends Seeder
     public function run()
     {
         DB::table('resources')->insert([
-            'instrument' => 10,
+            'user_id' => 1,
+            'instrument_id' => 10,
+            'mgrskill'  => 5,
+            'skill' => 1,
+            'updateuserid' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        
+        DB::table('resources')->insert([
+            'user_id' => 2,
+            'instrument_id' => 10,
+            'mgrskill'  => 5,
+            'skill' => 1,
+            'updateuserid' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+       DB::table('resources')->insert([
+            'user_id' => 2,
+            'instrument_id' => 5,
+            'mgrskill'  => 5,
+            'skill' => 1,
+            'updateuserid' => 2,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+       DB::table('resources')->insert([
+            'user_id' => 2,
+            'instrument_id' => 6,
+            'mgrskill'  => 5,
+            'skill' => 1,
+            'updateuserid' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+       DB::table('resources')->insert([
+            'user_id' => 3,
+            'instrument_id' => 7,
             'mgrskill'  => 5,
             'skill' => 1,
             'updateuserid' => 1,

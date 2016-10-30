@@ -25,12 +25,18 @@
         <td>{{ $user->username }}</td>        
         <td>{{ $user->lastname }}</td>
         <td>{{ $user->firstname }}</td>
-        <td>{{ Form::select(null, $usrgps[$user->id]) }}</td>        
         <td>
-            {{ Form::select(null, $instruments) }}
-            <button type="button" class="btn btn-default btn-xs" onClick="doSubmit('get', '{{ $user->id }}')">
+            @if (count($usrgps[$user->id]) > 0)
+                {{ Form::select(null, $usrgps[$user->id]) }}
+            @endif
+        </td>        
+        <td>
+            @if (count($instruments[$user->id]) > 0)
+                {{ Form::select(null, $instruments[$user->id]) }}
+            @endif
+            <!--<button type="button" class="btn btn-default btn-xs" onClick="doSubmit('get', '{{ $user->id }}')">
                 <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
-            </button>            
+            </button>-->
         </td>        
         <td>{{ App\Role::where('id', $user->currentRole)->first()->displayname }}</td>
         @if ($user->loginpermitted == 1)

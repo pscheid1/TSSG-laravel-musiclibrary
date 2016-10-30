@@ -58,7 +58,7 @@ Route::resource('instrument', 'InstrumentsController');
 
 Route::resource('skill', 'SkillsController');
 
-Route::resource('Resource', 'ResourcesController');
+Route::resource('resource', 'ResourcesController');
 
 Route::get('user/{user}/delrole', [
     'as' => 'user.delrole',

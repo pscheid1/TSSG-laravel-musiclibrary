@@ -17,7 +17,7 @@ class CreateResourcesTable extends Migration
         {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->integer('instrument')->unsigned();
+            $table->integer('instrument_id')->unsigned();
             $table->integer('mgrskill')->unsigned();
             $table->integer('skill')->unsigned();
             $table->integer('updateuserid')->unsigned()->default(null);

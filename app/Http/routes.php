@@ -70,6 +70,36 @@ Route::post('user/{user}/addrole', [
     'uses' => 'UsersController@addRole'
 ]);
 
+Route::get('user/{user}/indexinstr', [
+    'as' => 'user.indexinstr',
+    'uses' => 'UsersController@indexInstruments'
+]);
+
+Route::get('user/{user}/addinstrrequest', [
+    'as' => 'user.addinstrrequest',
+    'uses' => 'UsersController@addInstrumentsRequest'
+]);
+
+Route::post('user/{user}/addinstr', [
+    'as' => 'user.addinstr',
+    'uses' => 'UsersController@addInstrument'
+]);
+
+Route::get('user/{user}/editproficiency', [
+    'as' => 'user.editproficiency',
+    'uses' => 'UsersController@editProficiency'
+]);
+
+Route::post('user/{user}/updateproficiency', [
+    'as' => 'user.updateproficiency',
+    'uses' => 'UsersController@updateProficiency'
+]);
+
+Route::get('user/{user}/delinstr', [
+    'as' => 'user.delinstr',
+    'uses' => 'UsersController@deleteInstrument'
+]);
+
 Route::get('nya', [
     'as' => 'nya',
     'uses' => 'PagesController@notYetAvailable'

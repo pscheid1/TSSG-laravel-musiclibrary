@@ -37,20 +37,23 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    
-    //get all the instruments for a user
-    public function instruments()
-    {
-        return $this->hasManyThrough('App\Instrument', 'App\Resource', 'instrument_id', 'id');
-    }
-    
+
+    /*
+      //get all the instruments for a user
+      public function instruments()
+      {
+      return $this->hasManyThrough('App\Instrument', 'App\Resource', 'instrument_id', 'id');
+      }
+     * 
+     */
+
     // a resource contains an instrument and performance skills
     // a user may have none to many resources
-   public function resources()
-   {
-       return $this->hasMany(Resource::class);
-   }
-   
+    public function resources()
+    {
+        return $this->hasMany(Resource::class);
+    }
+
     public function contacts()
     {
         return $this->hasMany(Contact::class);
@@ -74,14 +77,14 @@ class User extends Authenticatable
 
         return null;
     }
-    
+
     /* currently not used
-    // groupManagers will return all the groups
-    // this user is a manager of.
-    public function groupManagers()
-    {
-        return $this->belongsToMany(Group::class, 'group_manager');
-    }
+      // groupManagers will return all the groups
+      // this user is a manager of.
+      public function groupManagers()
+      {
+      return $this->belongsToMany(Group::class, 'group_manager');
+      }
      * 
      */
 
@@ -165,6 +168,14 @@ class User extends Authenticatable
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-contact');
                 // contact info is deleted if a user role is deleted
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-contact');
+                $assigned_rights[] = $this->getIdInArray($rights, 'create-instrument');
+                $assigned_rights[] = $this->getIdInArray($rights, 'update-instrument');
+                $assigned_rights[] = $this->getIdInArray($rights, 'delete-instrument');
+                $assigned_rights[] = $this->getIdInArray($rights, 'create-skill');
+                $assigned_rights[] = $this->getIdInArray($rights, 'update-skill');
+                $assigned_rights[] = $this->getIdInArray($rights, 'delete-skill');
+
+
             // fall through                
             case 'musician':
             case 'sub':
@@ -187,6 +198,8 @@ class User extends Authenticatable
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-song');
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-style');
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-tempo');
+                $assigned_rights[] = $this->getIdInArray($rights, 'read-instrument');
+                $assigned_rights[] = $this->getIdInArray($rights, 'read-skill');
                 break;
             default:
                 throw new \Exception("The member role '" . $role . "' does not exist");

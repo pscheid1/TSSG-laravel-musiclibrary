@@ -13,7 +13,7 @@ class Instrument extends BaseModel
 
     public function resources()
     {
-        return $this->belongsToMany(Resource::class);
+        return $this->hasMany(Resource::class, 'instrument_id');
     }
 
 }

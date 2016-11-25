@@ -125,8 +125,9 @@
 
 </head>
 <body>
-    @if (Request::path() === '/XXX ' || Request::path() === 'auth/loginXXX')
-    <!--<div id="header">
+    @if (Request::path() === '/XXX' || Request::path() === 'auth/loginXXX')
+    @if (0)
+    <div id="header">
         <div id="logo">
             <div class='imageContainer'>
                 {!! Html::image('images/h_logo.gif', 'point n swing logo') !!}
@@ -138,7 +139,8 @@
                 {!! Html::image('images/PnS-header-img2.jpg', 'band photo part 2', array('height' => '115', 'clear' => 'left')) !!}
             </div>
         </div>
-    </div>-->
+    </div>
+    @else
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
           <!-- Indicators -->
           <ol class="carousel-indicators">
@@ -175,15 +177,16 @@
               </div>
 
           <!-- Left and right controls -->
-          <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+          <!--<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
               </a>
           <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
                 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
-              </a>
-    </div>    
+              </a>-->
+    </div>
+    @endif    
     @endif
     <!--<nav class="navbar navbar-default navbar-inverse  navbar-fixed-top">-->
     <nav class="navbar navbar-default navbar-inverse ">
@@ -220,8 +223,8 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('musiclibrary.index') }}">List Songs</a></li>
                             <li><a href="{{ route('musiclibrary.create') }}">Add Song</a></li>
-                            <li><a href="{{ route('nya') }}">List Instruments</a></li>
-                            <li><a href="{{ route('nya') }}">Add Instrument</a></li> 
+                            <li><a href="{{ route('instrument.index') }}">List Instruments</a></li>
+                            <li><a href="{{ route('instrument.create') }}">Add Instrument</a></li> 
                             <li><a href="{{ route('group.index') }}">List Groups</a></li>                                             
                             <li><a href="{{ route('group.create') }}">Add Group</a></li>
                         </ul>
@@ -240,6 +243,8 @@
                             <li><a href="{{ route('style.create') }}">Add Style</a></li>
                             <li><a href="{{ route('tempo.index') }}">List Tempos</a></li>
                             <li><a href="{{ route('tempo.create') }}">Add Tempo</a></li>
+                            <li><a href="{{ route('skill.index') }}">List Proficiencies</a></li>
+                            <li><a href="{{ route('skill.create') }}">Add Proficiency</a></li>
                             <li><a href="{{ route('role.index') }}">List Roles</a></li>
                             <li><a href="{{ route('role.create') }}">Add Role</a></li>
                         </ul>
@@ -249,12 +254,11 @@
                 <ul class="nav navbar-nav navbar-right">
                     @if (\Auth::user() != null)
                     <li><a class="glyphicon glyphicon-user">&nbsp;{{ \Auth::user()->username }}</a></li>
-                    @endif
-                    @if (\Auth::user() == null)
+                    <li><a href="{{ route('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>                          
+                    @elseif(Request::path() === 'auth/login')
                     <li><a href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-                    <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     @else
-                    <li><a href="{{ route('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>          
+                    <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                     @endif
                 </ul>
             </div>
@@ -264,25 +268,59 @@
         <div class="container">
 
             <script>
-function doSubmit(rqstType, rqstId)
+
+// resourceid is optional and is used only in specific requests                
+function doSubmit(rqstType, rqstId, resourceid)
 {
-    debugger;
+    //debugger;
+
     if (rqstType === "get")
     {
         // Show request
         // change the form method from POST to GET, _method field remains empty
         document.getElementById("myRqst").method = rqstType;
-    } else
+    }
+    else if (rqstType === "getinstr")
     {
-        // Delete request 
+        // Show assigned instrument for editing
+        // change the form method from POST to GET, _method field remains empty
+        //document.getElementById("myRqst").method = 'get';  // method is already === get
+    }
+    else if (rqstType === "delinstr")
+    {
+        // Delete assigned instrument 
+        // set the _method field to delinstr, form method remains POST
+        document.getElementById("_method").value = "delete";
+    }
+    else
+    {
+        // Delete request (rqstType === 'delete')
         // set the _method field to DELETE, form method remains POST
         document.getElementById("_method").value = rqstType;
     }
 
-// append songId to form action
-    var action = document.getElementById("myRqst").action;
-    action = action.concat(rqstId);
-    document.getElementById("myRqst").action = action;
+    var xaction = document.getElementById("myRqst").action;
+
+    if (rqstType == "getinstr")
+    {
+        document.getElementById("_resourceid").value = resourceid;
+        var indx = xaction.lastIndexOf('/');
+        xaction = xaction.substr(0, indx + 1);
+        xaction = xaction.concat("editproficiency");
+    }
+    else if (rqstType == "delinstr")
+    {
+        document.getElementById("_resourceid").value = resourceid;
+        var indx = xaction.lastIndexOf('/');
+        xaction = xaction.substr(0, indx + 1);
+        xaction = xaction.concat("delinstr");
+    }
+    else
+    {
+        // append requestId to form action        
+        xaction = xaction.concat(rqstId);
+    }
+    document.getElementById("myRqst").action = xaction;
 // submit the form
     document.getElementById("myRqst").submit();
 }

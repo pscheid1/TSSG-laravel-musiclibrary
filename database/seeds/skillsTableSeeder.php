@@ -46,5 +46,12 @@ class skillsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
 
+        DB::table('skills')->insert([
+            'name' => 'No Rating',
+            'updateuserid' => 1,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
     }
 }

@@ -20,6 +20,7 @@ class CreateResourcesTable extends Migration
             $table->integer('instrument_id')->unsigned();
             $table->integer('mgrskill')->unsigned();
             $table->integer('skill')->unsigned();
+            $table->boolean('solo')->default(0);
             $table->integer('updateuserid')->unsigned()->default(null);
             $table->timestamps();
         });

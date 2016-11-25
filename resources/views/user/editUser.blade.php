@@ -275,6 +275,13 @@
                     @if (Auth::user()->hasRole('admin') || Auth::user()->hasRole('manager'))
                     <td>&nbsp;</td>
                     <td>
+                        {{-- request edit instrument assignment to user form  --}}
+                        {!! Form::model($user, ['method' => 'get', 'route' => ['user.indexinstr', $user]]) !!}
+                        {!! Form::submit('List Instr.', ['class' => 'button']) !!}
+                        {!! Form::close() !!}
+                    </td>
+                    <td>&nbsp;</td>
+                    <td>
                         {{-- request add role to user form  --}}
                         {!! Form::model($user, ['method' => 'get', 'route' => ['user.edit', $user]]) !!}
                         {!! Form::submit('Add Role', ['class' => 'button']) !!}

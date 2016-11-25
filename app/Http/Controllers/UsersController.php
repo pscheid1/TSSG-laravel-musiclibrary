@@ -81,7 +81,7 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         if (!(policy(new User)->create()))
         {
@@ -364,6 +364,9 @@ class UsersController extends Controller
             $contact->delete();
         }
         $user->contacts()->sync([]);
+        /*
+         * Delete any assigend instruments (resources) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+         */
         $user->delete();
 
         flash()->success("User '" . "$user->username" . "' has been deleted from the database.");
@@ -604,6 +607,210 @@ class UsersController extends Controller
 
         // return the edit user form with user info, user roles and contact info
         return view('user.editUser', compact('user', 'userRoles', 'contact'));
+    }
+
+    /**
+     * Display the form to Edit/Add/Delete Instruments for a specific user
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function indexInstruments(Request $request, $id)
+    {
+        if (!(\policy(new User)->update()))
+        {
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
+            return redirect()->back();
+        }
+
+        $user = User::findOrFail($id);
+        // build a list of intrusments for this user, if any
+        $userResources = $user->resources;
+
+        return view('user.instrument.indexUserInst', compact('user', 'userResources'));
+    }
+
+    /**
+     * Display form to add an instrument to an existing user 
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function addInstrumentsRequest(Request $request, $id)
+    {
+        if (!(\policy(new User)->update()))
+        {
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
+            return redirect()->back();
+        }
+
+        $user = User::find($id);
+        if ($user == NULL)
+        {
+            flash()->error("Unable to locate requested user in database.")->important();
+        }
+
+        // build a list of intruments for this user, if any
+        $userResources = $user->resources;
+        $userInstruments = array();
+        foreach ($userResources as $resource)
+        {
+            array_push($userInstruments, $resource->instrument->name);
+        }
+
+        // get a list of all available instruments    
+        $allInstruments = App\Instrument::pluck('name', 'id')->toArray();
+        // return all instruments minus currently assigned instruments
+        $instruments = array_diff($allInstruments, $userInstruments);
+        $mgrskill = App\Skill::pluck('name', 'id')->toArray();
+        $skill = App\Skill::pluck('name', 'id')->toArray();
+        $solo = array('1' => 'Yes', '0' => 'No');
+
+        return view('user.instrument.addUserInstrRequest', compact('user', 'instruments', 'mgrskill', 'skill', 'solo'));
+    }
+
+    /**
+     * Display form to add an instrument to an existing user 
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function addInstrument(Request $request, $id)
+    {
+        if (!(\policy(new User)->update()))
+        {
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
+            return redirect()->back();
+        }
+
+        $user = User::find($id);
+        if ($user == NULL)
+        {
+            flash()->error("Unable to locate requested user in database.")->important();
+        }
+
+        $resource = new Resource($request->all());
+        $this->validate($request, $resource->getUpdateRules());
+        $resource->updateuserid = \Auth::user()->id;
+        $resource->save();       
+      
+        $instName = App\Instrument::where('id', $resource->instrument_id)->first()->name;
+        flash()->success("Instrument '" . $instName . "' successfully added to user '" . $user->username . "'.");
+
+        return $this->indexInstruments($request, $id); //return to list instruments for user form
+        //return \redirect()->back(); // return to initialized add instrument form
+    }
+
+    /**
+     * edit selected user instrument proficiency
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function editProficiency(Request $request, $id)
+    {
+        // currently, resource rights are determined by user rights
+        if (!(\policy(new User)->update()))
+        {
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
+            return redirect()->back();
+        }
+
+        $user = User::find($id);
+        if ($user == NULL)
+        {
+            flash()->error("Unable to locate requested user in database.")->important();
+            return redirect()->back();
+        }
+
+        $resource = Resource::find($request->resourceId);
+        if ($resource == null)
+        {
+            flash()->error("Unable to locate requested resource in database.")->important();
+            return redirect()->back();
+        }
+
+        $instName = App\Instrument::where('id', $resource->instrument_id)->first()->name;
+        $mgrskill = App\Skill::pluck('name', 'id')->toArray();
+        $skill = App\Skill::pluck('name', 'id')->toArray();
+        $solo = array('1' => 'Yes', '0' => 'No');
+
+        return view('user.instrument.editUserInstr', compact('user', 'instName', 'resource', 'mgrskill', 'skill', 'solo'));
+    }
+
+    /**
+     * update currently displayed user instrument proficiency
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateProficiency(Request $request, $id)
+    {
+        // currently, resource rights are determined by user rights        
+        if (!(\policy(new User)->update()))
+        {
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
+            return redirect()->back();
+        }
+
+        $user = User::find($id);
+        if ($user == NULL)
+        {
+            flash()->error("Unable to locate requested user in database.")->important();
+            return redirect()->back();
+        }
+
+        $resource = Resource::find($request->resourceId);
+        if ($resource == null)
+        {
+            flash()->error("Unable to locate requested resource in database.")->important();
+            return redirect()->back();
+        }
+
+        $this->validate($request, $resource->getUpdateRules());
+        $resource->updateuserid = \Auth::user()->id;
+        $resource->update($request->all());
+
+        $instName = App\Instrument::where('id', $resource->instrument_id)->first()->name;
+        flash()->success("Instrument '" . $instName . "' successfully updated for user '" . $user->firstname . " " . $user->lastname . "'.");
+
+        return $this->indexInstruments($request, $id); //return to list instruments for user form
+    }
+
+    /**
+     * unassign instrument from user
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function deleteInstrument(Request $request, $id)
+    {
+        // currently, resource rights are determined by user rights        
+        if (!(\policy(new User)->update()))
+        {
+            flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
+            return redirect()->back();
+        }
+
+        $user = User::find($id);
+        if ($user == NULL)
+        {
+            flash()->error("Unable to locate requested user in database.")->important();
+            return redirect()->back();
+        }
+
+        $resource = Resource::find($request->resourceId);
+        if ($resource == null)
+        {
+            flash()->error("Unable to locate requested resource in database.")->important();
+            return redirect()->back();
+        }
+
+        $resource->delete();
+
+        flash()->success($resource->instrument->name . " has been deleted from user " . $user->firstname .  '  ' . $user->lastname);
+
+        return redirect()->back();
     }
 
 }

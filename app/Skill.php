@@ -8,7 +8,7 @@ class Skill extends BaseModel
 {
     protected $fillable = ['name', 'updateuserid'];
     protected static $rules = [
-        'name' => 'required|unique:instruments'
+        'name' => 'required|unique:skills'
     ];
 
     public function resmgrskill()

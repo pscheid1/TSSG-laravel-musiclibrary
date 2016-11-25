@@ -16,6 +16,10 @@ use App\Role;
 use App\Policies\RolePolicy;
 use App\Group;
 use App\Policies\GroupPolicy;
+use App\Instrument;
+use App\Policies\InstrumentPolicy;
+use App\Skill;
+use App\Policies\SkillPolicy;
 
 
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
@@ -36,7 +40,9 @@ class AuthServiceProvider extends ServiceProvider
         Musiclibrary::class => MusicLibraryPolicy::class,
         Contact::class => ContactPolicy::class,
         Role::class => RolePolicy::class,
-        Group::class => GroupPolicy::class
+        Group::class => GroupPolicy::class,
+        Instrument::class => InstrumentPolicy::class,
+        Skill::class => SkillPolicy::class
     ];
 
     /**

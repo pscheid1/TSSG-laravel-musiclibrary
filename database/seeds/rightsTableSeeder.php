@@ -181,6 +181,54 @@ class rightsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
      
-    }
+       DB::table('rights')->insert([
+            'name' => 'create-instrument',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('rights')->insert([
+            'name' => 'read-instrument',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('rights')->insert([
+            'name' => 'update-instrument',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('rights')->insert([
+            'name' => 'delete-instrument',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+     
+      DB::table('rights')->insert([
+            'name' => 'create-skill',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('rights')->insert([
+            'name' => 'read-skill',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('rights')->insert([
+            'name' => 'update-skill',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('rights')->insert([
+            'name' => 'delete-skill',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+     
+   }
 
 }

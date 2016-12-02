@@ -225,8 +225,6 @@
                             <li><a href="{{ route('musiclibrary.create') }}">Add Song</a></li>
                             <li><a href="{{ route('instrument.index') }}">List Instruments</a></li>
                             <li><a href="{{ route('instrument.create') }}">Add Instrument</a></li> 
-                            <li><a href="{{ route('group.index') }}">List Groups</a></li>                                             
-                            <li><a href="{{ route('group.create') }}">Add Group</a></li>
                         </ul>
                     </li> 
                     <li class="dropdown">
@@ -234,6 +232,8 @@
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('user.index') }}">List Members</a></li>
                             <li><a href="{{ route('user.create') }}">Add Member</a></li>
+                            <li><a href="{{ route('group.index') }}">List Groups</a></li>                                             
+                            <li><a href="{{ route('group.create') }}">Add Group</a></li>
                         </ul>
                     </li> 
                     <li class="dropdown">
@@ -246,7 +246,7 @@
                             <li><a href="{{ route('skill.index') }}">List Proficiencies</a></li>
                             <li><a href="{{ route('skill.create') }}">Add Proficiency</a></li>
                             <li><a href="{{ route('role.index') }}">List Roles</a></li>
-                            <li><a href="{{ route('role.create') }}">Add Role</a></li>
+                            <li><a href="{{ route('nya') }}">Add Role</a></li>
                         </ul>
                     </li>
                     @endif

@@ -84,7 +84,7 @@ class RolesController extends Controller
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
-        ;
+        
         $role = Role::find($id);
         if ($role == NULL)
         {

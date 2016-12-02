@@ -27,7 +27,7 @@
                     {!! Form::label('null', '* Role:') !!}
                 </div>
                 <div class="col-md-1 pull-left">
-                    {!! Form::text('name') !!}
+                    {!! Form::text('name', $role->name, ['disabled' => 'true'] ) !!}
                 </div>
             </div>
             <div class="row">

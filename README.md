@@ -90,6 +90,17 @@ role from the list of roles assigned to their account.  Only an administrator ca
 Roles and their associated rights are *hard coded*.  To create a new role or change the rights associated with a role, code modification 
 is required.  Other than that, all the other table entries are modifiable through the provided interface.  
   
+Most of the functionality works the same for all elements.  Use a List xyz  menu item to itemize an individual table.  From the list 
+you can selectively edit or delete individual items.  The one major difference is with group membership.  You must first add
+groups to create them.  During this process you will have to select a member to act as the group leader.  The available group
+leaders are those who have a role of **band manager**.  This does not have to be their current role but the member must
+have this role assigned to them.  When you create the group, the band manager will automatically be made a member of
+the group.  To add additional members to a group you need to list the groups and select one for edit.  When a group is open 
+for edit, one of the panels will list all members available to become members.  Select one or more (Ctrl select) and select 
+update.  Members listed in the available for membership panel are all members that have a role of musician that are not
+already members.  The same process (Ctrl select / update) in the members panel can be used to remove one or more
+members from the group. 
+  
 I will add more to this document as we progress with testing.  For now, I think you will be able to figure out how to accomplish 
 what you want.  Some of the functionality is somewhat strange.  I'm sure some of that is do to something on my part but some of
 it is because I attempted to imitate the operation of version 2 of musicians manger.  I am interested in what you find as you 

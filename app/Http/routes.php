@@ -105,6 +105,16 @@ Route::get('nya', [
     'uses' => 'PagesController@notYetAvailable'
 ]);
 
+Route::get('settings', [
+    'as' => 'settings.show',
+    'uses' => 'SettingsController@show'
+    ]);
+
+Route::post('settings', [
+    'as' => 'settings.update',
+    'uses' => 'SettingsController@update'
+    ]);
+
 // Look in router.php to see how Route::auth(); gets expanded.
 Route::auth();
 

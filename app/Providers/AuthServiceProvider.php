@@ -20,6 +20,8 @@ use App\Instrument;
 use App\Policies\InstrumentPolicy;
 use App\Skill;
 use App\Policies\SkillPolicy;
+use App\Setting;
+use App\Policies\SettingPolicy;
 
 
 use Illuminate\Contracts\Auth\Access\Gate as GateContract;
@@ -42,7 +44,8 @@ class AuthServiceProvider extends ServiceProvider
         Role::class => RolePolicy::class,
         Group::class => GroupPolicy::class,
         Instrument::class => InstrumentPolicy::class,
-        Skill::class => SkillPolicy::class
+        Skill::class => SkillPolicy::class,
+        Setting::class => SettingPolicy::class
     ];
 
     /**

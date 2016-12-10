@@ -37,15 +37,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-    /*
-      //get all the instruments for a user
-      public function instruments()
-      {
-      return $this->hasManyThrough('App\Instrument', 'App\Resource', 'instrument_id', 'id');
-      }
-     * 
-     */
+    
+    public static $bannerPics = 2;
 
     // a resource contains an instrument and performance skills
     // a user may have none to many resources
@@ -152,6 +145,8 @@ class User extends Authenticatable
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-role');
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-group');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-group');
+                $assigned_rights[] = $this->getIdInArray($rights, 'read-settings');                
+                $assigned_rights[] = $this->getIdInArray($rights, 'update-settings');                
             // fall through
             case 'manager':
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-group');

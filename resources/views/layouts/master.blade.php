@@ -3,13 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Tasks</title>
-    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/css/app.css">-->
+    <title>TSSG Musicians Manager</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <style type="text/css">
@@ -30,11 +27,11 @@
             -webkit-border-radius: 5px;
             border-radius: 6px;
         }
+
         .imageContainer
         {
             float:left;
         }
-
 
         th {
             text-align: center;
@@ -88,7 +85,7 @@
         }
 
         div.relative {
-            width: 98%;
+            width: 100%;
             position: relative;
             left: 1%;
             /*border: 3px solid #73AD21;*/
@@ -104,12 +101,14 @@
             width: 366px;
         }
 
+        /*
         .carousel-inner img {
                 -webkit-filter: grayscale(90%);
-                filter: grayscale(90%); /* make all photos black and white */ 
-                width: 100%; /* Set width to 100% */
+                filter: grayscale(90%); // make all photos black and white 
+                width: 100%; // Set width to 100% 
                 margin: auto;
         }
+        
 
         .carousel-caption h3 {
                 color: #fff !important;
@@ -117,31 +116,34 @@
 
         @media (max-width: 600px) {
                 .carousel-caption {
-                        display: none; /* Hide the carousel text when the screen is less than 600 pixels wide */
+                        display: none; // Hide the carousel text when the screen is less than 600 pixels wide
                     }
-        }
+        } 
+        */
+        .carousel-inner > .item > img,
+        .carousel-inner > .item > a > img {
+            width: 100%;
+            margin: auto;
+        } 
 
     </style>
 
 </head>
 <body>
-    @if (Request::path() === '/XXX' || Request::path() === 'auth/loginXXX')
-    @if (0)
-    <div id="header">
-        <div id="logo">
-            <div class='imageContainer'>
-                {!! Html::image('images/h_logo.gif', 'point n swing logo') !!}
-            </div>
-            <div class='imageContainer'>                    
-                {!! Html::image('images/PnS-header-img1.jpg', 'band photo part 1', array('height' => '115')) !!}
-            </div>
-            <div class='imgContainer'>                    
-                {!! Html::image('images/PnS-header-img2.jpg', 'band photo part 2', array('height' => '115', 'clear' => 'left')) !!}
-            </div>
+    @if (\App\Setting::getBannerPics()  > 0)
+    @if (Request::path() === '/' || Request::path() === 'auth/login')
+    @if (\App\Setting::getBannerPics() == 1)
+    <div id="logo" class='img-responsive' width="100%", height="175">
+        <div >
+            <table>
+                <td><img class="img-responsive" src="images/h_logo.jpg"></td>
+                <td><img class="img-responsive" src="images/PnS-header-img1.jpg"></td>
+                <td><img class="img-responsive" src="images/PnS-header-img2.jpg"></td>
+            </table>
         </div>
     </div>
-    @else
-    <div id="myCarousel" class="carousel slide" data-ride="carousel">
+    @elseif (\App\Setting::getBannerPics() == 2)
+    <div id="myCarousel" class="carousel slide" data-ride="carousel" >
           <!-- Indicators -->
           <ol class="carousel-indicators">
                 <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
@@ -156,37 +158,38 @@
                       <div class="carousel-caption">
                             <h3>New York</h3>
                             <p>The atmosphere in New York is awesome.</p>
-                          </div> 
-                    </div>
+                       </div> 
+            </div>
 
                 <div class="item">
                       <img src="images/chicago.jpg" alt="Chicago">
                       <div class="carousel-caption">
                             <h3>Chicago</h3>
                             <p>Thank you, Chicago - A night we won't forget.</p>
-                          </div> 
-                    </div>
+                     </div> 
+            </div>
 
                 <div class="item">
                       <img src="images/la.jpg" alt="Los Angeles">
                       <div class="carousel-caption">
                             <h3>LA</h3>
                             <p>Even though the traffic was a mess, we had the best time.</p>
-                          </div> 
-                    </div>
+                     </div> 
+            </div>
               </div>
 
           <!-- Left and right controls -->
-          <!--<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+          <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
                 <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
                 <span class="sr-only">Previous</span>
               </a>
           <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
                 <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
                 <span class="sr-only">Next</span>
-              </a>-->
+              </a>
     </div>
     @endif    
+    @endif
     @endif
     <!--<nav class="navbar navbar-default navbar-inverse  navbar-fixed-top">-->
     <nav class="navbar navbar-default navbar-inverse ">
@@ -247,18 +250,19 @@
                             <li><a href="{{ route('skill.create') }}">Add Proficiency</a></li>
                             <li><a href="{{ route('role.index') }}">List Roles</a></li>
                             <li><a href="{{ route('nya') }}">Add Role</a></li>
+                            <li><a href="{{ route('settings.show') }}"><span class="glyphicon glyphicon-cog"></span> Settings</a></li>                            
                         </ul>
                     </li>
                     @endif
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right">                   
                     @if (\Auth::user() != null)
                     <li><a class="glyphicon glyphicon-user">&nbsp;{{ \Auth::user()->username }}</a></li>
-                    <li><a href="{{ route('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>                          
-                    @elseif(Request::path() === 'auth/login')
-                    <li><a href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
-                    @else
-                    <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                    <li><a href="{{ route('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                    @elseif (Request::path() === '/' || Request::path() === 'auth/login')                    
+                    <li><a href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span> Register</a></li>                      
+                    @elseif (Request::path() === 'auth/register')
+                    <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>                      
                     @endif
                 </ul>
             </div>

@@ -229,6 +229,30 @@ class rightsTableSeeder extends Seeder
             'updated_at' => Carbon::now()
         ]);
      
+      DB::table('rights')->insert([
+            'name' => 'create-settings',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('rights')->insert([
+            'name' => 'read-settings',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('rights')->insert([
+            'name' => 'update-settings',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+
+        DB::table('rights')->insert([
+            'name' => 'delete-settings',
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
+        ]);
+        
    }
 
 }

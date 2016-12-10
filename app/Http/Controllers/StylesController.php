@@ -100,7 +100,7 @@ class StylesController extends Controller
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
-        ;
+        
         $style = Style::find($id);
         if ($style == NULL)
         {
@@ -140,7 +140,7 @@ class StylesController extends Controller
             return redirect()->back();
         }
 
-        $style = Style::findOrFail($id);
+        $style = Style::find($id);
         $this->validate($request, $style->getUpdateRules());
 
         $style->updateuserid = \Auth::user()->id;

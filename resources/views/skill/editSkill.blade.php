@@ -14,7 +14,7 @@
 <div class="col-md-12">
     {!! Form::model($skill, ['method' => 'PATCH', 'route' => ['skill.update', $skill]]) !!}
     <div class="container">
-        <div class="col-md-5 pull-left" style="background-color:LightCyan; adding:4px;border:4px solid blue; border-radius:25px;">
+        <div class="col-md-5 pull-left" style="background-color:LightCyan; border:4px solid blue; border-radius:25px;">
             <h4 style="margin-top: -10px; background:white; width:210px">&nbsp;<b>Proficiency Information</b></h4>
             <div class="row">
                 <div class=" required col-md-4 col-md-offset-1">

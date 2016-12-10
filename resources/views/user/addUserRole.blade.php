@@ -6,7 +6,7 @@
 
 <div><h2>Add Role to User: {{ $user->username }}</h2></div>
 <div class="row">
-    <div class="required cod-md-12 pull-right">
+    <div class="required col-md-12 pull-right">
         <b>(required fields indicated with an *)</b>
     </div>
 </div>
@@ -14,7 +14,7 @@
 <div class=""col-md-12>
     {!! Form::model($user, ['method' => 'post', 'route' => ['user.addrole', $user]]) !!}
     <div class="container">
-        <div class="col-md-5 pull-left" style="background-color:LightCyan; adding:4px;border:4px solid blue; border-radius:25px;">
+        <div class="col-md-5 pull-left" style="background-color:LightCyan; border:4px solid blue; border-radius:25px;">
             <h4 style="margin-top: -10px; background:white; width:160px">&nbsp;<b>Basic Information</b></h4>
             <div class="row">
                 <div class=" required col-md-4 col-md-offset-1">
@@ -104,7 +104,7 @@
         </div>
         <div class="col-md-1" style="background-color:white;">
         </div>
-        <div class="col-md-5 pull-right" style="background-color:LightCyan; adding:4px;border:4px solid blue; border-radius:25px;">
+        <div class="col-md-5 pull-right" style="background-color:LightCyan; border:4px solid blue; border-radius:25px;">
             <h4 style="margin-top: -10px; background:white; width:180px">&nbsp;<b>Contact Information</b></h4>
             <div class="row">
                 <div class="required col-md-4 col-md-offset-1">

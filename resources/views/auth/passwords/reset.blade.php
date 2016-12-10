@@ -12,6 +12,20 @@
                         {!! csrf_field() !!}
 
                         <input type="hidden" name="token" value="{{ $token }}">
+                        
+                        <div class="form-group{{ $errors->has('username') ? ' has-error' : '' }}">
+                            <label class="col-md-4 control-label">User Name</label>
+
+                            <div class="col-md-6">
+                                <input type="username" class="form-control" name="username" value="{{ $username or old('username') }}">
+
+                                @if ($errors->has('username'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('username') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>                        
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label class="col-md-4 control-label">E-Mail Address</label>

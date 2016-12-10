@@ -16,9 +16,9 @@ class usersTableSeeder extends Seeder
         DB::table('users')->insert([
             'username' => 'administrator',
             'prefix' => '',
-            'firstname' => '',
-            'middlename' => '',
-            'lastname' => '',
+            'firstname' => 'Author',
+            'middlename' => 'Adam',
+            'lastname' => 'Admin',
             'suffix' => '',
             'currentRole' => 1,
             'company' => '',

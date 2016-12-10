@@ -51,7 +51,13 @@ use AuthenticatesAndRegistersUsers, ThrottlesLogins
      *
      * @var string
      */
-    protected $redirectAfterLogout = 'auth/login';
+    /*
+     * For some reason, redirecting on logout to auth/login does not work
+     * with bootstrap carousel but using the default of '/' does.
+     * Therefore comment out the $redirectAfterLogout statement
+     * and let the default prevail. See AuthenticatesUsers.logout();
+     */
+    //protected $redirectAfterLogout = 'auth/login'; 
 
     /**
      * Create a new authentication controller instance.

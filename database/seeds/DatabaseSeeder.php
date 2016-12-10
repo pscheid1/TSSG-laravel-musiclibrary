@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->call(musiclibrariesTableSeeder::class);
         $this->call(skillsTableSeeder::class);
         $this->call(instrumentsTableSeeder::class);
-        $this->call(resourcesTableSeeder::class);        
+        $this->call(resourcesTableSeeder::class);
+        $this->call(settingsTableSeeder::class);
     }
 
 }

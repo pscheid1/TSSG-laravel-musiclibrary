@@ -1,6 +1,17 @@
 # TSSG-laravel-musiclibrary
 Laravel implementation of TSSG music library
 
+###[Documentation:] (https://laravel.com/docs)
+This is very comprehensive document and is updated for each major release. I think link will take you to the latest version but if not, you can 
+select it from the drop down in the red square in the upper right hand corner of the home page.
+
+### [Cheat Sheet:] (http://learninglaravel.net/cheatsheet)
+The above link is to what is know as the **Cheat Sheet**. This is not "official" Laravel documentation but it is a very good abbreviated reference 
+of everything Laravel.  In the left hand menu you can select specific categories that will present an expnded list of related commands or 
+code.  There are no definitions, just the syntax. **Warning: this document is not at level 5.3 at this time.**
+
+### [5.3 Cheat Sheet:] (http://www.phplab.info/categories/cheet-sheets/laravel-53-cheat-sheet)
+There is a Cheat Sheet for 5.3 but at this time it only contains Artisan commands.
 
 Here are a few steps that should get you started with setting up this project.  Regardless of your environment  
 (platform, OS, etc) you should be able to use the following steps to get Laravel and this project up and running.
@@ -87,7 +98,7 @@ the current role at logon will be what ever it was at the end of their previous 
 desires to perform operations permitted by one of their other assigned roles, they must edit their account and select the desired
 role from the list of roles assigned to their account.  Only an administrator can add additional roles to an account.    
   
-Roles and their associated rights are *hard coded*.  To create a new role or change the rights associated with a role, code modification 
+Roles and their associated rights are *hard coded*..  To create a new role or change the rights associated with a role, code modification 
 is required.  Other than that, all the other table entries are modifiable through the provided interface.  
   
 Most of the functionality works the same for all elements.  Use a List xyz  menu item to itemize an individual table.  From the list 
@@ -111,8 +122,32 @@ sorting.
   
 Let me know if you need help with anything.   
 
+### Unit Testing
+**In the following comments, \<root> refers to the folder you cloned or copied the project into.  It is the parent folder for app and the rest of the project
+folders.**  
 
-  
+There is extensive testing built into Laravel but at this point it looks like it takes a bit of work to utilize it.  There is a section titled "Application Testing"
+in the documentation listed above. There is also a unitTest category in the Cheat Sheet listed above but it may not be up to date. There is a very
+simple test built into any "out of the box" project.  If you create a new Lavarel project it has a home page that displays "Laravel 5".  The simple
+test will issue a url to the server and assert that the text string "Laravel" is contained on the returned page.
+
+I have modifed a few things so this test will work with the Musicians Manager project.  The supplied test case is accomplished by running the 
+following test class:  **\<root>\tests\ExampleTest.php**.  I have replace the string "Laravel" mentioned above with the string "Password".
+When the Musicians Manager project is first accessed it will return a logon request page that will display among other things the "Password" string. 
+To implement this test the phpunit.xml file was copied to the \<root> folder and the test name was changed to ExampleTest.php.  From a command window,
+CD to \<root> and execute \vendor\bin\phpunit.bat (Windows) otherwise execute phpunit. This will issue a logon request and the logon pages should be
+returned.  The page will be scanned to determine if the string 'Password' is on the page. The results should display **OK (1 test, 2 assertions).**
+
+Obvously this isn't much of a test.  This is mainly to begin the process of figuring out how to test a Laravel project utilizing the internal test framework.
+
+This section will be updated as we learn more.
+
+
+
+
+
+
+
 
 
 

@@ -15,7 +15,11 @@ There is a Cheat Sheet for 5.3 but at this time it only contains Artisan command
 
 Here are a few steps that should get you started with setting up this project.  Regardless of your environment  
 (platform, OS, etc) you should be able to use the following steps to get Laravel and this project up and running.
-  
+ 
+**Note:
+In the following comments, \<root> refers to the folder you cloned or copied the project into.  It is the parent folder for app and the rest of the project
+folders.**  
+
 You will need the following applications.  Install them and test them according to your specific environment.  
 
 1. PHP.  I have been using version 7.0.3 with xdebug v2.4.0.  
@@ -46,10 +50,10 @@ From a command window, run the following commands:
 5.  npm install
 6.  bower install
 7.  if the following folders do not exist, create them.  
-    &nbsp;&nbsp;&nbsp;&nbsp;`<project>/storage/framework/`
-    &nbsp;&nbsp;&nbsp;&nbsp;sessions  
-    &nbsp;&nbsp;&nbsp;&nbsp;views  
-    &nbsp;&nbsp;&nbsp;&nbsp;cache  
+    &nbsp;&nbsp;&nbsp;&nbsp;`<root>/storage/framework/`  
+    &nbsp;&nbsp;&nbsp;&nbsp;`<root>/storage/framework/sessions`  
+    &nbsp;&nbsp;&nbsp;&nbsp;`<root>/storage/framework/views`  
+    &nbsp;&nbsp;&nbsp;&nbsp;`<root>/storage/framework/cache`  
 8.  php artisan cache:clear
 9.  php artisan config:clear
 10.  php artisan view:clear
@@ -123,8 +127,6 @@ sorting.
 Let me know if you need help with anything.   
 
 ### Unit Testing
-**In the following comments, \<root> refers to the folder you cloned or copied the project into.  It is the parent folder for app and the rest of the project
-folders.**  
 
 There is extensive testing built into Laravel but at this point it looks like it takes a bit of work to utilize it.  There is a section titled "Application Testing"
 in the documentation listed above. There is also a unitTest category in the Cheat Sheet listed above but it may not be up to date. There is a very

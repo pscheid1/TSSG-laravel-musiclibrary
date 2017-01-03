@@ -2,8 +2,8 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use App;
+//use Illuminate\Database\Eloquent\Model;
+//use App;
 
 class Setting extends BaseModel
 {

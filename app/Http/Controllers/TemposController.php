@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Gate;
-use App;
+//use Gate;
+//use App;
 use App\Http\Controllers\Controller;
 use App\Tempo;
-use Illuminate\Support\Facades\Session;
+//use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-use Laracasts\Flash;
+//use Laracasts\Flash;
 //use App\Role;
 use App\User;
-use App\Policies;
+//use App\Policies;
 
 class TemposController extends Controller
 {

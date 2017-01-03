@@ -7,7 +7,7 @@ use App\Right;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Contact;
 use App\Resource;
-use App\Instrument;
+//use App\Instrument;
 
 class User extends Authenticatable
 {

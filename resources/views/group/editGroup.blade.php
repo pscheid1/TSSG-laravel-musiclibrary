@@ -50,7 +50,7 @@
                     {!! Form::label(null,'* Group Leader:') !!}
                 </div>
                 <div class="col-md-1 pull-left">				
-                    {!! Form::select('groupleader',  $groupleader, $group->groupleader) !!}
+                    {!! Form::select('groupleader',  $managers, $group->groupleader) !!}
                 </div>
             </div>
             <div class="row">

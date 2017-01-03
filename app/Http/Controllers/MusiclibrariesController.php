@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Gate;
+//use Gate;
 use App;
 use App\Http\Controllers\Controller;
 use App\Musiclibrary;
-use Illuminate\Support\Facades\Session;
+//use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use laracasts\flash;
-use App\Policies;
+//use App\Policies;
 use App\User;
-use Hash;
+//use Hash;
 
 class MusiclibrariesController extends Controller
 {

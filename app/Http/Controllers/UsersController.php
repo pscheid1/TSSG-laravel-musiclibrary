@@ -2,20 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Gate;
+//use Gate;
 use App;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Session;
+//use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-use Laracasts\Flash;
+//use Laracasts\Flash;
 use App\User;
 use Hash;
-use App\BaseModel;
+//use App\BaseModel;
 use App\Role;
 use App\Contact;
 use App\Resource;
 use Illuminate\Support\Facades\Input;
-use App\Instrument;
+//use App\Instrument;
 
 class UsersController extends Controller
 {
@@ -463,8 +463,9 @@ class UsersController extends Controller
         {
             // new checks, logged on user must have admin or manager as its current role.
             $loggedOnUserRole = Role::where('id', \Auth::user()->currentRole)->first()->name;
-            if ($loggedOnUserRole == 'admin' || $loggedOnUserRole == 'manager')
-            // logged on user's currentRole is Admin or Band Manager
+            //if ($loggedOnUserRole == 'admin' || $loggedOnUserRole == 'manager')
+            if ($loggedOnUserRole == 'admin')                
+            // logged on user's currentRole is Admin                      >>>>> removed this funcitonality >>>>   or Band Manager
             {
                 
             }
@@ -593,6 +594,7 @@ class UsersController extends Controller
         $userRoles = array_reverse($userRoles, true);
         $keys = array_keys($userRoles);
         $user->currentRole = $keys[0];
+        $user->updateuserid = \Auth::user()->id;
         $user->save();
 
         // get the contact info for this user/role

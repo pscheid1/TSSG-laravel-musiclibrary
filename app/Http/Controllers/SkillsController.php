@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Gate;
-use App;
-use Illuminate\Support\Facades\Session;
+//use Gate;
+//use App;
+//use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-use App\Http\Requests;
+//use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use App\Skill;
-use Laracasts\Flash;
+//use Laracasts\Flash;
 use App\User;
-use App\Policies;
+//use App\Policies;
 
 class SkillsController extends Controller
 {

@@ -3,14 +3,14 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
+//use App\Http\Requests;
 use App;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Session;
-use Laracasts\Flash;
-use App\BaseModel;
+//use Illuminate\Support\Facades\Session;
+//use Laracasts\Flash;
+//use App\BaseModel;
 use App\Group;
-use Illuminate\Support\Facades\Input;
+//use Illuminate\Support\Facades\Input;
 use App\Role;
 
 class GroupsController extends Controller
@@ -135,18 +135,19 @@ class GroupsController extends Controller
         // remove users already members of group from available
         $available = array_diff($available, $members);
 
-        //$role = Role::where('name', '=', 'manager')->first();
-        //$userswithrole = $role->users;
-        $groupleader;
-        foreach ($userswithrole as $user)
+        $role = Role::where('name', '=', 'manager')->first();
+        // get all users with role of manager
+        $userswithrole = $role->users;
+        $managers;
+        foreach ($userswithrole as $manager)
         {
-            $groupleader[$user->id] = $user->firstname . ' ' . $user->lastname;
+            $managers[$manager->id] = $manager->firstname . ' ' . $manager->lastname;
         }
 
         // To qualify for group leadership a user must be a group member and have a role of manager.
-        $groupleader = array_intersect_assoc($members, $groupleader);
+        $managers = array_intersect_assoc($members, $managers);
 
-        return view('group.editGroup', compact('group', 'types', 'status', 'groupleader', 'members', 'available'));
+        return view('group.editGroup', compact('group', 'types', 'status', 'managers', 'members', 'available'));
     }
 
     /**

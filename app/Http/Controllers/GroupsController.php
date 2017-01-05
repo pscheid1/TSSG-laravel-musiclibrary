@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
 use App\Group;
 //use Illuminate\Support\Facades\Input;
 use App\Role;
+use App\User;
 
 class GroupsController extends Controller
 {
@@ -145,7 +146,8 @@ class GroupsController extends Controller
         }
 
         // To qualify for group leadership a user must be a group member and have a role of manager.
-        $managers = array_intersect_assoc($members, $managers);
+        // removing the following statement allows any band manager to be appointed as a group leader
+        //$managers = array_intersect_assoc($members, $managers);
 
         return view('group.editGroup', compact('group', 'types', 'status', 'managers', 'members', 'available'));
     }
@@ -225,13 +227,29 @@ class GroupsController extends Controller
             foreach ($grpmembers as $grpmember)
             {
                 $members[] = $grpmember->id;
-            };
+            }
             // remove members selected for removal
             $members = array_diff($members, $memberstoremove);
             // sync group membership removing all previous members
             $group->members()->sync($members, true);
         }
 
+        // if the existing groupleader does not have the role of musician, remove him/her from the group
+        // if the existing groupleader is not replaced they will be added back into the group in the code futher down
+        $grpleader = User::find($group->groupleader);
+        if (!($grpleader->hasRole('musician')))
+        {
+            // if not a musician, remove current groupmanager from the group
+            // if the groupleader has a role of musician they are left as a group member even if they are replaced as the group leader.        
+            $group->members()->detach($group->groupleader);
+        }
+        // make request->groupleader a member of the group
+        // this is performed every update incase a new group leader has been selected
+        $member = array($request->groupleader);
+        //$group->members()->sync($member, false);                  // will not add additional entry if one already exists
+        $group->members()->syncWithoutDetaching($member); // will not add additional entry if one already exists  
+        //$group->members()->attach($member);                        // add entries regardless of existing entries
+        
         $group->update($request->all());
 
         flash()->success("Group '" . $group->name . "' successfully updated!");

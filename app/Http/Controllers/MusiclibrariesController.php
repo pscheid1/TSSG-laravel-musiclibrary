@@ -99,12 +99,12 @@ class MusiclibrariesController extends Controller
 
         $this->validate($request, $song->getUpdateRules());
 
-        // if a form checkbox is not set (= 0) it is not returned in $request.
-        // therefore, we don't know if user reset it or if the database value was already reset.
-        // if a checkbox is set (=1), it is always returned in $request. 
-        // again, we don't know if this is because the user set it or it was originally set in the database..
-        // therefore, if we initialize the boolean to 0, it will be left in that state if the checkbox is not set
-        // and it will be set to 1 if the form checkbox is set.
+        // if a form checkbox is not set (= 0) its attribute is not returned in $request and therefore will not
+        // be written to the database.
+        // if a checkbox is set (=1), the attribute is always returned in $request and therefore will be 
+        // wirtten to the database.
+        // therefore, if we initialize the boolean to 0 (which is already in memory in $song),
+        // it will either be written to the database or set to 1 depending on what state the checkbox is set to.
 
         $song->VOCAL = 0;
         $song->VOCALISTS = 0;

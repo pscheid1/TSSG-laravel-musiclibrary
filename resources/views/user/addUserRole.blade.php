@@ -72,6 +72,26 @@
                     {!! Form::text('suffix') !!}
                 </div>
             </div>
+            @if (Auth::check())
+            @if (Auth::user()->hasRole('admin') || (\Auth::user()->id === $user->id && $user->loginpermitted))
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1">
+                    {!! Form::label(null,'Password:') !!}
+                </div>
+                <div class="col-md-1 pull-left">
+                    {!! Form::password('password') !!}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1">
+                    {!! Form::label(null,'Confirm Password:') !!}
+                </div>
+                <div class="col-md-1 pull-left">
+                    {!! Form::password('password_confirmation') !!}
+                </div>
+            </div>
+            @endif
+            @endif            
             <div class="row">
                 <div class="col-md-4 col-md-offset-1">
                     {!! Form::label('company', 'Company:') !!}
@@ -96,6 +116,30 @@
                     {!! Form::text('note') !!}
                 </div>
             </div>
+           <div class="row">
+                <div class="col-md-4 col-md-offset-1">
+                    {!! Form::label(null,'Last Updated by:') !!}
+                </div>
+                <div class="col-md-1 pull-left">
+                    {!! Form::text('null',  $userupdatedby, ['disabled' => 'true'] ) !!}
+                </div>
+            </div>            
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1">
+                    {!! Form::label(null,'Created at:') !!}
+                </div>
+                <div class="col-md-1 pull-left">
+                    {!! Form::text('created_at', null , ['disabled' => 'true']) !!}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-1">
+                    {!! Form::label(null,'Updated at:') !!}
+                </div>
+                <div class="col-md-1 pull-left">
+                    {!! Form::text('updated_at', null , ['disabled' => 'true']) !!}
+                </div>
+            </div>            
             <div class="row">
                 <div class="col-md-5">
                     &nbsp;

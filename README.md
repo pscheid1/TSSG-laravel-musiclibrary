@@ -79,7 +79,7 @@ You can get the userId from the usersTableSeeder.php file.  Currently they are:
 - **gjetson**  
 - **casper**  
 
-The default password for all seed accounts enabled for logon is **password**.  This true for **administrator**
+The default password for all seed accounts enabled for logon is **password**.
 
 The menu bar will display the Musicians Manager label on the left and the following tabs:  
   

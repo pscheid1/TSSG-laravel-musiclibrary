@@ -15,6 +15,7 @@ use App\Role;
 use App\Contact;
 use App\Resource;
 use Illuminate\Support\Facades\Input;
+
 //use App\Instrument;
 
 class UsersController extends Controller
@@ -114,7 +115,7 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-        if (!empty($request->password))
+        if (!empty($request->password) || !empty($request->password_confirmation))
         {
             if ($request->password === $request->password_confirmation)
             {
@@ -249,8 +250,6 @@ class UsersController extends Controller
         $contact = $this->renameKey($contact, 'created_at', 'contact_created_at');
         $contact = $this->renameKey($contact, 'updated_at', 'contact_updated_at');
 
-        //$userupdatedby = User::find($user->updateuserid)->username;
-        //$contactupdatedby = User::find($contact->updateuserid)->username;        
         $userupdatedby = User::find($user->updateuserid)->firstname . ' ' . User::find($user->updateuserid)->lastname;
         $contactupdatedby = User::find($contact->updateuserid)->firstname . ' ' . User::find($contact->updateuserid)->lastname;
 
@@ -280,14 +279,36 @@ class UsersController extends Controller
         }
 
         // Find user record for user to edit
-        $user = User::findOrFail($id);
+        $user = User::find($id);
+        if ($user == NULL)
+        {
+            flash()->error("Unable to locate requested user in database.")->important();
+        }
+
+        if (!empty($request->password) || !empty($request->password_confirmation))
+        {
+            if ($request->password === $request->password_confirmation)
+            {
+                $request->merge(['password' => Hash::make($request->password)]);
+            }
+            else
+            {
+                flash()->error("Password and password confirmation do not match.")->important();
+                return redirect()->back()->withInput();
+            }
+        }
+        else
+        {
+            // prevent any current password from being replaced by blanks
+            $request->merge(['password' => $user->password]);
+        }
 
         $newRole = false;
         if (\Auth::user()->username == $user->username)
         {
             // logged on user is editing his/her own account
             // test to see if user currentrole is being changed
-            // we need to know this to know is rights need to be recomputed below.
+            // we need to know this to know if rights need to be recomputed below.
             $newRole = $request->currentRole != $user->currentRole;
         }
 
@@ -300,16 +321,31 @@ class UsersController extends Controller
 
         $this->validate($request, $contact->getUpdateRules());
 
-        // if a form checkbox is not set (= 0) it is not returned in $request.
-        // therefore, we don't know if user reset it or if the database value was already reset.
-        // if a checkbox is set (=1), it is always returned in $request. 
-        // again, we don't know if this is because the user set it or it was originally set in the database..
-        // therefore, if we initialize the boolean to 0, it will be left in that state if the checkbox is not set
-        // and it will be set to 1 if the form checkbox is set.
+        // if a form checkbox is not set (= 0) its attribute is not returned in $request and therefore will not
+        // be written to the database.
+        // if a checkbox is set (=1), the attribute is always returned in $request and therefore will be 
+        // wirtten to the database.
+        // therefore, if we initialize the boolean to 0 (which is already in memory in $user),
+        // it will either be written to the database or set to 1 depending on what state the checkbox is set to.
 
         $user->loginpermitted = 0;
+        $lastupdate = $user->updated_at;
         $user->update($request->all());
+        if ($lastupdate->ne($user->updated_at))
+        {
+            // something has been modified in the user model
+            $user->updateuserid = \Auth::user()->id;
+            $user->save();
+        }
+
+        $lastupdate = $contact->updated_at;
         $contact->update($request->all());
+        if ($lastupdate->ne($contact->updated_at))
+        {
+            // something has been modifed in the contact model
+            $contact->updateuserid = \Auth::user()->id;
+            $contact->save();
+        }
 
         if ($newRole)
         {
@@ -425,8 +461,11 @@ class UsersController extends Controller
         // return only roles that have not already been selected
         $availableRoles = array_diff($allRoles, $userRoles);
         $user->currentRole = 0;
-        // return the edit user form with user info, user roles and contact info
-        return view('user.addUserRole', compact('user', 'availableRoles'));
+
+        $userupdatedby = User::find($user->updateuserid)->firstname . ' ' . User::find($user->updateuserid)->lastname;
+
+        // return the addUserRole form with user info, user roles and contact info
+        return view('user.addUserRole', compact('user', 'availableRoles', 'userupdatedby'));
     }
 
     /**
@@ -464,7 +503,7 @@ class UsersController extends Controller
             // new checks, logged on user must have admin or manager as its current role.
             $loggedOnUserRole = Role::where('id', \Auth::user()->currentRole)->first()->name;
             //if ($loggedOnUserRole == 'admin' || $loggedOnUserRole == 'manager')
-            if ($loggedOnUserRole == 'admin')                
+            if ($loggedOnUserRole == 'admin')
             // logged on user's currentRole is Admin                      >>>>> removed this funcitonality >>>>   or Band Manager
             {
                 
@@ -476,31 +515,23 @@ class UsersController extends Controller
             }
         }
 
-        /*
-          if (!empty($request->password))
-          {
-          if ($request->password === $request->password_confirmation)
-          {
-          $request->merge(['password' => Hash::make($request->password)]);
-          }
-          else
-          {
-          flash()->error("Password and password confirmation do not match.")->important();
-          return redirect()->back()->withInput();
-          }
-          }
-          else
-          {
-          if ($request->loginpermitted == '1')
-          {
-          flash()->error("When Login Permitted is set, a password is required")->important();
-          return redirect()->back()->withInput();
-          }
-          }
-
-          $request->merge(['password' => Hash::make($request->password)]);
-         * 
-         */
+        if (!empty($request->password) || !empty($request->password_confirmation))
+        {
+            if ($request->password === $request->password_confirmation)
+            {
+                $request->merge(['password' => Hash::make($request->password)]);
+            }
+            else
+            {
+                flash()->error("Password and password confirmation do not match.")->important();
+                return redirect()->back()->withInput();
+            }
+        }
+        else
+        {
+            // prevent any current password from being replaced by blanks
+            $request->merge(['password' => $user->password]);
+        }
 
         // instansiate a new contact
         $contact = new Contact(array(
@@ -521,17 +552,23 @@ class UsersController extends Controller
         ;
         $this->validate($request, $contact::getRules());
 
-        // if a form checkbox is not set (= 0) it is not returned in $request.
-        // therefore, we don't know if user reset it or if the database value was already reset.
-        // if a checkbox is set (=1), it is always returned in $request. 
-        // again, we don't know if this is because the user set it or it was originally set in the database..
-        // therefore, if we initialize the boolean to 0, it will be left in that state if the checkbox is not set
-        // and it will be set to 1 if the form checkbox is set.
+        // if a form checkbox is not set (= 0) its attribute is not returned in $request and therefore will not
+        // be written to the database.
+        // if a checkbox is set (=1), the attribute is always returned in $request and therefore will be 
+        // wirtten to the database.
+        // therefore, if we initialize the boolean to 0 (which is already in memory in $user),
+        // it will either be written to the database or set to 1 depending on what state the checkbox is set to.
 
         $user->loginpermitted = 0;
 
-        $user->updateuserid = \Auth::user()->id;
+        $lastupdate = $user->updated_at;
         $user->update($request->all());
+        if ($lastupdate->ne($user->updated_at))
+        {
+            // something has been modified in the user model
+            $user->updateuserid = \Auth::user()->id;
+            $user->save();
+        }
 
         //$contact->user_id = $user->id;
         $contact->updateuserid = \Auth::user()->id;
@@ -598,7 +635,6 @@ class UsersController extends Controller
         $user->save();
 
         // get the contact info for this user/role
-        //$contact = Contact::findOrFail($user->contactIdForRole($user->currentRole));
         $contact = $user->contactForRole($user->currentRole);
 
         // change the timestamp keys to separate them from the user model keys
@@ -694,8 +730,8 @@ class UsersController extends Controller
         $resource = new Resource($request->all());
         $this->validate($request, $resource->getUpdateRules());
         $resource->updateuserid = \Auth::user()->id;
-        $resource->save();       
-      
+        $resource->save();
+
         $instName = App\Instrument::where('id', $resource->instrument_id)->first()->name;
         flash()->success("Instrument '" . $instName . "' successfully added to user '" . $user->username . "'.");
 
@@ -770,8 +806,14 @@ class UsersController extends Controller
         }
 
         $this->validate($request, $resource->getUpdateRules());
-        $resource->updateuserid = \Auth::user()->id;
+        $lastupdate = $resource->updated_at;
         $resource->update($request->all());
+        if ($lastupdate->ne($resource->updated_at))
+        {
+            // something has been modified in the resource model
+            $resource->updateuserid = \Auth::user()->id;
+            $resource->save();
+        }
 
         $instName = App\Instrument::where('id', $resource->instrument_id)->first()->name;
         flash()->success("Instrument '" . $instName . "' successfully updated for user '" . $user->firstname . " " . $user->lastname . "'.");
@@ -810,7 +852,7 @@ class UsersController extends Controller
 
         $resource->delete();
 
-        flash()->success($resource->instrument->name . " has been deleted from user " . $user->firstname .  '  ' . $user->lastname);
+        flash()->success($resource->instrument->name . " has been deleted from user " . $user->firstname . '  ' . $user->lastname);
 
         return redirect()->back();
     }

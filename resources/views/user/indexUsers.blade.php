@@ -3,13 +3,16 @@
 @section('content')
 @include('partials.alerts.errors')
 @include('flash::message')
+    <script>
+        document.title = 'Musicians Manager - List Members';
+    </script>
 
 <form role='form' name="myRqst" id="myRqst" action='/user/'   method='POST'>
     {{ csrf_field() }} 
     <input type="hidden" id="_method" name="_method" value=""></input>
 
     <table style="width:100%" border=".5" align="center" >
-        <caption><h2>Musicians Manager Users</h2></caption>
+        <caption><h2>Musicians Manager Members</h2></caption>
         <tr>
             <th> User Name </th>        
             <th> Last Name </th>

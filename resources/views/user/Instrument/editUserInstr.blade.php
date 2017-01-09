@@ -4,6 +4,10 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
+<script>
+    document.title = 'Musicians Manager - Edit Member Proficiency';
+</script>
+
 <div class="row">
     <div class=""col-md-12>       
         {!! Form::model($user, ['method' => 'post', 'route' => ['user.updateproficiency', $user]]) !!}
@@ -13,7 +17,7 @@
         {!! Form::hidden('instrument_id', $resource->instrument_id) !!}
         <table style="width:73%" border=".5" align="center" >
             <caption>
-                <div><h2>Edit User Proficiency</h2></div>
+                <div><h2>Edit Member Proficiency</h2></div>
                 <h4><b>{{ $user->firstname }} {{ $user->lastname }} ({{ $user->username }})</b></h4>
             </caption>
             <tr>

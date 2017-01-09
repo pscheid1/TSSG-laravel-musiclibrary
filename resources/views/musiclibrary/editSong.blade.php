@@ -4,6 +4,10 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
+<script>
+    document.title = 'Musicians Manager - Edit Song';
+</script>
+
 <div><h2>&nbsp;&nbsp;&nbsp;&nbsp;Edit Song: {{ $song->TITLE }}</h2></div>
 <div class="row">
     <div class="required col-md-12 pull-right">

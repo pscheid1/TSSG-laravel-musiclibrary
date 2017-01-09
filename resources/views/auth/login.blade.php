@@ -4,6 +4,10 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
+<script>
+    document.title = 'Musicians Manager - Login';
+</script>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

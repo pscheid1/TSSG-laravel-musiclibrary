@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TSSG Musicians Manager</title>
+    <title>TSSG Musician Managers</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
@@ -201,12 +201,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span> 
                 </button>
-                <a class="navbar-brand" href="#">Musicians Manager</a>
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    @if (\Auth::user() != null)
-                    <li><a href="{{ route('home') }}">Home</a></li>
+                    @if (\Auth::user() == null)
+                    <a class="navbar-brand" href="">Musicians Manager</a>
+                    @else
+                    <a class="navbar-brand" href="{{ route('home') }}">Musicians Manager</a>
                     <li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown">Events<span class="caret"></span></a>

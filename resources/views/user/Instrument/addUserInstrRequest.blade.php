@@ -4,6 +4,10 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
+<script>
+    document.title = 'Musicians Manager - Assign Instrument to Member';
+</script>
+
 <div class="row">
     <div class=""col-md-12>       
         {!! Form::model($user, ['method' => 'post', 'route' => ['user.addinstr', $user]]) !!}

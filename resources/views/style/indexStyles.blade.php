@@ -4,6 +4,10 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
+<script>
+    document.title = 'Musicians Manager - List Styles';
+</script>
+
 <form role='form' name="myRqst" id="myRqst" action='/style/'   method='POST'>
     {{ csrf_field() }} 
     <input type="hidden" id="_method" name="_method" value=""></input>

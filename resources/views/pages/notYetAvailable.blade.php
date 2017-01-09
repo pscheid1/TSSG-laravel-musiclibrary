@@ -2,6 +2,9 @@
 
 @section('content')
 
+<script>
+    document.title = 'Musicians Manager - Under Construction';
+</script>
 
 <div class="relative">
     <b><h4>Under Construction</h4></b>

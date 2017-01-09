@@ -3,8 +3,11 @@
 @section('content')
 @include('partials.alerts.errors')
 @include('flash::message')
+    <script>
+        document.title = 'Musicians Manager - Edit Member';
+    </script>
 
-<div><h2>Edit User: {{ $user->username }}</h2></div>
+<div><h2>Edit Member: {{ $user->username }}</h2></div>
 <div class="row">
     <div class="required col-md-12 pull-right">
         <b>(required fields indicated with an *)</b>

@@ -4,6 +4,10 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
+<script>
+    document.title = 'Musicians Manager - Home Page';
+</script>
+
 <div class="relative">
     <h4><b>Welcome to the Musicians' Manager Website</b></h4>
 

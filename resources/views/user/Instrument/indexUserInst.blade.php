@@ -4,6 +4,10 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
+<script>
+    document.title = 'Musicians Manager - Member Assigned Instruments';
+</script>
+
 <div class="row">
     <div class='col-md-12 col-md-offset-1'>
         <h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;User Instrument Assignments</h2>

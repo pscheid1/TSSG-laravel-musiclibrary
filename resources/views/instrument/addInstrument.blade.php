@@ -4,6 +4,10 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
+<script>
+    document.title = 'Musicians Manager - Add Instruments';
+</script>
+
 <div><h2>Add a new Instrument</h2></div>
 <div class="row">
     <div class='col-md-2'></div>

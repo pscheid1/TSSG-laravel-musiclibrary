@@ -4,6 +4,10 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
+<script>
+    document.title = 'Musicians Manager - Register Guest';
+</script>
+
 <div><h2>Create a Guest Account</h2></div>
 <div class="row">
     <div class="required col-md-12 pull-right">

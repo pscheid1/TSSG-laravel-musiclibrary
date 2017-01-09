@@ -1,6 +1,11 @@
 @extends('layouts.master')
 
 @section('content')
+
+<script>
+    document.title = 'Musicians Manager - Reset Password';
+</script>
+
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">

@@ -4,6 +4,10 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
+<script>
+    document.title = 'Musicians Manager - Edit Style';
+</script>
+
 <div><h2>Edit Style: {{ $style->DESCRIPTION }}</h2></div>
 <div class="row">
     <div class='col-md-2'></div>

@@ -4,6 +4,10 @@
 @include('partials.alerts.errors')
 @include('flash::message')
 
+<script>
+    document.title = 'Musicians Manager - List Groups';
+</script>
+
 <form role='form' name="myRqst" id="myRqst" action='/group/'   method='POST'>
     {{ csrf_field() }} 
     <input type="hidden" id="_method" name="_method" value=""></input>

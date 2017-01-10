@@ -207,8 +207,16 @@
                     @if (\Auth::user() == null)
                     <a class="navbar-brand" href="">Musicians Manager</a>
                     @else
-                    <a class="navbar-brand" href="{{ route('home') }}">Musicians Manager</a>
-                    <li>
+                    <a class="navbar-brand" href="{{ route('home') }}">Musicians Manager</a>          
+                    <!--
+                    The following empty dropdown is for a workaround to a bootstrap bug.
+                    Without the following entry when a page is shrunk to a size that collapses 
+                    the nav-bar, the first dropdown after the navbar-brand is not moved below the 
+                    the navbar-brand as the other dropdowns are.
+                    -->
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">&nbsp;</a>
+                    </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown">Events<span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -217,10 +225,9 @@
                             <li><a href="{{ route('nya') }}">Add Event</a></li>
                             <li><a href="{{ route('nya') }}">Request Musician</a></li>
                             <li><a href="{{ route('nya') }}">Musician Response</a></li>
-                            <li> <a href="{{ route('nya') }}">List Venues</a></li>
+                            <li><a href="{{ route('nya') }}">List Venues</a></li>
                             <li><a href="{{ route('nya') }}">Add Venue</a></li>
                         </ul>
-                    </li>
                     </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown">Music<span class="caret"></span></a>

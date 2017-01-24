@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <style type="text/css">
+   <style type="text/css">
         .xsmall
         {
             line-height: 0.1;
@@ -346,7 +345,6 @@ function doSubmit(rqstType, rqstId, resourceid)
     <script src="//code.jquery.com/jquery.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js//bootstrap.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
     <script>
 /*
  $('#flash-overlay-modal').modal();

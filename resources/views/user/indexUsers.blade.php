@@ -6,7 +6,6 @@
     <script>
         document.title = 'Musicians Manager - List Members';
     </script>
-
 <form role='form' name="myRqst" id="myRqst" action='/user/'   method='POST'>
     {{ csrf_field() }} 
     <input type="hidden" id="_method" name="_method" value=""></input>
@@ -15,8 +14,8 @@
         <caption><h2>Musicians Manager Members</h2></caption>
         <tr>
             <th> User Name </th>        
-            <th> Last Name </th>
             <th> First Name </th>
+            <th> Last Name </th>            
             <th> Group Memberships </th>
             <th> Instruments </th>
             <th> Current Role </th>
@@ -26,8 +25,8 @@
         @foreach ($users as $user)
         <tr>
             <td>{{ $user->username }}</td>        
-            <td>{{ $user->lastname }}</td>
             <td>{{ $user->firstname }}</td>
+            <td>{{ $user->lastname }}</td>            
             <td>
                 @if (count($usrgps[$user->id]) > 0)
                 {{ Form::select(null, $usrgps[$user->id]) }}
@@ -56,10 +55,10 @@
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
                     </button>
                 </span>
-
             </td>
         </tr>
         @endforeach
     </table>
 </form>
+{{-- $users->links() --}}
 @stop

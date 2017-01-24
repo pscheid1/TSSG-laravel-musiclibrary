@@ -75,20 +75,22 @@ This project is a partial implementation of the TSSG Musicians Manger.  It is no
 You can get the userId from the usersTableSeeder.php file.  Currently they are:  
   
 - **administrator**  
-- **pscheid**  
+- **billygoat**  
 - **gjetson**  
-- **casper**  
+- **casper**
+- **daffyduck**
+- **testuser1** through **testuser10**
 
 The default password for all seed accounts enabled for logon is **password**.
 
 The menu bar will display the Musicians Manager label on the left and the following tabs:  
-  
-- **Home**             This tab will always display the "Home" page.  
+   
+- The **Musicians Manager** label is a hot link to the "Home" page.  
 - **Events**           None of the entries in this dropdown has been enabled.  They will return an under construction page  
 - **Music**             This dropdown provides for listing, editing, and adding songs and instruments  
 - **Members**       This dropdown provides for listing, editing, and adding members  
-- **Admin**            This dropdown provides for listing, editing and adding styles, tempos, proficiencies, and roles  
-  
+- **Admin**            This dropdown provides for listing, editing and adding styles, tempos, proficiencies, and roles 
+
 The right side of the menu bar will display the userId of the logged on user (if any) and a link to either logon, logoff or register a new user depending on the current state.  
 Anyone that can access the web site can create a new account by simply selecting **register** and filling out the form.  This account will 
 be a guest account with very limited access.  A user with **admin** rights may upgrade this account at any time.  Additionally, an **admin** 
@@ -145,9 +147,22 @@ To implement this test the phpunit.xml file was copied to the \<root> folder and
 CD to \<root> and execute \vendor\bin\phpunit.bat (Windows) otherwise execute phpunit. This will issue a logon request and the logon pages should be
 returned.  The page will be scanned to determine if the string 'Password' is on the page. The results should display **OK (1 test, 2 assertions).**
 
-Obvously this isn't much of a test.  This is mainly to begin the process of figuring out how to test a Laravel project utilizing the internal test framework.
+Obviously this isn't much of a test.  This is mainly to begin the process of figuring out how to test a Laravel project utilizing the internal test framework.
 
-This section will be updated as we learn more.
+The modify-password branch is now merged into master.  This includes the following changes:
+
+* Any user may now changed their password by using the edit option on their own account.
+* An administrator may change the password of any account.
+* The "Forgot my password" option has been added to the logon page.  An input screen will be returned asking for a userid and
+email address.  If they are validated, a URI containing a key will be sent to the email address.  Use the URI to receive a second
+input form requesting your userid, email address, password and conformation password.  Send this form and if the information is 
+validated your password will be reset.  This operation must be completed within 60 minutes of the first request or the request will
+be rejected. (for testing without a mail server, you can get the information from the laravel log - /storage/logs/laravel.log)
+* There are new seed record accounts. The above list has been updated with the new userid's.  pscheid is nolonger a valid userid.
+* All seed record accounts are created with 'password' as their password.
+* The NAVBAR home tab has been deleted.
+* The NAVBAR icon (Musicians Manager) is now a 'home' screen link.
+* The default timezone is now EST w/daylight savings time.
 
 
 

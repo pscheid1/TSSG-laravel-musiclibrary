@@ -6,12 +6,11 @@ use App\Role;
 use App\Right;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Contact;
-use App\Resource;
-//use App\Instrument;
+use App\Resource;;
 
 class User extends Authenticatable
 {
-
+    //protected $table = 'users';   // might be needed for pagination ?????????
     /**
      * The attributes that are mass assignable.
      *

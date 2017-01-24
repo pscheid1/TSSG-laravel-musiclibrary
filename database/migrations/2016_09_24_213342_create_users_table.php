@@ -32,6 +32,7 @@ class CreateUsersTable extends Migration
             $table->boolean('loginpermitted');
             $table->boolean('forcepwchange');
             $table->string('password', 128);
+            $table->string('email');  // only used during passwordreset operation
             $table->string('remember_token');
             $table->integer('updateuserid')->unsigned()->default(null);            
             $table->timestamps();

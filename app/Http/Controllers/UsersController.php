@@ -20,11 +20,11 @@ use Illuminate\Support\Facades\Input;
 
 class UsersController extends Controller
 {
+     
     /*
      *  using this function to rename an array key.
      *  it will does not maintain key order in case that is important.
      */
-
     public function renameKey($array, $old_key, $new_key)
     {
         $array[$new_key] = $array[$old_key];
@@ -39,6 +39,7 @@ class UsersController extends Controller
      */
     public function index()
     {
+        //$pageSize = 10;
         if (!(\policy(new User)->index()))
         {
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
@@ -46,7 +47,8 @@ class UsersController extends Controller
         }
 
         $users = User::all();
-
+        //$users = User::paginate($pageSize); 
+        //$users->appends(request()->input())->links();
         $usrgps = array();
         $instruments = array();
 

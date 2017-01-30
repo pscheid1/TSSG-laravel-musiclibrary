@@ -4,6 +4,7 @@
 Test written by To Hung Sze (tohungsze.acton@gmail.com). Last modified Jan 2017
 php unit level tests to test Musicians Manager 3 (laravel implementation)
 Test meant to be run regularly / when codes are checked-in.
+Comment added by JwTurner as an experiment
 */
 
 /*

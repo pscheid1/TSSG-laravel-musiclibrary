@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   <style type="text/css">
+    <style type="text/css">
         .xsmall
         {
             line-height: 0.1;
@@ -303,34 +303,48 @@ function doSubmit(rqstType, rqstId, resourceid)
         // set the _method field to delinstr, form method remains POST
         document.getElementById("_method").value = "delete";
     }
-    else
+    else if (rqstType === "delete")
     {
-        // Delete request (rqstType === 'delete')
         // set the _method field to DELETE, form method remains POST
         document.getElementById("_method").value = rqstType;
     }
+    else if (rqstType === "setPgSz")
+    {
+        // change the form method from POST to GET, _method field remains empty
+        document.getElementById("myRqst").method = 'get';
+    }
+    else
+    {
 
+    }
+    
     var xaction = document.getElementById("myRqst").action;
-
-    if (rqstType == "getinstr")
+    if (rqstType === "getinstr")
     {
         document.getElementById("_resourceid").value = resourceid;
         var indx = xaction.lastIndexOf('/');
         xaction = xaction.substr(0, indx + 1);
         xaction = xaction.concat("editproficiency");
     }
-    else if (rqstType == "delinstr")
+    else if (rqstType === "delinstr")
     {
         document.getElementById("_resourceid").value = resourceid;
         var indx = xaction.lastIndexOf('/');
         xaction = xaction.substr(0, indx + 1);
         xaction = xaction.concat("delinstr");
     }
+    else if (rqstType === "setPgSz")
+    {
+        xaction = document.getElementById("myRqst").action;
+        xaction = xaction.concat(rqstId);
+        xaction = xaction.concat('/setPgSz');
+    }    
     else
     {
         // append requestId to form action        
         xaction = xaction.concat(rqstId);
     }
+    ;
     document.getElementById("myRqst").action = xaction;
 // submit the form
     document.getElementById("myRqst").submit();

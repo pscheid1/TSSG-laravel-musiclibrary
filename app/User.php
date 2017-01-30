@@ -10,7 +10,6 @@ use App\Resource;;
 
 class User extends Authenticatable
 {
-    //protected $table = 'users';   // might be needed for pagination ?????????
     /**
      * The attributes that are mass assignable.
      *

@@ -2,16 +2,16 @@
 Laravel implementation of TSSG music library
 
 ###[Documentation:] (https://laravel.com/docs)
-This is very comprehensive document and is updated for each major release. I think link will take you to the latest version but if not, you can 
-select it from the drop down in the red square in the upper right hand corner of the home page.
+This is very comprehensive document and is updated for each major release. I think the link will take you to the latest version but if not, you can 
+select it from the drop down in the red square in the upper right hand corner of the home page. (Click on 'Documentation:' to view in browser.)
 
 ### [Cheat Sheet:] (http://learninglaravel.net/cheatsheet)
 The above link is to what is know as the **Cheat Sheet**. This is not "official" Laravel documentation but it is a very good abbreviated reference 
 of everything Laravel.  In the left hand menu you can select specific categories that will present an expnded list of related commands or 
-code.  There are no definitions, just the syntax. **Warning: this document is not at level 5.3 at this time.**
+code.  There are no definitions, just the syntax. **Warning: this document is not at level 5.3 at this time.** (Click on 'Cheat Sheet:' to view in browser.)
 
 ### [5.3 Cheat Sheet:] (http://www.phplab.info/categories/cheet-sheets/laravel-53-cheat-sheet)
-There is a Cheat Sheet for 5.3 but at this time it only contains Artisan commands.
+There is a Cheat Sheet for 5.3 but at this time it only contains Artisan commands. (Click on '5.3 Cheat Sheet:' to view in browser.)
 
 Here are a few steps that should get you started with setting up this project.  Regardless of your environment  
 (platform, OS, etc) you should be able to use the following steps to get Laravel and this project up and running.

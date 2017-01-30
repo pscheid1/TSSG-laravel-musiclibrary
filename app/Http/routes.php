@@ -60,6 +60,11 @@ Route::resource('skill', 'SkillsController');
 
 Route::resource('resource', 'ResourcesController');
 
+Route::get('user/{pgSz}/setPgSz', [
+    'as' => 'user.setPgSz',
+    'uses' => 'UsersController@index'
+]);
+
 Route::get('user/{user}/delrole', [
     'as' => 'user.delrole',
     'uses' => 'UsersController@deleteRole'

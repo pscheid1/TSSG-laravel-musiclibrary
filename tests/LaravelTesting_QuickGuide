@@ -1,0 +1,21 @@
+// author: To Hung Sze (tohungsze.acton@gmail.com)
+// last updated: Jan 2017
+
+This file contains information on how to write integration test cases within 
+Laravel framework.
+
+Key Concepts
+1. Laravel integration testing uses phpunit.
+2. phpunit can execute all tests under the tests directory or
+3. phpunit can execute a specific test case.
+4. To run all tests under /tests directory, do
+    <path_to_phpunit_executable> tests
+5. to run a specific test, do
+    <path_to_phpunit_executable> <path_to_test>/test_name.php
+6. Each test case is a php class file and extends TestCase
+7. To navigate to application root, use
+    ->visit('/')
+8. To assert that a text is displayed anywhere in the page, use
+    ->see('Musicians Manager')
+9. To submit a form, use
+    ->submitForm('Login', ['username' => 'xxx', 'password' => 'yyy'])

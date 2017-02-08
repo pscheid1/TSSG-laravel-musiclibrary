@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TSSG Musician Managers</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <style type="text/css">
@@ -18,6 +18,13 @@
             float:left;
             width:85px;
         }
+        
+        .center70
+        {
+            width: 70%;
+            margin:  0 auto;
+        }
+        
         .button
         {
             background: #5abbd1;
@@ -126,7 +133,6 @@
         } 
 
     </style>
-
 </head>
 <body>
     @if (\App\Setting::getBannerPics()  > 0)
@@ -203,7 +209,7 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    @if (\Auth::user() == null)
+                    @if (\Auth::user() == NULL)
                     <a class="navbar-brand" href="">Musicians Manager</a>
                     @else
                     <a class="navbar-brand" href="{{ route('home') }}">Musicians Manager</a>          
@@ -263,7 +269,7 @@
                     @endif
                 </ul>
                 <ul class="nav navbar-nav navbar-right">                   
-                    @if (\Auth::user() != null)
+                    @if (\Auth::user() != NULL)
                     <li><a class="glyphicon glyphicon-user">&nbsp;{{ \Auth::user()->username }}</a></li>
                     <li><a href="{{ route('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                     @elseif (Request::path() === '/' || Request::path() === 'auth/login')                    

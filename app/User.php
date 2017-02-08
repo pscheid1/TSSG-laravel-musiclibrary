@@ -6,10 +6,11 @@ use App\Role;
 use App\Right;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Contact;
-use App\Resource;;
+use App\Resource;
 
 class User extends Authenticatable
 {
+
     /**
      * The attributes that are mass assignable.
      *
@@ -17,7 +18,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'username', 'prefix', 'firstname', 'middlename', 'lastname', 'suffix', 'currentRole',
-        'company', 'title', 'note', 'location', 'activated', 'terminated', 'loginpermitted',
+        'company', 'title', 'note', 'location', 'activated', 'terminated', 'loginpermitted', 'pageSizes',
         'forcepwchange', 'password'
     ];
     public static $rules = [
@@ -35,8 +36,40 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
-    
-    public static $bannerPics = 2;
+
+    /*
+     * The following two functions (one accessor and one mutator) are used to save
+     * each users default page settings.  These settings are for most of the
+     * listing functions with with each listing maintaining its own page size.
+     * user->pageSizes contains a serialized array of the listing page size.
+     * On first use pageSizes is initialized with an array setting the specified
+     * listings to 100 lines per page which in most cases will be all.  If a use
+     * selects a new page size during a page display, the listing will be restarted
+     * at page 1 using the new page size.  This page size will also be save 
+     * as the users new default page size for that specific listing.
+     */
+
+    public function getPageSizesAttribute($value)
+    {
+        if ($value === null || $value === '')
+        {
+            $value = INITIALPAGESIZES;
+            return $value;
+        }
+        return unserialize($value);
+    }
+
+    public function setPageSizesAttribute($value)
+    {
+
+        // This test should not be necessary but we'll leave it in as a safety measure
+        if ($value === null || $value === '')
+        {
+            $value = INITIALPAGESIZES;
+        }
+
+        $this->attributes['pageSizes'] = serialize($value);
+    }
 
     // a resource contains an instrument and performance skills
     // a user may have none to many resources
@@ -143,8 +176,8 @@ class User extends Authenticatable
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-role');
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-group');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-group');
-                $assigned_rights[] = $this->getIdInArray($rights, 'read-settings');                
-                $assigned_rights[] = $this->getIdInArray($rights, 'update-settings');                
+                $assigned_rights[] = $this->getIdInArray($rights, 'read-settings');
+                $assigned_rights[] = $this->getIdInArray($rights, 'update-settings');
             // fall through
             case 'manager':
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-group');

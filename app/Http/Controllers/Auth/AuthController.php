@@ -142,7 +142,8 @@ use AuthenticatesAndRegistersUsers, ThrottlesLogins
                     //'activated' => $data['activated'],
                     //'terminated' => $data['terminated'],
                     'loginpermitted' => $data['loginpermitted'],
-                    //'forcepwchange' => $data['forcepwchange'],
+                    'forcepwchange' => $data['forcepwchange'],
+                    'pageSizes' => $data['pageSizes'],
                     'password' => bcrypt($data['password']),
         ]);
 

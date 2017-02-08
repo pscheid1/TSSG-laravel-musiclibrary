@@ -2,27 +2,21 @@
 
 namespace App\Http\Controllers;
 
-//use Gate;
 use App;
-use App\Http\Controllers\Controller;
-//use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-//use Laracasts\Flash;
 use App\User;
 use Hash;
-//use App\BaseModel;
 use App\Role;
 use App\Contact;
 use App\Resource;
 use Illuminate\Support\Facades\Input;
-
-//use App\Instrument;
+use App\Http\Controllers\Helpers\PageSizeHelper;
 
 class UsersController extends Controller
 {
     /*
      *  using this function to rename an array key.
-     *  it will does not maintain key order in case that is important.
+     *  it does not maintain key order in case that is important.
      */
 
     public function renameKey($array, $old_key, $new_key)
@@ -46,16 +40,11 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-        $pageSizes = [10, 15, 25, 50, 100];
-        $currPgSz = array_search('100', $pageSizes);
-        if ($request->pageSize != null)
-        {
-            $currPgSz = $request->pageSize;
-        }
+        // get this users page size for this list
+        $pgSizeHelper = new PageSizeHelper();
+        $pgSzIndx = $pgSizeHelper->getPgSzIndx('users', $request->pageSize);
 
-        //$users = User::all();
-        $users = User::paginate($pageSizes[$currPgSz]);
-        $users->appends(request()->input())->links();
+        $users = User::paginate(PAGESIZES[$pgSzIndx]);
 
         $usrgps = array();
         $instruments = array();
@@ -84,8 +73,7 @@ class UsersController extends Controller
             $instruments[$user->id] = $userInstruments;
         }
 
-        //return $users;
-        return view('user.indexUsers', compact('users', 'usrgps', 'instruments', 'pageSizes', 'currPgSz'));
+        return view('user.indexUsers', compact('users', 'usrgps', 'instruments', 'pgSzIndx'));
     }
 
     /**

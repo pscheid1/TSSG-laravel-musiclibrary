@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-//use Gate;
-//use App;
 use App\Http\Controllers\Controller;
 use App\Style;
-//use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-//use Laracasts\Flash;
 use App\User;
-//use App\Policies;
+use App\Http\Controllers\Helpers\PageSizeHelper;
 
 class StylesController extends Controller
 {
@@ -25,7 +21,7 @@ class StylesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (!(\policy(new Style)->index()))
         {
@@ -33,15 +29,18 @@ class StylesController extends Controller
             return redirect()->back();
         }
 
-        $styles = Style::all();
+         // get this users page size for this list
+        $pgSizeHelper = new PageSizeHelper();
+        $pgSzIndx = $pgSizeHelper->getPgSzIndx('styles', $request->pageSize);
+
+        $styles = Style::paginate(PAGESIZES[$pgSzIndx]);
         $updaters = array();
         foreach ($styles as $style)
         {
-            //$updaters[$style->id] = User::find($style->UPDATEUSERID)->username;
             $updaters[$style->id] = User::find($style->UPDATEUSERID)->firstname . ' ' . User::find($style->UPDATEUSERID)->lastname;               
         }
 
-        return view('style.indexStyles', compact('styles', 'updaters'));
+        return view('style.indexStyles', compact('styles', 'updaters', 'pgSzIndx'));
     }
 
     /**

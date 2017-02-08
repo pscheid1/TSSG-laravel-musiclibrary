@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-//use App;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
-//use App\Http\Requests;
+use App\Http\Controllers\Helpers\PageSizeHelper;
 
 class RolesController extends Controller
 {
@@ -16,7 +15,7 @@ class RolesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (!(\policy(new Role)->index()))
         {
@@ -24,9 +23,13 @@ class RolesController extends Controller
             return redirect()->back();
         }
 
-        $roles = Role::all();
+        // get this users page size for this list
+        $pgSizeHelper = new PageSizeHelper();
+        $pgSzIndx = $pgSizeHelper->getPgSzIndx('roles', $request->pageSize);
 
-        return view('role.indexRoles', compact('roles'));
+        $roles = Role::paginate(PAGESIZES[$pgSzIndx]);
+
+        return view('role.indexRoles', compact('roles', 'pgSzIndx'));
     }
 
     /**

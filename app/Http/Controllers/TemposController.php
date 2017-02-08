@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-//use Gate;
-//use App;
 use App\Http\Controllers\Controller;
 use App\Tempo;
-//use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-//use Laracasts\Flash;
-//use App\Role;
 use App\User;
-//use App\Policies;
+use App\Http\Controllers\Helpers\PageSizeHelper;
 
 class TemposController extends Controller
 {
@@ -26,7 +21,7 @@ class TemposController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (!(\policy(new Tempo)->index()))
         {
@@ -34,7 +29,12 @@ class TemposController extends Controller
             return redirect()->back();
         }
 
-        $tempos = Tempo::all();
+       // get this users page size for this list
+        $pgSizeHelper = new PageSizeHelper();
+        $pgSzIndx = $pgSizeHelper->getPgSzIndx('groups', $request->pageSize);
+
+        $tempos = Tempo::paginate(PAGESIZES[$pgSzIndx]);
+
         $updaters = array();
         foreach ($tempos as $tempo)
         {
@@ -42,7 +42,7 @@ class TemposController extends Controller
             $updaters[$tempo->id] = User::find($tempo->UPDATEUSERID)->firstname . ' ' . User::find($tempo->UPDATEUSERID)->lastname;               
         }
         
-        return view('tempo.indexTempos', compact('tempos', 'updaters'));
+        return view('tempo.indexTempos', compact('tempos', 'updaters', 'pgSzIndx'));
     }
 
     /**

@@ -60,8 +60,10 @@ From a command window, run the following commands:
 11. Set up your MySQL (or other database.) Open the .env file and either set your database up for the DB_XXXX parameters or change them to agree with your settings.
 12. php artisan migrate
 13. php artisan db:seed
-14. php artisan serve (this will run the laravel built in server)
-15. In your browser go to http://localhost:8000 (if everything is working, the login page should display)
+14. If you want to use the artisan server:
+    - php artisan serve (this will run the laravel built in server)
+    - In your browser go to http://localhost:8000 (if everything is working, the login page should display)  
+ 15. Otherwise start your own server and access your base URL.
 
 #### Laravel Music Library Instructions
     

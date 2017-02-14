@@ -45,11 +45,11 @@
             <td>False</td>
             @endif
             <td style="width: 49px;">
-                <span class="btn-group">
-                    <button type="button" class="btn btn-default btn-xs" onClick="doSubmit('get', '{{ $user->id }}")">
+                <span class="btn-group">                   
+                    <button type="button" class="btn btn-default btn-xs" onClick="doSubmit('get', '{{ $user->id }}')">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
                     </button>
-                    <button type="button" class="btn btn-default btn-xs" onClick="doSubmit('delete', '{{ $user->id }}")">
+                    <button type="button" class="btn btn-default btn-xs" onClick="doSubmit('delete', '{{ $user->id }}')">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
                     </button>
                 </span>

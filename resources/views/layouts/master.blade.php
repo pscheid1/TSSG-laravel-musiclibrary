@@ -25,6 +25,13 @@
             margin:  0 auto;
         }
         
+        .selectBox
+        {
+            width: 90%;
+            overflow-x: visible;
+            overflow-y: hidden;
+        }
+        
         .button
         {
             background: #5abbd1;
@@ -290,7 +297,7 @@
 function doSubmit(rqstType, rqstId, resourceid)
 {
     //debugger;
-
+    
     if (rqstType === "get")
     {
         // Show request
@@ -321,7 +328,7 @@ function doSubmit(rqstType, rqstId, resourceid)
     }
     else
     {
-
+        window.alert('help');   // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     }
     
     var xaction = document.getElementById("myRqst").action;

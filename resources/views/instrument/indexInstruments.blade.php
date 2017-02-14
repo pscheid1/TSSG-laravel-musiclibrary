@@ -23,10 +23,10 @@
             <td>{{ $updaters[$instrument->id] }}</td>
             <td style="width: 49px;">
                 <span class="btn-group">
-                    <button type="button" class="btn btn-default btn-xs" onClick="doSubmit('get', '{{ $instrument->id }}")">
+                    <button type="button" class="btn btn-default btn-xs" onClick="doSubmit('get', '{{ $instrument->id }}')">
                         <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>
                     </button>
-                    <button type="button" class="btn btn-default btn-xs" onClick="doSubmit('delete', '{{ $instrument->id }}")">
+                    <button type="button" class="btn btn-default btn-xs" onClick="doSubmit('delete', '{{ $instrument->id }}')">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
                     </button>
                 </span>

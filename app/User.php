@@ -7,9 +7,11 @@ use App\Right;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Contact;
 use App\Resource;
+use App\Traits\SortableTrait;
 
 class User extends Authenticatable
 {
+    use SortableTrait;
 
     /**
      * The attributes that are mass assignable.

@@ -18,20 +18,20 @@
             float:left;
             width:85px;
         }
-        
+
         .center70
         {
             width: 70%;
             margin:  0 auto;
         }
-        
+
         .selectBox
         {
             width: 90%;
             overflow-x: visible;
             overflow-y: hidden;
         }
-        
+
         .button
         {
             background: #5abbd1;
@@ -45,12 +45,25 @@
         {
             float:left;
         }
-
+  
         th {
             text-align: center;
             background-color: blue;
             color: white;
         }
+      
+        /*
+        Change the link default color.
+        We are using white on blue for our table column headings.
+        When a colum is sortabel it's heading becoms a link.  
+        The default link color on blue is implssible to read.'
+        We could force the color back to white but then it would not be
+        obvious which columns are sortabel.
+        */
+        a {
+            color: yellow;
+        }
+
         .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
             color: white;  /*Sets the text hover color on navbar*/
         }
@@ -297,7 +310,7 @@
 function doSubmit(rqstType, rqstId, resourceid)
 {
     //debugger;
-    
+
     if (rqstType === "get")
     {
         // Show request
@@ -330,7 +343,7 @@ function doSubmit(rqstType, rqstId, resourceid)
     {
         window.alert('help');   // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
     }
-    
+
     var xaction = document.getElementById("myRqst").action;
     if (rqstType === "getinstr")
     {
@@ -351,7 +364,7 @@ function doSubmit(rqstType, rqstId, resourceid)
         xaction = document.getElementById("myRqst").action;
         xaction = xaction.concat(rqstId);
         xaction = xaction.concat('/setPgSz');
-    }    
+    }
     else
     {
         // append requestId to form action        

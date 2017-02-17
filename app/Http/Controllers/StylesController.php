@@ -29,15 +29,17 @@ class StylesController extends Controller
             return redirect()->back();
         }
 
-         // get this users page size for this list
+        // get this users page size for this list
         $pgSizeHelper = new PageSizeHelper();
         $pgSzIndx = $pgSizeHelper->getPgSzIndx('styles', $request->pageSize);
 
-        $styles = Style::paginate(PAGESIZES[$pgSzIndx]);
+        $styles = Style::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $styles->appends($request->input());
+        
         $updaters = array();
         foreach ($styles as $style)
         {
-            $updaters[$style->id] = User::find($style->UPDATEUSERID)->firstname . ' ' . User::find($style->UPDATEUSERID)->lastname;               
+            $updaters[$style->id] = User::find($style->UPDATEUSERID)->firstname . ' ' . User::find($style->UPDATEUSERID)->lastname;
         }
 
         return view('style.indexStyles', compact('styles', 'updaters', 'pgSzIndx'));
@@ -99,15 +101,15 @@ class StylesController extends Controller
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
-        
+
         $style = Style::find($id);
         if ($style == NULL)
         {
             flash()->error("Unable to locate requested style in database.")->important();
         }
-        
+
         //$updateusername = User::find($style->UPDATEUSERID)->username;
-        $updateusername = User::find($style->UPDATEUSERID)->firstname . ' ' . User::find($style->UPDATEUSERID)->lastname;        
+        $updateusername = User::find($style->UPDATEUSERID)->firstname . ' ' . User::find($style->UPDATEUSERID)->lastname;
         return view('style.editStyle', compact('style', 'updateusername'));
     }
 

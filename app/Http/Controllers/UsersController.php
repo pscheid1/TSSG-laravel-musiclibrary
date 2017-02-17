@@ -11,9 +11,12 @@ use App\Contact;
 use App\Resource;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Helpers\PageSizeHelper;
+//use App\Traits\SortableTrait;
 
 class UsersController extends Controller
 {
+
+    //use SortableTrait;
     /*
      *  using this function to rename an array key.
      *  it does not maintain key order in case that is important.
@@ -33,7 +36,6 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-
         if (!(\policy(new User)->index()))
         {
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
@@ -44,8 +46,9 @@ class UsersController extends Controller
         $pgSizeHelper = new PageSizeHelper();
         $pgSzIndx = $pgSizeHelper->getPgSzIndx('users', $request->pageSize);
 
-        $users = User::paginate(PAGESIZES[$pgSzIndx]);
-
+        $users = User::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $users->appends($request->input());
+        
         $usrgps = array();
         $instruments = array();
 

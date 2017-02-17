@@ -13,8 +13,8 @@
     <table style="width:70%" border="1.0" align="center" >
         <caption><h2>Musicians Manager Instruments</h2></caption>
         <tr>
-            <th> Instrument </th>
-            <th> Last Updated By </th>
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('name', 'Instrument') }} </th>   
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('updateuserid', 'Last Updated By') }} </th>   
             <th> Action </th>
         </tr>
         @foreach ($instruments as $instrument)
@@ -53,7 +53,7 @@
             <div  class="col-md-6" align="right">Lines/Page:{!! Form::select('pageSize', PAGESIZES, $pgSzIndx, ['onchange' => "doSubmit('setPgSz', '$pgSzIndx')"]) !!}</div>
         </div>
         <div class="row">
-             <div  class="col-md-6" align="left" >{{ $instruments->links() }}</div> 
+            <div  class="col-md-6" align="left" >{{ $instruments->links() }}</div> 
         </div>
     </div>
 </form>

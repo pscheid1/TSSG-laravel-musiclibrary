@@ -13,8 +13,8 @@
     <table style="width:70%" border="1.0" align="center" >
         <caption><h2>Musicians Manager Roles</h2></caption>
         <tr>
-            <th> Role </th>
-            <th> Display Name </th>
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('name', 'Role') }} </th>   
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('displayname', 'Display Name') }} </th>   
             <th> Action </th>
         </tr>
         @foreach ($roles as $role)

@@ -5,8 +5,7 @@
 @include('flash::message')
 
 <script>
-    document.title = 'Musicians Manager - List Songs';</script>
-
+    document.title = 'Musicians Manager - List Songs';</script> 
 
 <form role='form' name="myRqst" id="myRqst" action='/musiclibrary/'   method='POST'>
     {{ csrf_field() }} 
@@ -14,13 +13,13 @@
     <table style="width:100%" border="1.0" align="center" >
         <caption><h2>Musicians Manager Music Library</h2></caption>
         <tr>
-            <th> Catlog No. </th>
-            <th> Title </th>
-            <th> Arranger </th>
-            <th> Composer </th>
-            <th> Style</th>
-            <th> Tempo </th>
-            <th> Published </th>
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('CATALOGNUM', 'Catlog No. ') }} </th>  
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('TITLE', 'Title') }} </th>  
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('ARRANGER', 'Arranger') }} </th>  
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('COMPOSER', 'Composer') }} </th>  
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('STYLEID', 'Style') }} </th>  
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('TEMPOID', 'Tempo') }} </th>  
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('PUBLISHER', 'Published') }} </th>  
             <th> Action </th>
         </tr>
         @foreach ($songs as $song)

@@ -12,11 +12,11 @@
     <input type="hidden" id="_method" name="_method" value=""></input>
     <table style="width:70%" border="1.0" align="center" >
         <caption><h2>Musicians Manager Groups</h2></caption>
-        <tr>
-            <th> Group </th>        
-            <th> Type </th>
-            <th> Status </th>
-            <th> Manager </th>
+        <tr> 
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('name', 'Group') }} </th>   
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('type', 'Type') }} </th>   
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('status', 'Status') }} </th>   
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('groupleader', 'User') }} </th>   
             <th> Action </th>
         </tr>
         @foreach ($groups as $group)

@@ -2,10 +2,12 @@
 
 namespace App;
 
-//use Illuminate\Database\Eloquent\Model;
+use App\Traits\SortableTrait;
 
 class Musiclibrary extends BaseModel
 {
+
+    use SortableTrait;
 
     /**
      * The attributes that are mass assignable.

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Http\Controllers\Controller;
 use App\Instrument;
 use Illuminate\Http\Request;
@@ -30,7 +29,8 @@ class InstrumentsController extends Controller
         $pgSizeHelper = new PageSizeHelper();
         $pgSzIndx = $pgSizeHelper->getPgSzIndx('instruments', $request->pageSize);
 
-        $instruments = Instrument::paginate(PAGESIZES[$pgSzIndx]);
+        $instruments = Instrument::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $instruments->appends($request->input());
 
 
         $updaters = array();

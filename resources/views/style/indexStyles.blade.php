@@ -13,8 +13,8 @@
     <table style="width:70%" border="1.0" align="center" >
         <caption><h2>Musicians Manager Styles</h2></caption>
         <tr>
-            <th> Style </th>
-            <th> Last Updated By </th>
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('DESCRIPTION', 'Style') }} </th>   
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('UPDATEUSERID', 'Last Updated By') }} </th>   
             <th> Action </th>
         </tr>
         @foreach ($styles as $style)
@@ -36,28 +36,28 @@
         @endforeach
     </table>
 </table>
+<div class="row">
+    <div class="col-md-12">
+        &nbsp;
+    </div>
+</div>
+<div class="center70" >
     <div class="row">
-        <div class="col-md-12">
-            &nbsp;
-        </div>
+        @if ($styles->lastPage() > 0)
+        <div  class="col-md-6" align="left" >Page:{{ $styles->currentPage() }} of {{$styles->lastPage() }}</div>
+        @else
+        <div  class="col-md-6" align="left" >Nothing to display</div>
+        @endif
+        <!--
+        Selecting a new page size will trigger  a submit page action that will reset the list size and return a new
+        listing starting with page 1.
+        -->
+        <div  class="col-md-6" align="right">Lines/Page:{!! Form::select('pageSize', PAGESIZES, $pgSzIndx, ['onchange' => "doSubmit('setPgSz', '$pgSzIndx')"]) !!}</div>
     </div>
-    <div class="center70" >
-        <div class="row">
-            @if ($styles->lastPage() > 0)
-            <div  class="col-md-6" align="left" >Page:{{ $styles->currentPage() }} of {{$styles->lastPage() }}</div>
-            @else
-            <div  class="col-md-6" align="left" >Nothing to display</div>
-            @endif
-            <!--
-            Selecting a new page size will trigger  a submit page action that will reset the list size and return a new
-            listing starting with page 1.
-            -->
-            <div  class="col-md-6" align="right">Lines/Page:{!! Form::select('pageSize', PAGESIZES, $pgSzIndx, ['onchange' => "doSubmit('setPgSz', '$pgSzIndx')"]) !!}</div>
-        </div>
-        <div class="row">
-            <div  class="col-md-6" align="left" >{{ $styles->links() }}</div> 
-        </div>
+    <div class="row">
+        <div  class="col-md-6" align="left" >{{ $styles->links() }}</div> 
     </div>
+</div>
 </form>
 
-    @stop
+@stop

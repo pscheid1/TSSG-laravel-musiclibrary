@@ -11,13 +11,13 @@
     <table style="width:100%" border="1.0" align="center" >
         <caption><h2>Musicians Manager Members</h2></caption>
         <tr>
-            <th> User Name </th>        
-            <th> First Name </th>
-            <th> Last Name </th>            
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('username', 'User Name') }} </th>        
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('firstname', 'First Name') }} </th>
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('lastname', 'Last Name') }} </th>            
             <th> Group Memberships </th>
             <th> Instruments </th>
-            <th> Current Role </th>
-            <th> Can Login </th>
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('currentrole', 'Current Role') }} </th>
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('loginpermitted', 'Can Login') }} </th>
             <th> Action </th>
         </tr>
         @foreach ($users as $user)

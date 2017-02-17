@@ -28,8 +28,9 @@ class SkillsController extends Controller
         $pgSizeHelper = new PageSizeHelper();
         $pgSzIndx = $pgSizeHelper->getPgSzIndx('skills', $request->pageSize);
 
-        $skills = Skill::paginate(PAGESIZES[$pgSzIndx]);
-
+        $skills = Skill::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $skills->appends($request->input());
+        
         $updaters = array();
         foreach ($skills as $skill)
         {

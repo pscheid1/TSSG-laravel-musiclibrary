@@ -30,8 +30,9 @@ class GroupsController extends Controller
         $pgSizeHelper = new PageSizeHelper();
         $pgSzIndx = $pgSizeHelper->getPgSzIndx('groups', $request->pageSize);
 
-        $groups = Group::paginate(PAGESIZES[$pgSzIndx]);
-
+        $groups = Group::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $groups->appends($request->input());
+        
         return view('group.indexGroups', compact('groups', 'pgSzIndx'));
     }
 

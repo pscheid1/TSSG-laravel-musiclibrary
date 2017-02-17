@@ -33,8 +33,9 @@ class TemposController extends Controller
         $pgSizeHelper = new PageSizeHelper();
         $pgSzIndx = $pgSizeHelper->getPgSzIndx('groups', $request->pageSize);
 
-        $tempos = Tempo::paginate(PAGESIZES[$pgSzIndx]);
-
+        $tempos = Tempo::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $tempos->appends($request->input());
+        
         $updaters = array();
         foreach ($tempos as $tempo)
         {

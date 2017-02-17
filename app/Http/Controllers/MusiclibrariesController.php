@@ -30,7 +30,9 @@ class MusiclibrariesController extends Controller
         $pgSizeHelper = new PageSizeHelper();
         $pgSzIndx = $pgSizeHelper->getPgSzIndx('songs', $request->pageSize);
 
-        $songs = Musiclibrary::paginate(PAGESIZES[$pgSzIndx]);
+        $songs = Musiclibrary::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $songs->appends($request->input());
+        
         return view('musiclibrary.indexSongs', compact('songs', 'pgSzIndx'));
     }
 

@@ -27,8 +27,9 @@ class RolesController extends Controller
         $pgSizeHelper = new PageSizeHelper();
         $pgSzIndx = $pgSizeHelper->getPgSzIndx('roles', $request->pageSize);
 
-        $roles = Role::paginate(PAGESIZES[$pgSzIndx]);
-
+        $roles = Role::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $roles->appends($request->input());
+        
         return view('role.indexRoles', compact('roles', 'pgSzIndx'));
     }
 

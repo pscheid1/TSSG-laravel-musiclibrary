@@ -59,6 +59,46 @@ Route::resource('instrument', 'InstrumentsController');
 Route::resource('skill', 'SkillsController');
 
 Route::resource('resource', 'ResourcesController');
+ 
+Route::get('user/{pgSz}/setPgSz', [
+    'as' => 'user.setPgSz',
+    'uses' => 'UsersController@index'
+]);
+
+Route::get('instrument/{pgSz}/setPgSz', [
+    'as' => 'instrument.setPgSz',
+    'uses' => 'InstrumentsController@index'
+]);
+
+Route::get('tempo/{pgSz}/setPgSz', [
+    'as' => 'tempo.setPgSz',
+    'uses' => 'TemposController@index'
+]);
+
+Route::get('style/{pgSz}/setPgSz', [
+    'as' => 'style.setPgSz',
+    'uses' => 'StylesController@index'
+]);
+
+Route::get('skill/{pgSz}/setPgSz', [
+    'as' => 'skill.setPgSz',
+    'uses' => 'SkillsController@index'
+]);
+
+Route::get('role/{pgSz}/setPgSz', [
+    'as' => 'role.setPgSz',
+    'uses' => 'RolesController@index'
+]);
+
+Route::get('musiclibrary/{pgSz}/setPgSz', [
+    'as' => 'musiclibrary.setPgSz',
+    'uses' => 'MusiclibrariesController@index'
+]);
+
+Route::get('group/{pgSz}/setPgSz', [
+    'as' => 'group.setPgSz',
+    'uses' => 'GroupsController@index'
+]);
 
 Route::get('user/{user}/delrole', [
     'as' => 'user.delrole',

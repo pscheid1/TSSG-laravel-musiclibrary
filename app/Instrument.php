@@ -2,10 +2,13 @@
 
 namespace App;
 
-//use Illuminate\Database\Eloquent\Model;
+use App\Traits\SortableTrait;
 
 class Instrument extends BaseModel
 {
+
+    use SortableTrait;
+
     protected $fillable = ['name', 'updateuserid'];
     protected static $rules = [
         'name' => 'required|unique:instruments'

@@ -3,10 +3,12 @@
 namespace App;
 
 use App\User;
-//use Illuminate\Database\Eloquent\Model;
+use App\Traits\SortableTrait;
 
 class Role extends BaseModel
 {
+
+    use SortableTrait;
 
     protected $fillable = [ 'name', 'displayname'];
     protected static $rules = [

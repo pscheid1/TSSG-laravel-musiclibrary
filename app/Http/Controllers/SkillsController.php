@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-//use Gate;
-//use App;
-//use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-//use App\Http\Requests;
 use App\Http\Controllers\Controller;
-use App\Skill;
-//use Laracasts\Flash;
+use App\Skill;;
 use App\User;
-//use App\Policies;
+use App\Http\Controllers\Helpers\PageSizeHelper;
 
 class SkillsController extends Controller
 {
@@ -21,7 +16,7 @@ class SkillsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (!(\policy(new Skill)->index()))
         {
@@ -29,15 +24,20 @@ class SkillsController extends Controller
             return redirect()->back();
         }
 
-        $skills = Skill::all();
+        // get this users page size for this list
+        $pgSizeHelper = new PageSizeHelper();
+        $pgSzIndx = $pgSizeHelper->getPgSzIndx('skills', $request->pageSize);
 
+        $skills = Skill::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $skills->appends($request->input());
+        
         $updaters = array();
         foreach ($skills as $skill)
         {
             $updaters[$skill->id] = User::find($skill->updateuserid)->firstname . ' ' . User::find($skill->updateuserid)->lastname;
         }
 
-        return view('skill.indexSkills', compact('skills', 'updaters'));
+        return view('skill.indexSkills', compact('skills', 'updaters', 'pgSzIndx'));
     }
 
     /**
@@ -54,7 +54,6 @@ class SkillsController extends Controller
         }
 
         return view('skill.addSkill');
-
     }
 
     /**
@@ -82,7 +81,6 @@ class SkillsController extends Controller
 
         //return $this->index(); // if you want to return to the list styles view
         return redirect()->back(); // if you want return to a new add style  view
-
     }
 
     /**
@@ -104,10 +102,9 @@ class SkillsController extends Controller
         {
             flash()->error("Unable to locate requested proviciency in database.")->important();
         }
-        
-        $updateusername = User::find($skill->updateuserid)->firstname . ' ' . User::find($skill->updateuserid)->lastname;        
-        return view('skill.editSkill', compact('skill', 'updateusername'));
 
+        $updateusername = User::find($skill->updateuserid)->firstname . ' ' . User::find($skill->updateuserid)->lastname;
+        return view('skill.editSkill', compact('skill', 'updateusername'));
     }
 
     /**
@@ -151,7 +148,6 @@ class SkillsController extends Controller
 
         return $this->index();  // use this to return to the list skills page
         //return redirect()->back(); // use this if you want to keep the update form displayed.
-
     }
 
     /**
@@ -186,7 +182,6 @@ class SkillsController extends Controller
 
         return redirect()->back();
         //return $this->index($request);
-
     }
 
 }

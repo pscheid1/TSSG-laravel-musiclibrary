@@ -46,7 +46,7 @@ class musiclibrariesTableSeeder extends Seeder {
             'STYLEID' => 2,
             'COPYRIGHT' => NULL,
             'COMPOSER' => 'Woody Guthrie',
-            'ARRANGER' => 'Fung Schwayt',
+            'ARRANGER' => 'Fung Schway',
             'LYRICIST' => 'Gilbert',
             'PUBLISHER' => 'RCA',
             'PUBYEAR' => '2012-01-01',

@@ -2,15 +2,11 @@
 
 namespace App\Http\Controllers;
 
-//use Gate;
-//use App;
 use App\Http\Controllers\Controller;
 use App\Instrument;
-//use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-//use Laracasts\Flash;
 use App\User;
-//use App\Policies;
+use App\Http\Controllers\Helpers\PageSizeHelper;
 
 class InstrumentsController extends Controller
 {
@@ -20,7 +16,7 @@ class InstrumentsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (!(\policy(new Instrument)->index()))
         {
@@ -28,7 +24,15 @@ class InstrumentsController extends Controller
             return redirect()->back();
         }
 
-        $instruments = Instrument::all();
+
+        // get this users page size for this list
+        $pgSizeHelper = new PageSizeHelper();
+        $pgSzIndx = $pgSizeHelper->getPgSzIndx('instruments', $request->pageSize);
+
+        $instruments = Instrument::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $instruments->appends($request->input());
+
+
         $updaters = array();
         foreach ($instruments as $instrument)
         {
@@ -36,7 +40,7 @@ class InstrumentsController extends Controller
             $updaters[$instrument->id] = User::find($instrument->updateuserid)->firstname . ' ' . User::find($instrument->updateuserid)->lastname;
         }
 
-        return view('instrument.indexInstruments', compact('instruments', 'updaters'));
+        return view('instrument.indexInstruments', compact('instruments', 'updaters', 'availablePgSizes', 'pgSzIndx'));
     }
 
     /**

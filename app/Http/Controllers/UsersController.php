@@ -2,29 +2,26 @@
 
 namespace App\Http\Controllers;
 
-//use Gate;
 use App;
-use App\Http\Controllers\Controller;
-//use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
-//use Laracasts\Flash;
 use App\User;
 use Hash;
-//use App\BaseModel;
 use App\Role;
 use App\Contact;
 use App\Resource;
 use Illuminate\Support\Facades\Input;
-
-//use App\Instrument;
+use App\Http\Controllers\Helpers\PageSizeHelper;
+//use App\Traits\SortableTrait;
 
 class UsersController extends Controller
 {
-     
+
+    //use SortableTrait;
     /*
      *  using this function to rename an array key.
-     *  it will does not maintain key order in case that is important.
+     *  it does not maintain key order in case that is important.
      */
+
     public function renameKey($array, $old_key, $new_key)
     {
         $array[$new_key] = $array[$old_key];
@@ -37,18 +34,21 @@ class UsersController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //$pageSize = 10;
         if (!(\policy(new User)->index()))
         {
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
 
-        $users = User::all();
-        //$users = User::paginate($pageSize); 
-        //$users->appends(request()->input())->links();
+        // get this users page size for this list
+        $pgSizeHelper = new PageSizeHelper();
+        $pgSzIndx = $pgSizeHelper->getPgSzIndx('users', $request->pageSize);
+
+        $users = User::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $users->appends($request->input());
+        
         $usrgps = array();
         $instruments = array();
 
@@ -76,7 +76,7 @@ class UsersController extends Controller
             $instruments[$user->id] = $userInstruments;
         }
 
-        return view('user.indexUsers', compact('users', 'usrgps', 'instruments'));
+        return view('user.indexUsers', compact('users', 'usrgps', 'instruments', 'pgSzIndx'));
     }
 
     /**

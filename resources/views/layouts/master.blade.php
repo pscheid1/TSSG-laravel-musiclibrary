@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TSSG Musician Managers</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   <style type="text/css">
+    <style type="text/css">
         .xsmall
         {
             line-height: 0.1;
@@ -18,6 +18,20 @@
             float:left;
             width:85px;
         }
+
+        .center70
+        {
+            width: 70%;
+            margin:  0 auto;
+        }
+
+        .selectBox
+        {
+            width: 90%;
+            overflow-x: visible;
+            overflow-y: hidden;
+        }
+
         .button
         {
             background: #5abbd1;
@@ -31,12 +45,25 @@
         {
             float:left;
         }
-
+  
         th {
             text-align: center;
             background-color: blue;
             color: white;
         }
+      
+        /*
+        Change the link default color.
+        We are using white on blue for our table column headings.
+        When a colum is sortabel it's heading becoms a link.  
+        The default link color on blue is implssible to read.'
+        We could force the color back to white but then it would not be
+        obvious which columns are sortabel.
+        */
+        a {
+            color: yellow;
+        }
+
         .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
             color: white;  /*Sets the text hover color on navbar*/
         }
@@ -126,7 +153,6 @@
         } 
 
     </style>
-
 </head>
 <body>
     @if (\App\Setting::getBannerPics()  > 0)
@@ -203,7 +229,7 @@
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    @if (\Auth::user() == null)
+                    @if (\Auth::user() == NULL)
                     <a class="navbar-brand" href="">Musicians Manager</a>
                     @else
                     <a class="navbar-brand" href="{{ route('home') }}">Musicians Manager</a>          
@@ -263,7 +289,7 @@
                     @endif
                 </ul>
                 <ul class="nav navbar-nav navbar-right">                   
-                    @if (\Auth::user() != null)
+                    @if (\Auth::user() != NULL)
                     <li><a class="glyphicon glyphicon-user">&nbsp;{{ \Auth::user()->username }}</a></li>
                     <li><a href="{{ route('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
                     @elseif (Request::path() === '/' || Request::path() === 'auth/login')                    
@@ -303,34 +329,48 @@ function doSubmit(rqstType, rqstId, resourceid)
         // set the _method field to delinstr, form method remains POST
         document.getElementById("_method").value = "delete";
     }
-    else
+    else if (rqstType === "delete")
     {
-        // Delete request (rqstType === 'delete')
         // set the _method field to DELETE, form method remains POST
         document.getElementById("_method").value = rqstType;
     }
+    else if (rqstType === "setPgSz")
+    {
+        // change the form method from POST to GET, _method field remains empty
+        document.getElementById("myRqst").method = 'get';
+    }
+    else
+    {
+        window.alert('help');   // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+    }
 
     var xaction = document.getElementById("myRqst").action;
-
-    if (rqstType == "getinstr")
+    if (rqstType === "getinstr")
     {
         document.getElementById("_resourceid").value = resourceid;
         var indx = xaction.lastIndexOf('/');
         xaction = xaction.substr(0, indx + 1);
         xaction = xaction.concat("editproficiency");
     }
-    else if (rqstType == "delinstr")
+    else if (rqstType === "delinstr")
     {
         document.getElementById("_resourceid").value = resourceid;
         var indx = xaction.lastIndexOf('/');
         xaction = xaction.substr(0, indx + 1);
         xaction = xaction.concat("delinstr");
     }
+    else if (rqstType === "setPgSz")
+    {
+        xaction = document.getElementById("myRqst").action;
+        xaction = xaction.concat(rqstId);
+        xaction = xaction.concat('/setPgSz');
+    }
     else
     {
         // append requestId to form action        
         xaction = xaction.concat(rqstId);
     }
+    ;
     document.getElementById("myRqst").action = xaction;
 // submit the form
     document.getElementById("myRqst").submit();

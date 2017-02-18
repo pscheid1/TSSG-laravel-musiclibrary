@@ -3,16 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-//use App\Http\Requests;
 use App;
 use App\Http\Controllers\Controller;
-//use Illuminate\Support\Facades\Session;
-//use Laracasts\Flash;
-//use App\BaseModel;
 use App\Group;
-//use Illuminate\Support\Facades\Input;
 use App\Role;
 use App\User;
+use App\Http\Controllers\Helpers\PageSizeHelper;
 
 class GroupsController extends Controller
 {
@@ -22,17 +18,22 @@ class GroupsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         if (!(\policy(new Group)->index()))
         {
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
+        
+        // get this users page size for this list
+        $pgSizeHelper = new PageSizeHelper();
+        $pgSzIndx = $pgSizeHelper->getPgSzIndx('groups', $request->pageSize);
 
-        $groups = Group::all();
-
-        return view('group.indexGroups', compact('groups'));
+        $groups = Group::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $groups->appends($request->input());
+        
+        return view('group.indexGroups', compact('groups', 'pgSzIndx'));
     }
 
     /**

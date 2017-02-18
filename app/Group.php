@@ -2,12 +2,14 @@
 
 namespace App;
 
-//use Illuminate\Database\Eloquent\Model;
+use App\Traits\SortableTrait;
 
 class Group extends BaseModel
 {
+
+    use SortableTrait;
+
     protected $fillable = ['name', 'type', 'status', 'groupleader', 'address1', 'address2', 'city', 'state', 'zipcode', 'phone1', 'phone2', 'email', 'weburl', 'updateuserid'];
-    
     protected static $rules = [
         'name' => 'required|unique:groups',
         'type' => 'required',
@@ -17,7 +19,6 @@ class Group extends BaseModel
         'email' => 'required|email'
     ];
 
-    
     public function managers()
     {
         return $this->belongsToMany(User::class, 'group_manager');

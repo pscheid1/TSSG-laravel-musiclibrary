@@ -2,10 +2,12 @@
 
 namespace App;
 
-//use Illuminate\Database\Eloquent\Model;
+use App\Traits\SortableTrait;
 
 class Style extends BaseModel
 {
+
+    use SortableTrait;
 
     protected $fillable = ['DESCRIPTION', 'UPDATEUSERID'];
     protected static $rules = [

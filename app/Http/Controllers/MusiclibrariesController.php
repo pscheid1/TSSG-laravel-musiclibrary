@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-//use Gate;
 use App;
 use App\Http\Controllers\Controller;
 use App\Musiclibrary;
-//use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use laracasts\flash;
-//use App\Policies;
 use App\User;
-//use Hash;
+use App\Http\Controllers\Helpers\PageSizeHelper;
 
 class MusiclibrariesController extends Controller
 {
@@ -21,7 +18,7 @@ class MusiclibrariesController extends Controller
         $this->middleware('auth', ['except' => 'index']);
     }
 
-    public function index()
+    public function index(Request $request)
     {
         if (!(\policy(new Musiclibrary)->index()))
         {
@@ -29,9 +26,14 @@ class MusiclibrariesController extends Controller
             return redirect()->back();
         }
 
-        $musiclibrary = Musiclibrary::all();
+        // get this users page size for this list
+        $pgSizeHelper = new PageSizeHelper();
+        $pgSzIndx = $pgSizeHelper->getPgSzIndx('songs', $request->pageSize);
 
-        return view('musiclibrary.indexSongs', compact('musiclibrary'));
+        $songs = Musiclibrary::sortable()->paginate(PAGESIZES[$pgSzIndx]);
+        $songs->appends($request->input());
+        
+        return view('musiclibrary.indexSongs', compact('songs', 'pgSzIndx'));
     }
 
     public function create()
@@ -59,13 +61,14 @@ class MusiclibrariesController extends Controller
             return redirect()->back();
         }
 
-        $musicLibrary = new Musiclibrary($request->all());
+        $song = new Musiclibrary($request->all());
 
-        $this->validate($request, $musicLibrary::getRules());
+        $this->validate($request, $song::getRules());
 
-        $musicLibrary->save();
+        $song->UPDATEUSERID = \Auth::user()->id;
+        $song->save();
 
-        flash()->success("Song '" . $musicLibrary->TITLE . "' successfully added!");
+        flash()->success("Song '" . $song->TITLE . "' successfully added!");
 
         //return $this->index(); // if you want to return to the list songs view
         return redirect()->back(); // if you want return to a new add song view
@@ -110,6 +113,7 @@ class MusiclibrariesController extends Controller
         $song->VOCALISTS = 0;
         $song->TRANSCRIPTION = 0;
         $song->COMMARRANGEMENT = 0;
+        $song->UPDATEUSERID = \Auth::user()->id;
 
         $song->update($request->all());
         flash()->success("Song '" . $song->TITLE . "' successfully updated!");

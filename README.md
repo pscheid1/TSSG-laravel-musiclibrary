@@ -2,16 +2,16 @@
 Laravel implementation of TSSG music library
 
 ###[Documentation:] (https://laravel.com/docs)
-This is very comprehensive document and is updated for each major release. I think link will take you to the latest version but if not, you can 
-select it from the drop down in the red square in the upper right hand corner of the home page.
+This is very comprehensive document and is updated for each major release. I think the link will take you to the latest version but if not, you can 
+select it from the drop down in the red square in the upper right hand corner of the home page. (Click on 'Documentation:' to view in browser.)
 
 ### [Cheat Sheet:] (http://learninglaravel.net/cheatsheet)
 The above link is to what is know as the **Cheat Sheet**. This is not "official" Laravel documentation but it is a very good abbreviated reference 
 of everything Laravel.  In the left hand menu you can select specific categories that will present an expnded list of related commands or 
-code.  There are no definitions, just the syntax. **Warning: this document is not at level 5.3 at this time.**
+code.  There are no definitions, just the syntax. **Warning: this document is not at level 5.3 at this time.** (Click on 'Cheat Sheet:' to view in browser.)
 
 ### [5.3 Cheat Sheet:] (http://www.phplab.info/categories/cheet-sheets/laravel-53-cheat-sheet)
-There is a Cheat Sheet for 5.3 but at this time it only contains Artisan commands.
+There is a Cheat Sheet for 5.3 but at this time it only contains Artisan commands. (Click on '5.3 Cheat Sheet:' to view in browser.)
 
 Here are a few steps that should get you started with setting up this project.  Regardless of your environment  
 (platform, OS, etc) you should be able to use the following steps to get Laravel and this project up and running.
@@ -60,8 +60,10 @@ From a command window, run the following commands:
 11. Set up your MySQL (or other database.) Open the .env file and either set your database up for the DB_XXXX parameters or change them to agree with your settings.
 12. php artisan migrate
 13. php artisan db:seed
-14. php artisan serve (this will run the laravel built in server)
-15. In your browser go to http://localhost:8000 (if everything is working, the login page should display)
+14. If you want to use the artisan server:
+    - php artisan serve (this will run the laravel built in server)
+    - In your browser go to http://localhost:8000 (if everything is working, the login page should display)  
+ 15. Otherwise start your own server and access your base URL.
 
 #### Laravel Music Library Instructions
     
@@ -149,7 +151,7 @@ returned.  The page will be scanned to determine if the string 'Password' is on 
 
 Obviously this isn't much of a test.  This is mainly to begin the process of figuring out how to test a Laravel project utilizing the internal test framework.
 
-The modify-password branch is now merged into master.  This includes the following changes:
+###The modify-password branch is now merged into master.  This includes the following changes:
 
 * Any user may now changed their password by using the edit option on their own account.
 * An administrator may change the password of any account.
@@ -163,6 +165,28 @@ be rejected. (for testing without a mail server, you can get the information fro
 * The NAVBAR home tab has been deleted.
 * The NAVBAR icon (Musicians Manager) is now a 'home' screen link.
 * The default timezone is now EST w/daylight savings time.
+
+###The pagination branch is now merged into master.  This includes the following changes:
+
+* All 'List' commands contain automatic pagination.
+* Each page will contain Page n of n in the lower left hand corner.
+* Below the Page n of n line will be a block containing a previous icon followed by page numbers followed by a next icon.
+* Previous will be disabled on the first page and next will be disabled on the last page.
+* If there is only one page to be displayed, the next/previous data is not displayed.
+* On the lower right hand side of the page is a Lines/page dropdown containing selection for 10, 15, 25, 50 and 100 lines per page.  
+* Each list may be initialized to a different lines/page entry.
+* If a new lines per page is selected, the entry is saved on a per list per user basis.
+
+###The add_column_sorting branch is now merged into master.  This includes the following changes:
+
+* List commands contain various columns that may be sorted.
+* Columns that can be sorted are indicated by yellow text on a blue background.  Non sortable columns are white on blue.
+* When hovering over a sortable column heading, the heading will disappear.
+* Selecting a column to be sorted will cause the list to be redisplayed.
+* When a column as been sorted, the column heading will contain an up or down arrow indicating the column is now in ascending or descending order.
+* We referrer to it as column sorting but the reality is that the rows are sorted based on the column data.
+* Each sort request results in a new sort request and a new listing of the data.  In other words, previous sorts have no affect on later sorts.
+
 
 
 

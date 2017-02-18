@@ -20,7 +20,7 @@
         {!! Form::hidden('_method', '$value', ['id' => '_method']) !!}
         {!! csrf_field() !!}
     <!--    <input type="hidden" id="_method" name="_method" value=""></input>-->
-        <table style="width:70%" border=".5" align="center" >
+        <table style="width:70%" border="1.0" align="center" >
             <caption>
                 <h4><b>{{ $user->firstname }} {{ $user->lastname }} ({{ $user->username }})</b></h4>
             </caption>

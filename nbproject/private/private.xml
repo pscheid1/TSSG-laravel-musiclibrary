@@ -6,7 +6,11 @@
             <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/resources/views/layouts/master.blade.php</file>
             <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/app/User.php</file>
             <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/resources/views/user/indexUsers.blade.php</file>
+            <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/app/Http/routes.php</file>
+            <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/app/Http/Controllers/InstrumentsController.php</file>
             <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/app/Http/Controllers/UsersController.php</file>
+            <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/resources/views/instrument/indexInstruments.blade.php</file>
+            <file>file:/C:/TSSG/TSSG-laravel-musiclibrary/app/Instrument.php</file>
         </group>
     </open-files>
 </project-private>

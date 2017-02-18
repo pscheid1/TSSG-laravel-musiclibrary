@@ -14,7 +14,7 @@
         {!! csrf_field() !!}
         {!!Form::hidden('user_id', $user->id)!!}
     <!--    <input type="hidden" id="_method" name="_method" value=""></input>-->
-        <table style="width:70%" border=".5" align="center" >
+        <table style="width:70%" border="1.0" align="center" >
             <caption>
                 <div><h2>Add Instrument to User</h2></div>
                 <h4><b>{{ $user->firstname }} {{ $user->lastname }} ({{ $user->username }})</b></h4>

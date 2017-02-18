@@ -15,7 +15,7 @@
         {!! Form::hidden('user_id', $resource->user_id) !!}
         {!! Form::hidden('resourceId', $resource->id) !!}
         {!! Form::hidden('instrument_id', $resource->instrument_id) !!}
-        <table style="width:73%" border=".5" align="center" >
+        <table style="width:73%" border="1.0" align="center" >
             <caption>
                 <div><h2>Edit Member Proficiency</h2></div>
                 <h4><b>{{ $user->firstname }} {{ $user->lastname }} ({{ $user->username }})</b></h4>

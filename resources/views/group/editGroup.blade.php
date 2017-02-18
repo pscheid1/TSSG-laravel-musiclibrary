@@ -8,10 +8,14 @@
     document.title = 'Musicians Manager - Edit Group';
 </script>
 
-<div><h2>Edit Group: {{ $group->name }}</h2></div>
 <div class="row">
-    <div class="required col-md-12 pull-right">
-        <b>(required fields indicated with an *)</b>
+    <div class='col-md-9 pull-left'>
+          <h2>Edit Group: {{ $group->name }}</h2>
+    </div>
+</div>
+<div class=''row">
+     <div class="required col-md-3 pull-right">
+         &nbsp;&nbsp;<b>(required fields indicated with an *)</b>
     </div>
 </div>
 <div class="row">
@@ -172,7 +176,7 @@
         <div class="col-md-5 pull-left" style="background-color:LightCyan; border:4px solid blue; border-radius:25px;">
             <h4 style="margin-top: -10px; background:white; width:172px">&nbsp;<b>Group Membership </b></h4>
             <div class="row">
-                <div class="col-md-5 col-md-offset-1">
+                <div class="col-md-5 col-md-offset-1 selectBox">
                     {!! Form::label(null,'Members:', ['data-toggle' => 'tooltip', 'title' => 'Listed below are all the users currently assigned to this group.']) !!}
                     {!! Form::select('membership[]', $members, null, ['multiple' => 'multiple', 'name' => 'membership[]', 'size' => '10', 'class' => 'selectbox']) !!}
                 </div>
@@ -192,7 +196,7 @@
         <div class="col-md-5 pull-right" style="background-color:LightCyan; border:4px solid blue; border-radius:25px;">
             <h4 style="margin-top: -10px; background:white; width:318px">&nbsp;<b>Musicians Available for Membership </b></h4>
             <div class="row">
-                <div class="col-md-5 col-md-offset-1">
+                <div class="col-md-5 col-md-offset-1 selectBox">
                     {!! Form::label(null,'Available Musicians:', ['data-toggle' => 'tooltip', 'title' => 'Listed below are all the users with the role Musician that are not currently members of this group.']) !!}
                     {!! Form::select('available[]', $available, null, ['multiple' => 'multiple', 'name' => 'available[]', 'size' => '10', 'class' => 'selectbox']) !!}
                 </div>

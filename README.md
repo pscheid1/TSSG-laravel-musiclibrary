@@ -151,7 +151,7 @@ returned.  The page will be scanned to determine if the string 'Password' is on 
 
 Obviously this isn't much of a test.  This is mainly to begin the process of figuring out how to test a Laravel project utilizing the internal test framework.
 
-The modify-password branch is now merged into master.  This includes the following changes:
+###The modify-password branch is now merged into master.  This includes the following changes:
 
 * Any user may now changed their password by using the edit option on their own account.
 * An administrator may change the password of any account.
@@ -165,6 +165,28 @@ be rejected. (for testing without a mail server, you can get the information fro
 * The NAVBAR home tab has been deleted.
 * The NAVBAR icon (Musicians Manager) is now a 'home' screen link.
 * The default timezone is now EST w/daylight savings time.
+
+###The pagination branch is now merged into master.  This includes the following changes:
+
+* All 'List' commands contain automatic pagination.
+* Each page will contain Page n of n in the lower left hand corner.
+* Below the Page n of n line will be a block containing a previous icon followed by page numbers followed by a next icon.
+* Previous will be disabled on the first page and next will be disabled on the last page.
+* If there is only one page to be displayed, the next/previous data is not displayed.
+* On the lower right hand side of the page is a Lines/page dropdown containing selection for 10, 15, 25, 50 and 100 lines per page.  
+* Each list may be initialized to a different lines/page entry.
+* If a new lines per page is selected, the entry is saved on a per list per user basis.
+
+###The add_column_sorting branch is now merged into master.  This includes the following changes:
+
+* List commands contain various columns that may be sorted.
+* Columns that can be sorted are indicated by yellow text on a blue background.  Non sortable columns are white on blue.
+* When hovering over a sortable column heading, the heading will disappear.
+* Selecting a column to be sorted will cause the list to be redisplayed.
+* When a column as been sorted, the column heading will contain an up or down arrow indicating the column is now in ascending or descending order.
+* We referrer to it as column sorting but the reality is that the rows are sorted based on the column data.
+* Each sort request results in a new sort request and a new listing of the data.  In other words, previous sorts have no affect on later sorts.
+
 
 
 

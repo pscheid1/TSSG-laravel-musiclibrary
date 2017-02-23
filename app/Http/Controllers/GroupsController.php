@@ -126,13 +126,28 @@ class GroupsController extends Controller
             $members[$grpmember->id] = $grpmember->firstname . ' ' . $grpmember->lastname;
         }
 
+        // get all users with role of musician
         $role = Role::where('name', '=', 'musician')->first();
         $userswithrole = $role->users;
-        $available;
+        $available = array();
         foreach ($userswithrole as $user)
         {
             $available[$user->id] = $user->firstname . ' ' . $user->lastname;
         }
+        
+        // get all users with role of substitute musician
+        $role = Role::where('name', '=', 'sub')->first();
+        $userswithrole = $role->users;
+        $subs = array();
+        foreach ($userswithrole as $user)
+        {
+            $subs[$user->id] = $user->firstname . ' ' . $user->lastname;
+        }
+        //remove subs that are also muscians
+        $subs = array_diff($subs, $available);
+        // merge musicians and substitute musicians (do not use array_merge, use array union '+')
+        // array_merge will create an new key and append it.  We need to keep the key equal to the user_id
+        $available = $available + $subs;
 
         // remove users already members of group from available
         $available = array_diff($available, $members);
@@ -190,7 +205,7 @@ class GroupsController extends Controller
         }
         $this->validate($request, $group->getUpdateRules());
 
-        $newmembers = null;
+        $newmembers = array();
         if ($request->has('available'))
         {
             foreach ($request->available as $newmember)
@@ -235,10 +250,10 @@ class GroupsController extends Controller
             $group->members()->sync($members, true);
         }
 
-        // if the existing groupleader does not have the role of musician, remove him/her from the group
+        // if the existing groupleader does not have the role of musician or substitue musician, remove him/her from the group
         // if the existing groupleader is not replaced they will be added back into the group in the code futher down
         $grpleader = User::find($group->groupleader);
-        if (!($grpleader->hasRole('musician')))
+        if (!($grpleader->hasRole('musician') || $grpleader->hasRole('sub')))
         {
             // if not a musician, remove current groupmanager from the group
             // if the groupleader has a role of musician they are left as a group member even if they are replaced as the group leader.        

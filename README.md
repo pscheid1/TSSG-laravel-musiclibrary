@@ -25,7 +25,7 @@ You will need the following applications.  Install them and test them according 
 1. PHP.  I have been using version 7.0.3 with xdebug v2.4.0.  
 2.  A SQL server database.  Out of the box Laravel supports SQLite, MySQL, SQL Server and Postgres.I have been using MySQL version 5.7.
 3.  You can probably use just about any web server.  I have installed the Apache web server but Laravel contains a built-in server that is great for testing so up to this point I have not used the Apache server.  
-4.  Google composer download and select the correct version for your environment.  
+4.  Google composer downloads and selects the correct version for your environment.  
     - Install composer.  
     - Move compose.phar to a global location
     - Add composer to the environment path 
@@ -37,7 +37,7 @@ You will need the following applications.  Install them and test them according 
         Composer create-project laravel/laravel  `<project>` 
 
 Connect to Github.com.  Search for TSSG and locate TSSG-laravel-musiclibrary project.  It will be under my account (pscheid1).
-Select the branch to be downloaded.  Currently (11/27/16) the master branch is up to date and should be the branch selected.  If at a later date some new branch is ahead on commits, then you will have to decide which branch to download.  Download or Clone this project into your desired working directory.
+Select the branch to be downloaded.  Currently (02/22/17) the master branch is up to date and should be the branch selected.  If at a later date some new branch is ahead on commits, then you will have to decide which branch to download.  Download or Clone this project into your desired working directory.
 
 Follow the following steps to update the project with the latest Laravel code.  Some of these steps may not be necessary but they should not cause any harm if they are not.
 

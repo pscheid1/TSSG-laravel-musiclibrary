@@ -11,7 +11,7 @@ use App\Contact;
 use App\Resource;
 use Illuminate\Support\Facades\Input;
 use App\Http\Controllers\Helpers\PageSizeHelper;
-//use App\Traits\SortableTrait;
+
 
 class UsersController extends Controller
 {

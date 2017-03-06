@@ -94,7 +94,7 @@
             </div>
             <div class="row">
                 <div class="col-md-4 col-md-offset-1">
-                    {!! Form::label(null,'Confirm Password:') !!}
+                    {!! Form::label(null,'Verify Password:') !!}
                 </div>
                 <div class="col-md-1 pull-left">
                     {!! Form::password('password_confirmation') !!}

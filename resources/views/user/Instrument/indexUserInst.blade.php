@@ -5,8 +5,7 @@
 @include('flash::message')
 
 <script>
-    document.title = 'Musicians Manager - Member Assigned Instruments';
-</script>
+    document.title = 'Musicians Manager - Member Assigned Instruments';</script>
 
 <div class="row">
     <div class='col-md-12 col-md-offset-1'>
@@ -34,6 +33,7 @@
                 <th> Created </th>
                 <th> Action </th>
             </tr>
+            @if ($userResources->count() > 0)
             @foreach ($userResources as $resource)
             <tr>
                 <td>{{ $resource->instrument->name }}</td>
@@ -60,6 +60,9 @@
                 </td>
             </tr>
             @endforeach
+            @else
+            <tr><td>No Instruments assigned to this musician</td></tr>
+            @endif
         </table>
     </div>
 </div>

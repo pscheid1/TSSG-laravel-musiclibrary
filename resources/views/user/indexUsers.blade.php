@@ -6,14 +6,13 @@
 <script>
     document.title = 'Musicians Manager - List Members';</script>
 <form role='form' name="myRqst" id="myRqst" action='/user/'   method='POST'>
-    {{ csrf_field() }} 
     <input type="hidden" id="_method" name="_method" value="" />
-    <table style="width:100%" border="1.0" align="center" >
+    <table style="width:100%" border="1" >
         <caption><h2>Musicians Manager Members</h2></caption>
         <tr>
-            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('username', 'User Name') }} </th>        
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('username', 'User Name') }} </th>
             <th> {{ App\Traits\SortableTrait::link_to_sorting_action('firstname', 'First Name') }} </th>
-            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('lastname', 'Last Name') }} </th>            
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('lastname', 'Last Name') }} </th>
             <th> Group Memberships </th>
             <th> Instruments </th>
             <th> {{ App\Traits\SortableTrait::link_to_sorting_action('currentrole', 'Current Role') }} </th>
@@ -27,12 +26,21 @@
             <td>{{ $user->lastname }}</td>            
             <td>
                 @if (count($usrgps[$user->id]) > 0)
-                {{ Form::select(null, $usrgps[$user->id]) }}
+                {{-- use select for single line listing, foreach loop for multiple lines --}}                
+                {{-- Form::select(null, $usrgps[$user->id]) --}}
+                @foreach ($usrgps[$user->id] as $instrument)
+                {{$instrument}}<br>
+                @endforeach
+                
                 @endif
             </td>        
             <td>
                 @if (count($instruments[$user->id]) > 0)
-                {{ Form::select(null, $instruments[$user->id]) }}
+                {{-- use select for single line listing, foreach loop for multiple lines --}}
+                {{-- Form::select(null, $instruments[$user->id]) --}}
+                @foreach ($instruments[$user->id] as $instrument)
+                {{$instrument}}<br>
+                @endforeach
                 @endif
                 <!--<button type="button" class="btn btn-default btn-xs" onClick="doSubmit('get', '{{ $user->id }}')">
                     <span class="glyphicon glyphicon-edit" aria-hidden="true"> </span>

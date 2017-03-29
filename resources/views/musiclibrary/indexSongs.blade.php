@@ -9,15 +9,15 @@
 
 <form role='form' name="myRqst" id="myRqst" action='/musiclibrary/'   method='POST'>
     {{ csrf_field() }} 
-    <input type="hidden" id="_method" name="_method" value=""></input>
-    <table style="width:100%" border="1.0" align="center" >
+    <input type="hidden" id="_method" name="_method" value="">
+    <table style="width:100%" border="1" >
         <caption><h2>Musicians Manager Music Library</h2></caption>
         <tr>
             <th> {{ App\Traits\SortableTrait::link_to_sorting_action('CATALOGNUM', 'Catlog No. ') }} </th>  
             <th> {{ App\Traits\SortableTrait::link_to_sorting_action('TITLE', 'Title') }} </th>  
             <th> {{ App\Traits\SortableTrait::link_to_sorting_action('ARRANGER', 'Arranger') }} </th>  
-            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('COMPOSER', 'Composer') }} </th>  
-            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('STYLEID', 'Style') }} </th>  
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('COMPOSER', 'Composer') }} </th>
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('STYLEID', 'Style') }} </th>
             <th> {{ App\Traits\SortableTrait::link_to_sorting_action('TEMPOID', 'Tempo') }} </th>  
             <th> {{ App\Traits\SortableTrait::link_to_sorting_action('PUBLISHER', 'Published') }} </th>  
             <th> Action </th>

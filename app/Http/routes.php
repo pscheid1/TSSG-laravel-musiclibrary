@@ -100,7 +100,7 @@ Route::get('group/{pgSz}/setPgSz', [
     'uses' => 'GroupsController@index'
 ]);
 
-Route::get('user/{user}/delrole', [
+Route::patch('user/{user}/delrole', [
     'as' => 'user.delrole',
     'uses' => 'UsersController@deleteRole'
 ]);

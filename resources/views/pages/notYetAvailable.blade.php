@@ -7,11 +7,11 @@
 </script>
 
 <div class="relative">
-    <b><h4>Under Construction</h4></b>
+    <h4><b>Under Construction</b></h4>
     <img src="images/underconstr.jpg" alt="" style="width:100px;height:100px;" />
     
     <br /> <br /> <br />
-    <b><p>The feature You have requested is not yet available.</p></b>
+    <b><p>The feature you have requested is not yet available.</p></b>
     <p>
         <hr>
         <a href="{{ route('musiclibrary.index') }}" class="btn btn-info">List Songs</a>

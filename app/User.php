@@ -11,6 +11,7 @@ use App\Traits\SortableTrait;
 
 class User extends Authenticatable
 {
+
     use SortableTrait;
 
     /**
@@ -21,7 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'username', 'prefix', 'firstname', 'middlename', 'lastname', 'suffix', 'currentRole',
         'company', 'title', 'note', 'location', 'activated', 'terminated', 'loginpermitted', 'pageSizes',
-        'forcepwchange', 'password'
+        'forcepwchange', 'password' //, 'roleToDelete'
     ];
     public static $rules = [
         'username' => 'required|unique:users|min:6|max:45',
@@ -38,7 +39,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+   
+    /*
+    protected $appends = ['role_to_delete' => false];
 
+    public function getRoleToDeleteAttribute()
+    {
+        return $this->attributes['roleToDelete'];
+     }
+
+    public function setRoleToDeleteAttribute($value)
+    {
+        $this->attributes['roleToDelete'] = $value;
+    }
+    */
     /*
      * The following two functions (one accessor and one mutator) are used to save
      * each users default page settings.  These settings are for most of the
@@ -73,8 +87,8 @@ class User extends Authenticatable
         $this->attributes['pageSizes'] = serialize($value);
     }
 
-    // a resource contains an instrument and performance skills
-    // a user may have none to many resources
+// a resource contains an instrument and performance skills
+// a user may have none to many resources
     public function resources()
     {
         return $this->hasMany(Resource::class);
@@ -85,16 +99,16 @@ class User extends Authenticatable
         return $this->hasMany(Contact::class);
     }
 
-    // a user can have multiple contacts, but
-    // only one contact for a specific role.
+// a user can have multiple contacts, but
+// only one contact for a specific role.
     public function contactForRole($roleId)
     {
-        // get the contacts for this user
+// get the contacts for this user
         $c = $this->contacts;
         foreach ($c as $contact)
         {
-            // look for a contact with a matching role_id
-            // there should be only one or none.
+// look for a contact with a matching role_id
+// there should be only one or none.
             if ($contact->role_id == $roleId)
             {
                 return $contact;
@@ -114,8 +128,8 @@ class User extends Authenticatable
      * 
      */
 
-    // groupMemberShip will return a list of groups this
-    // user is a member of.
+// groupMemberShip will return a list of groups this
+// user is a member of.
     public function groupMemberShip()
     {
         return $this->belongsToMany(Group::class, 'group_user');
@@ -161,7 +175,10 @@ class User extends Authenticatable
         throw new UnexpectedValueException;
     }
 
-    // called from AuthController/authenticated()
+// called from AuthController/authenticated()
+// therefore rights are determined by users current role at logon
+// additionally, if a logged on user changes their current role this method will be
+// called to recompute their rights.
     public function makeMember($role)
     {
         $assigned_rights = array();
@@ -170,7 +187,7 @@ class User extends Authenticatable
         switch ($role) {
             case 'super-admin':
             case 'admin':
-                // any one can create a user account by self regisering as a guest
+// any one can create a user account by self regisering as a guest
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-user');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-user');
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-role');
@@ -180,7 +197,7 @@ class User extends Authenticatable
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-group');
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-settings');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-settings');
-            // fall through
+// fall through
             case 'manager':
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-group');
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-role');
@@ -194,7 +211,7 @@ class User extends Authenticatable
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-song');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-song');
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-contact');
-                // contact info is deleted if a user role is deleted
+// contact info is deleted if a user role is deleted
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-contact');
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-instrument');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-instrument');
@@ -202,9 +219,7 @@ class User extends Authenticatable
                 $assigned_rights[] = $this->getIdInArray($rights, 'create-skill');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-skill');
                 $assigned_rights[] = $this->getIdInArray($rights, 'delete-skill');
-
-
-            // fall through                
+// fall through                
             case 'musician':
             case 'sub':
             case 'alumnus':
@@ -214,13 +229,13 @@ class User extends Authenticatable
             case 'publisher':
             case 'supplier':
             case 'venuecontact':
-                // everyone needs read-user/update-user rights in order to update their account and change their current role                
+// everyone needs read-user/update-user rights in order to update their account and change their current role                
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-user');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-user');
-                // everyone needs read-contact/update-contact rights in order to update their contact info                   
+// everyone needs read-contact/update-contact rights in order to update their contact info                   
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-contact');
                 $assigned_rights[] = $this->getIdInArray($rights, 'update-contact');
-            // fall through                   
+// fall through                   
             case 'guest':
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-group');
                 $assigned_rights[] = $this->getIdInArray($rights, 'read-song');
@@ -233,6 +248,7 @@ class User extends Authenticatable
                 throw new \Exception("The member role '" . $role . "' does not exist");
         }
 
+// update the right_user pivot table
         $this->rights()->sync($assigned_rights);
     }
 
@@ -250,28 +266,28 @@ class User extends Authenticatable
         foreach ($rules as $field => $rule)
         {
             $newRule = [];
-            // Split rule up into parts
+// Split rule up into parts
             $ruleParts = explode('|', $rule);
-            // Check each part for unique
+// Check each part for unique
             foreach ($ruleParts as $part)
             {
                 if (strpos($part, 'unique:') === 0)
                 {
-                    // Check if field was unchanged
+// Check if field was unchanged
                     if (!$this->isDirty($field))
                     {
-                        // Field did not change, make exception for this model
-                        // Following line of code does not appear to work.
+// Field did not change, make exception for this model
+// Following line of code does not appear to work.
                         $part = $part . ',' . $field . ',' . $this->getAttribute($field) . ',' . $field;
 
-                        // leave this segment out (replaces above line of code)
-                        // continue;
+// leave this segment out (replaces above line of code)
+// continue;
                     }
                 }
-                // All other go directly back to the newRule Array
+// All other go directly back to the newRule Array
                 $newRule[] = $part;
             }
-            // Add newRule to updateRules
+// Add newRule to updateRules
             $updateRules[$field] = join('|', $newRule);
         }
         return $updateRules;

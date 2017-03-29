@@ -3,21 +3,25 @@
 @section('content')
 @include('partials.alerts.errors')
 @include('flash::message')
-    <script>
-        document.title = 'Musicians Manager - Edit Member';
-    </script>
-
-<div><h2>Edit Member: {{ $user->username }}</h2></div>
-<div class="row">
-    <div class="required col-md-12 pull-right">
-        <b>(required fields indicated with an *)</b>
+<script>
+    document.title = 'Musicians Manager - Edit Member';</script>
+<div class="col-md-12">
+    <div class="col-md-5 pull-left">
+        <div><h2>Edit Member: {{ $user->username }}</h2></div>
+        <div class="row">
+            <div class="required col-md-12 pull-right">
+                <b>(required fields indicated with an *)</b>
+                <br></br>
+            </div>
+        </div>
     </div>
 </div>
-<div class=""col-md-12>
-    {!! Form::model($user, ['method' => 'PATCH', 'route' => ['user.update', $user]]) !!}
+<div class="col-md-12">
+    {!! Form::model($user, ['id' => 'myRqst', 'name' => 'myRqst', 'method' => 'post', 'route' => ['user.update', $user]]) !!}    
     <div class="container">
         <div class="col-md-5 pull-left" style="background-color:LightCyan; border:4px solid blue; border-radius:25px;">
             <h4 style="margin-top: -10px; background:white; width:160px">&nbsp;<b>Basic Information</b></h4>
+            {!! Form::hidden('_method', 'put') !!}
             <div class="row">
                 <div class=" required col-md-4 col-md-offset-1">
                     {!! Form::label('username', '* Username:') !!}
@@ -82,8 +86,8 @@
                     {!! Form::text('suffix') !!}
                 </div>
             </div>
-                    @if (Auth::check())
-                    @if (Auth::user()->hasRole('admin') || (\Auth::user()->id === $user->id && $user->loginpermitted))
+            @if (Auth::check())
+            @if (Auth::user()->hasRole('admin') || (\Auth::user()->id === $user->id && $user->loginpermitted))
             <div class="row">
                 <div class="col-md-4 col-md-offset-1">
                     {!! Form::label(null,'Password:') !!}
@@ -165,7 +169,7 @@
                     {!! Form::label('currentRole', '* Current Role:') !!} 
                 </div>
                 <div class="col-md-1 pull-left">
-                    {!! Form::select('currentRole', $userRoles, $user->currentRole) !!}
+                    {!! Form::select('currentRole', $userRoles, $user->currentRole ) !!}
                 </div>
             </div>
             {{--
@@ -271,7 +275,7 @@
             </div>
             <div class="row">
                 <div class="col-md-5">
-                    &nbsp;{!! Form::hidden('id') !!}
+                    &nbsp;
                 </div>
             </div>
         </div>
@@ -288,9 +292,10 @@
             &nbsp;
         </div>
         <div class='col-sm-2'>
-            <table border='0'>
+            <table>
                 <tr>
                     <td>
+                        {{-- update user using above form fields  --}}
                         {!! Form::submit('Update', ['class' => 'button']) !!}
                         {!! Form::close() !!}
                     </td>
@@ -313,8 +318,7 @@
                     <td>&nbsp;</td>
                     <td>
                         {{-- delete selected role and associaed contact info from user  --}}
-                        {!! Form::model($user, ['method' => 'get', 'route' => ['user.delrole', $user]]) !!}
-                        {!! Form::submit('Delete Role', ['class' => 'button']) !!}
+                        {!! Form::submit('Delete Role', ['class' => 'button', 'onClick' => "doSubmit('delrole', '{{ $user->id }}')"]) !!}                       
                         {!! Form::close() !!}
                     </td>
                     @endif

@@ -8,18 +8,18 @@
     document.title = 'Musicians Manager - Edit Settings';
 </script>
 
-<div><h2>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Edit Settings</h2></div>
-<div class="row">
-    <div class='col-md-2'></div>
-    <div class="required col-md-4">
-        <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(required fields indicated with an *)</b>
+<div class="col-md-12">
+    <div class="col-md-5 pull-left">
+        <div><h2>Edit Settings</h2></div>
+        <div class="row">
+            <div class="required col-md-12 pull-right">
+                <b>(required fields indicated with an *)</b>
+                <br></br>
+            </div>
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        &nbsp;
-    </div>
-</div>
+
 <div class="col-md-12">
     {!! Form::model($settings, ['method' => 'post', 'route' => ['settings.update', $settings]]) !!}
     <div class="container">

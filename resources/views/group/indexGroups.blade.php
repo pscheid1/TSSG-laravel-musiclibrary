@@ -16,7 +16,8 @@
             <th> {{ App\Traits\SortableTrait::link_to_sorting_action('name', 'Group') }} </th>   
             <th> {{ App\Traits\SortableTrait::link_to_sorting_action('type', 'Type') }} </th>   
             <th> {{ App\Traits\SortableTrait::link_to_sorting_action('status', 'Status') }} </th>   
-            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('groupleader', 'User') }} </th>   
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('groupleader', 'Group Leader') }} </th>   
+            <th> {{ App\Traits\SortableTrait::link_to_sorting_action('$userupdatedby', 'Last Updated by') }} </th>
             <th> Action </th>
         </tr>
         @foreach ($groups as $group)
@@ -29,6 +30,7 @@
             <td>Inactive</td>
             @endif
             <td>{{ App\User::where('id', $group->groupleader)->first()->firstname . ' ' . App\User::where('id', $group->groupleader)->first()->lastname }}</td>        
+            <td>{{ App\User::where('id', $group->updateuserid)->first()->firstname . ' ' . App\User::where('id', $group->updateuserid)->first()->lastname }}</td>
             <td style="width: 49px;">
                 <span class="btn-group">
                     <button type="button" class="btn btn-default btn-xs" onClick="doSubmit('get', '{{ $group->id }}')">
@@ -38,7 +40,6 @@
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"> </span>
                     </button>
                 </span>
-                </form>
             </td>
         </tr>
         @endforeach

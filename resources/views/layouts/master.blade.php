@@ -6,8 +6,10 @@
     <title>TSSG Musician Managers</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
     <style type="text/css">
         .xsmall
         {
@@ -45,13 +47,13 @@
         {
             float:left;
         }
-  
+
         th {
             text-align: center;
             background-color: blue;
             color: white;
         }
-      
+
         /*
         Change the link default color.
         We are using white on blue for our table column headings.
@@ -310,6 +312,12 @@
 function doSubmit(rqstType, rqstId, resourceid)
 {
     //debugger;
+    /*
+     window.alert(rqstType);
+     var str1 = 'rqstId: ';
+     var str2 = str1.concat(rqstId);
+     window.alert(str2);
+     */
 
     if (rqstType === "get")
     {
@@ -320,8 +328,8 @@ function doSubmit(rqstType, rqstId, resourceid)
     else if (rqstType === "getinstr")
     {
         // Show assigned instrument for editing
-        // change the form method from POST to GET, _method field remains empty
-        //document.getElementById("myRqst").method = 'get';  // method is already === get
+        // method is already === get
+        // nothing else to do  
     }
     else if (rqstType === "delinstr")
     {
@@ -339,9 +347,17 @@ function doSubmit(rqstType, rqstId, resourceid)
         // change the form method from POST to GET, _method field remains empty
         document.getElementById("myRqst").method = 'get';
     }
+    else if (rqstType === "delrole")
+    {
+        // nothing to do
+    }
     else
     {
-        window.alert('help');   // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        var str1 = 'Unknown rqstType: ';
+        var str2 = str1.concat(rqstType);
+        window.alert(str2.concat(' - *aborting request*'));
+        // exit out of the script (no submit)
+        Abort();
     }
 
     var xaction = document.getElementById("myRqst").action;
@@ -365,6 +381,10 @@ function doSubmit(rqstType, rqstId, resourceid)
         xaction = xaction.concat(rqstId);
         xaction = xaction.concat('/setPgSz');
     }
+    else if (rqstType === "delrole")
+    {
+        xaction = xaction.concat('/delrole');
+    }
     else
     {
         // append requestId to form action        
@@ -372,7 +392,7 @@ function doSubmit(rqstType, rqstId, resourceid)
     }
     ;
     document.getElementById("myRqst").action = xaction;
-// submit the form
+    // submit the form
     document.getElementById("myRqst").submit();
 }
 
@@ -381,17 +401,19 @@ function doSubmit(rqstType, rqstId, resourceid)
             @yield('content')
         </div>
     </main>
+    <!--   (moved to <head>
+        <script src="//code.jquery.com/jquery.js"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    -->
 
-    <script src="//code.jquery.com/jquery.js"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js//bootstrap.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script>
-/*
- $('#flash-overlay-modal').modal();
- use flash()-->overlay('message', 'title') to provide a modal dialog message box.
- Must enable above line and disable div.alert line below.
- */
-$('div.alert').not('.alert-important').delay(5000).slideUp(500);
+        /*
+         $('#flash-overlay-modal').modal();
+         use flash()-->overlay('message', 'title') to provide a modal dialog message box.
+         Must enable above line and disable div.alert line below.
+         */
+        $('div.alert').not('.alert-important').delay(5000).slideUp(500);
     </script>
 
     @yield('footer')

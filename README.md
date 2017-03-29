@@ -49,7 +49,7 @@ From a command window, run the following commands:
 4.  composer update (This will update the project and add the most curent vendor folder.)
 5.  npm install
 6.  bower install
-7.  if the following folders do not exist, create them.  
+7.  if the following folders do not exist, create them.  (This should no longer be necessary but if it is, add the following folders.)  
     &nbsp;&nbsp;&nbsp;&nbsp;`<root>/storage/framework/`  
     &nbsp;&nbsp;&nbsp;&nbsp;`<root>/storage/framework/sessions`  
     &nbsp;&nbsp;&nbsp;&nbsp;`<root>/storage/framework/views`  
@@ -102,9 +102,11 @@ The access rights of a member are determined by roles.  Every member must have a
 account is created.  Additional roles may be assigned by a member with an administrator role.  When a member logs on, the 
 account will have an attribute called **current role**.  If a member has only one assigned role, it will always be the current role. 
 If a member has multiple roles, the account can perform operations permitted by the current role.  If a member has multiple roles, 
-the current role at logon will be what ever it was at the end of their previous logon. If a member with multiple roles,
+the current role at logon will be what ever it was at the end of their previous logon. If a member with multiple roles
 desires to perform operations permitted by one of their other assigned roles, they must edit their account and select the desired
-role from the list of roles assigned to their account.  Only an administrator can add additional roles to an account.    
+role from the list of roles assigned to their account.  They must then select **update** to complete the request. 
+Only an administrator can add/delete roles to/from an account. When a user logs on, their rights are determined by their current 
+role.  If a logged on user selects a new current role, their rights will be recomputed based on the new role.
   
 Roles and their associated rights are *hard coded*..  To create a new role or change the rights associated with a role, code modification 
 is required.  Other than that, all the other table entries are modifiable through the provided interface.  
@@ -116,25 +118,16 @@ leaders are those who have a role of **band manager**.  This does not have to be
 have this role assigned to them.  When you create the group, the band manager will automatically be made a member of
 the group.  To add additional members to a group you need to list the groups and select one for edit.  When a group is open 
 for edit, one of the panels will list all members available to become members.  Select one or more (Ctrl select) and select 
-update.  Members listed in the available for membership panel are all members that have a role of musician that are not
-already members.  The same process (Ctrl select / update) in the members panel can be used to remove one or more
+update.  Members listed in the available for membership panel are all members that have a role of musician or substitute musician 
+that are not already members.  The same process (Ctrl select / update) in the members panel can be used to remove one or more
 members from the group. To change the group leader for a group select a new entry from the group leader drop down.  When update 
 is selected the new group leader will be assigned and will also be made a member of the group if they are already not one.  The group 
-leader that was replaced will be removed from the group unless that member is also assigned a role of musician.  In this case we do
-not know if the member was assigned to the group as a result of being selected as the group leader or was manually assigned because
-of their role of musician.  In this case if member is to be removed from the group it must be done manually, the same as any other gtroup
-member. Band Managers can be band leaders/members of multiple groups.  Members can also be members of multiple groups.  
+leader that was replaced will be removed from the group unless that member is also assigned a role of musician or substitute musician. 
+In this case we do not know if the member was assigned to the group as a result of being selected as the group leader or was manually 
+assigned because of their role of musician.  In this case if the member is to be removed from the group it must be done manually, 
+the same as any other group member. Band Managers can be band leaders/members of multiple groups.  Members can also 
+be members of multiple groups.  
   
-I will add more to this document as we progress with testing.  For now, I think you will be able to figure out how to accomplish 
-what you want.  Some of the functionality is somewhat strange.  I'm sure some of that is do to something on my part but some of
-it is because I attempted to imitate the operation of version 2 of musicians manger.  I am interested in what you find as you 
-attempt to use this implementation.  What you like, don't like, don't understand or can't figure out. Please let me know via email, 
-meetings or the wiki.  In addition to the Events tab, there are some Laravel items that I would like to implement just to learn more
-about them.  Pagination is one such item.  Another that has been requested and can be implemented via bootstrap is column
-sorting.  
-  
-Let me know if you need help with anything.   
-
 ### Unit Testing
 
 There is extensive testing built into Laravel but at this point it looks like it takes a bit of work to utilize it.  There is a section titled "Application Testing"
@@ -142,7 +135,7 @@ in the documentation listed above. There is also a unitTest category in the Chea
 simple test built into any "out of the box" project.  If you create a new Lavarel project it has a home page that displays "Laravel 5".  The simple
 test will issue a url to the server and assert that the text string "Laravel" is contained on the returned page.
 
-I have modifed a few things so this test will work with the Musicians Manager project.  The supplied test case is accomplished by running the 
+I have modified a few things so this test will work with the Musicians Manager project.  The supplied test case is accomplished by running the 
 following test class:  **\<root>\tests\ExampleTest.php**.  I have replace the string "Laravel" mentioned above with the string "Password".
 When the Musicians Manager project is first accessed it will return a logon request page that will display among other things the "Password" string. 
 To implement this test the phpunit.xml file was copied to the \<root> folder and the test name was changed to ExampleTest.php.  From a command window,
@@ -186,6 +179,15 @@ be rejected. (for testing without a mail server, you can get the information fro
 * When a column as been sorted, the column heading will contain an up or down arrow indicating the column is now in ascending or descending order.
 * We referrer to it as column sorting but the reality is that the rows are sorted based on the column data.
 * Each sort request results in a new sort request and a new listing of the data.  In other words, previous sorts have no affect on later sorts.
+
+I will add more to this document as we progress with testing.  For now, I think you will be able to figure out how to accomplish 
+what you want.  Some of the functionality is somewhat strange.  I'm sure some of that is do to something on my part but some of
+it is because I attempted to imitate the operation of version 2 of musicians manger.  I am interested in what you find as you 
+attempt to use this implementation.  What you like, don't like, don't understand or can't figure out. Please let me know via email, 
+meetings or the wiki.  In addition to the Events tab, there are some Laravel items that I would like to implement just to learn more
+about them.  
+  
+Let me know if you need help with anything.   
 
 
 

@@ -266,6 +266,7 @@ class GroupsController extends Controller
         $group->members()->syncWithoutDetaching($member); // will not add additional entry if one already exists  
         //$group->members()->attach($member);                        // add entries regardless of existing entries
         
+        $group->updateuserid = \Auth::user()->id;
         $group->update($request->all());
 
         flash()->success("Group '" . $group->name . "' successfully updated!");

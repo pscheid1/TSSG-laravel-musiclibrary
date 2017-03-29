@@ -8,18 +8,22 @@
     document.title = 'Musicians Manager - Add Role';
 </script>
 
-<div><h2>Add a new Role</h2></div>
-<div class="row">
-    <div class='col-md-2'></div>
-    <div class="required col-md-4">
-        <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(required fields indicated with an *)</b>
+<div class="col-md-12">
+    <div class="col-md-5 pull-left">
+        <div><h2>Add a new Role</h2></div>
+        <div class="row">
+            <div class="required col-md-12 pull-right">
+                <b>(required fields indicated with an *)</b>
+                <br></br>
+            </div>
+        </div>
     </div>
 </div>
-<br/>
+
 <div class="col-md-12">
     {!! Form::open(['route' => 'role.store']) !!}
     <div class="container">
-          <div class="col-md-5 pull-left" style="background-color:LightCyan; border:4px solid blue; border-radius:25px;">
+        <div class="col-md-5 pull-left" style="background-color:LightCyan; border:4px solid blue; border-radius:25px;">
             <h4 style="margin-top: -10px; background:white; width:160px">&nbsp;<b>Role Information</b></h4>
             <div class="row">
                 <div class=" required col-md-4 col-md-offset-1">

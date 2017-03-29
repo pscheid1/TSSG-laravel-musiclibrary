@@ -8,17 +8,18 @@
     document.title = 'Musicians Manager - Edit Song';
 </script>
 
-<div><h2>&nbsp;&nbsp;&nbsp;&nbsp;Edit Song: {{ $song->TITLE }}</h2></div>
-<div class="row">
-    <div class="required col-md-12 pull-right">
-        <b>(required fields indicated with an *)</b>
+<div class="col-md-12">
+    <div class="col-md-5 pull-left">
+        <div><h2>Edit Song: {{ $song->TITLE }}</h2></div>
+        <div class="row">
+            <div class="required col-md-12 pull-right">
+                <b>(required fields indicated with an *)</b>
+                <br></br>
+            </div>
+        </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-md-12">
-        &nbsp;
-    </div>
-</div>
+
 <div class=""col-md-12>
     {!! Form::model($song, ['method' => 'PATCH', 'route' => ['musiclibrary.update', $song]]) !!}	
     <div class="container">

@@ -8,19 +8,15 @@
     document.title = 'Musicians Manager - Edit Group';
 </script>
 
-<div class="row">
-    <div class='col-md-9 pull-left'>
-          <h2>Edit Group: {{ $group->name }}</h2>
-    </div>
-</div>
-<div class=''row">
-     <div class="required col-md-3 pull-right">
-         &nbsp;&nbsp;<b>(required fields indicated with an *)</b>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        &nbsp;
+<div class="col-md-12">
+    <div class="col-md-5 pull-left">
+        <h2>Edit Group: {{ $group->name }}</h2>
+        <div class="row">
+            <div class="required col-md-12 pull-right">
+                <b>(required fields indicated with an *)</b>
+                <br></br>
+            </div>
+        </div>
     </div>
 </div>
 

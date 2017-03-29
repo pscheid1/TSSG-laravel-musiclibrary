@@ -41,7 +41,7 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-// get this users page size for this list
+        // get this users page size for this list
         $pgSizeHelper = new PageSizeHelper();
         $pgSzIndx = $pgSizeHelper->getPgSzIndx('users', $request->pageSize);
 
@@ -51,10 +51,10 @@ class UsersController extends Controller
         $usrgps = array();
         $instruments = array();
 
-// iterate through the list of users
+        // iterate through the list of users
         foreach ($users as $user)
         {
-// build a list of group membershipa for this user, if any
+            // build a list of group membershipa for this user, if any
             $groups = $user->groupMemberShip;
             $namelist = array();
             foreach ($groups as $group)
@@ -64,7 +64,7 @@ class UsersController extends Controller
 
             $usrgps[$user->id] = $namelist;
 
-// build a list of intrusments for this user, if any
+            // build a list of intrusments for this user, if any
             $userResources = $user->resources;
             $userInstruments = array();
             foreach ($userResources as $resource)
@@ -97,8 +97,7 @@ class UsersController extends Controller
         $user = new User;
         $allRoles = Role::pluck('displayname', 'id')->toArray();
 
-//$user->currentRole = 1;
-// return the add user form with user roles
+        // return the add user form with user roles
         return view('user.createUser', compact('user', 'allRoles'));
     }
 
@@ -137,7 +136,7 @@ class UsersController extends Controller
             }
         }
 
-// Get new user input
+        // Get new user input
         $user = new User($request->only([$request->username, $request->prefix, $request->firsname, $request->middlename, $request->lastname, $request->suffix,
                     $request->currentRole, $request->password, $request->password_confirmation, $request->company, $request->title, $request->note]));
 
@@ -160,8 +159,8 @@ class UsersController extends Controller
          * 
          */
 
-// Get contact information
-// instansiate a new contact
+        // Get contact information
+        // instansiate a new contact
         $contact = new Contact(array(
             'address1' => Input::get('address1'),
             'address2' => Input::get('address2'),
@@ -191,7 +190,7 @@ class UsersController extends Controller
 
         flash()->success("User '" . $user->username . "' successfully added!");
 
-//return $this->index(); // if you want to return to the list users view
+        //return $this->index(); // if you want to return to the list users view
         return redirect()->back(); // if you want return to a new add user  view
     }
 
@@ -216,24 +215,24 @@ class UsersController extends Controller
         }
 
 
-// Do we need to check for Contact rightsl
-// Seems to me User rights and Contact rights ought to be the same so
-// we could possibly delete Contact rights.
-// Admin or Band Manger may edit any user account.
-// All other users may only edit their own account
+        // Do we need to check for Contact rightsl
+        // Seems to me User rights and Contact rights ought to be the same so
+        // we could possibly delete Contact rights.
+        // Admin or Band Manger may edit any user account.
+        // All other users may only edit their own account
         if (\Auth::user()->username == $user->username)
         {
-// logged on user is editing his/her own account
+            // logged on user is editing his/her own account
         }
-// old checks, logged on user only needed to have these roles
-// else //if (\Auth::user()->hasRole('admin') || \Auth::user()->hasRole('manager'))
+        // old checks, logged on user only needed to have these roles
+        // else //if (\Auth::user()->hasRole('admin') || \Auth::user()->hasRole('manager'))
         else
         {
-// new checks.  logged on user must have admin or manager as its current role.
+            // new checks.  logged on user must have admin or manager as its current role.
             $loggedOnUserRole = Role::where('id', \Auth::user()->currentRole)->first()->name;
             if ($loggedOnUserRole == 'admin' || $loggedOnUserRole == 'manager')
             {
-// logged on user's currentRole is Admin or Band Manager               
+                // logged on user's currentRole is Admin or Band Manager               
             }
             else
             {
@@ -242,19 +241,20 @@ class UsersController extends Controller
             }
         }
 
-// get the roles currently assigned to this user
+        // get the roles currently assigned to this user
         $userRoles = $user->roles()->pluck('displayname', 'id')->toArray();
-// get the contact info for this user/role
+        // get the contact info for this user/role
         $contact = Contact::findOrFail($user->contactIdForRole($user->currentRole));
 
-// change the contact timestamp keys to separate them from the user model keys
+        // change the contact timestamp keys to separate them from the user model keys
         $contact = $this->renameKey($contact, 'created_at', 'contact_created_at');
         $contact = $this->renameKey($contact, 'updated_at', 'contact_updated_at');
 
         $userupdatedby = User::find($user->updateuserid)->firstname . ' ' . User::find($user->updateuserid)->lastname;
         $contactupdatedby = User::find($contact->updateuserid)->firstname . ' ' . User::find($contact->updateuserid)->lastname;
 
-// return the edit user form with user info, user roles and contact info
+        //$user->roleToDelete = false;
+        // return the edit user form with user info, user roles and contact info
         return view('user.editUser', compact('user', 'userRoles', 'contact', 'userupdatedby', 'contactupdatedby'));
     }
 
@@ -279,7 +279,7 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-// Find user record for user to edit
+        // Find user record for user to edit
         $user = User::find($id);
         if ($user == NULL)
         {
@@ -301,41 +301,41 @@ class UsersController extends Controller
         }
         else
         {
-// prevent any current password from being replaced by blanks
+            // prevent any current password from being replaced by blanks
             $request->merge(['password' => $user->password]);
         }
 
         $newRole = false;
         if (\Auth::user()->username == $user->username)
         {
-// logged on user is editing his/her own account
-// test to see if user currentrole is being changed
-// we need to know this to know if rights need to be recomputed below.
+            // logged on user is editing his/her own account
+            // test to see if user currentrole is being changed
+            // we need to know this to know if rights need to be recomputed below.
             $newRole = $request->currentRole != $user->currentRole;
         }
 
-// Find the contact record for the user.currentRole
-// any changes are for the current role contact, not a possible new role assigment.
-// therefore use the $user->currentRole and not the $request->currentRole;
+        // Find the contact record for the user.currentRole
+        // any changes are for the current role contact, not a possible new role assigment.
+        // therefore use the $user->currentRole and not the $request->currentRole;
         $contact = $user->contactForRole($user->currentRole);
-// User model does not extend BaseModel so getUpdateRules() has been copied to the User class.
+        // User model does not extend BaseModel so getUpdateRules() has been copied to the User class.
         $this->validate($request, $user->getUpdateRules(User::$rules));
 
         $this->validate($request, $contact->getUpdateRules());
 
-// if a form checkbox is not set (= 0) its attribute is not returned in $request and therefore will not
-// be written to the database.
-// if a checkbox is set (=1), the attribute is always returned in $request and therefore will be 
-// wirtten to the database.
-// therefore, if we initialize the boolean to 0 (which is already in memory in $user),
-// it will either be written to the database or set to 1 depending on what state the checkbox is set to.
+        // if a form checkbox is not set (= 0) its attribute is not returned in $request and therefore will not
+        // be written to the database.
+        // if a checkbox is set (=1), the attribute is always returned in $request and therefore will be 
+        // wirtten to the database.
+        // therefore, if we initialize the boolean to 0 (which is already in memory in $user),
+        // it will either be written to the database or set to 1 depending on what state the checkbox is set to.
 
         $user->loginpermitted = 0;
         $lastupdate = $user->updated_at;
         $user->update($request->all());
         if ($lastupdate->ne($user->updated_at))
         {
-// something has been modified in the user model
+            // something has been modified in the user model
             $user->updateuserid = \Auth::user()->id;
             $user->save();
         }
@@ -344,22 +344,22 @@ class UsersController extends Controller
         $contact->update($request->all());
         if ($lastupdate->ne($contact->updated_at))
         {
-// something has been modifed in the contact model
+            // something has been modifed in the contact model
             $contact->updateuserid = \Auth::user()->id;
             $contact->save();
         }
 
         if ($newRole)
         {
-// logged on user has changed their role
-// recompute allowed rights
+            // logged on user has changed their role
+            // recompute allowed rights
             $currentRoleName = Role::where('id', $user->currentRole)->first()->name;
             $user->makeMember($currentRoleName);
         }
 
         flash()->success("User '" . $user->username . "' successfully updated!");
 
-//return $this->index(); // if you want to return to the list users view
+        //return $this->index(); // if you want to return to the list users view
         return redirect()->back(); // if you want to keep the updated form displayed.
     }
 
@@ -377,7 +377,7 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-// Verify the user to be deleted
+        // Verify the user to be deleted
         $user = User::find($id);
         if ($user == NULL)
         {
@@ -397,20 +397,28 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-// delete all contact info
+        // delete all contact info
         foreach ($user->contacts as $contact)
         {
             $contact->delete();
         }
         $user->contacts()->sync([]);
-        /*
-         * Delete any assigend instruments (resources) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-         */
+
+        // Delete any assigend instruments (resources) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        $resources = $user->resources;
+        if ($resources->count() > 0)
+        {
+            foreach ($resources as $resource)
+            {
+                $resource->delete();
+            }
+        }
+
         $user->delete();
 
         flash()->success("User '" . "$user->username" . "' has been deleted from the database.");
 
-//return redirect()->back();
+        //return redirect()->back();
         return $this->index();
     }
 
@@ -435,22 +443,21 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-// Admin or Band Manger may edit any user account.
-// All other users may only edit their own account
+        // Admin or Band Manger may edit any user account.
+        // All other users may only edit their own account
         if (\Auth::user()->username == $user->username)
         {
-// logged on user is editing his/her own account
+            // logged on user is editing his/her own account
         }
-// old checks, logged on user only needed to have these roles
-// else //if (\Auth::user()->hasRole('admin') || \Auth::user()->hasRole('manager'))
+        // old checks, logged on user only needed to have these roles
+        // else //if (\Auth::user()->hasRole('admin') || \Auth::user()->hasRole('manager'))
         else
         {
-// new checks, logged on user must have admin or manager as its current role.
+            // new checks, logged on user must have admin or manager as its current role.
             $loggedOnUserRole = Role::where('id', \Auth::user()->currentRole)->first()->name;
             if ($loggedOnUserRole == 'admin' || $loggedOnUserRole == 'manager')
-// logged on user's currentRole is Admin or Band Manager
             {
-                
+                // logged on user's currentRole is Admin or Band Manager               
             }
             else
             {
@@ -459,16 +466,16 @@ class UsersController extends Controller
             }
         }
 
-// get all available roles
+        // get all available roles
         $allRoles = Role::pluck('displayname', 'id')->toArray();
         $userRoles = $user->roles()->pluck('displayname', 'id')->toArray();
-// return only roles that have not already been selected
+        // return only roles that have not already been selected
         $availableRoles = array_diff($allRoles, $userRoles);
         $user->currentRole = 0;
 
         $userupdatedby = User::find($user->updateuserid)->firstname . ' ' . User::find($user->updateuserid)->lastname;
 
-// return the addUserRole form with user info, user roles and contact info
+        // return the addUserRole form with user info, user roles and contact info
         return view('user.addUserRole', compact('user', 'availableRoles', 'userupdatedby'));
     }
 
@@ -499,17 +506,16 @@ class UsersController extends Controller
         {
             flash()->error("Unable to locate requested user in database.")->important();
         }
-// old checks, logged on user only needed to have these roles
-// else //if (\Auth::user()->hasRole('admin') || \Auth::user()->hasRole('manager'))
+        // old checks, logged on user only needed to have these roles
+        // else //if (\Auth::user()->hasRole('admin') || \Auth::user()->hasRole('manager'))
         else
         {
-// new checks, logged on user must have admin or manager as its current role.
+            // new checks, logged on user must have admin or manager as its current role.
             $loggedOnUserRole = Role::where('id', \Auth::user()->currentRole)->first()->name;
-//if ($loggedOnUserRole == 'admin' || $loggedOnUserRole == 'manager')
-            if ($loggedOnUserRole == 'admin')
-// logged on user's currentRole is Admin                      >>>>> removed this funcitonality >>>>   or Band Manager
+            //if ($loggedOnUserRole == 'admin' || $loggedOnUserRole == 'manager')
+            if ($loggedOnUserRole == 'admin')   //  >>>>> removed check for "|| manager"  >>>>   
             {
-                
+                // logged on user's currentRole is Admin
             }
             else
             {
@@ -532,11 +538,11 @@ class UsersController extends Controller
         }
         else
         {
-// prevent any current password from being replaced by blanks
+            // prevent any current password from being replaced by blanks
             $request->merge(['password' => $user->password]);
         }
 
-// instansiate a new contact
+        // instansiate a new contact
         $contact = new Contact(array(
             'address1' => Input::get('address1'),
             'address2' => Input::get('address2'),
@@ -550,17 +556,17 @@ class UsersController extends Controller
         ));
         $contact->user_id = $id;
         $contact->role_id = $request->currentRole;
-// User model does not extend BaseModel so getUpdateRules() has been copied to the User class.
+        // User model does not extend BaseModel so getUpdateRules() has been copied to the User class.
         $this->validate($request, $user->getUpdateRules(User::$rules));
         ;
         $this->validate($request, $contact::getRules());
 
-// if a form checkbox is not set (= 0) its attribute is not returned in $request and therefore will not
-// be written to the database.
-// if a checkbox is set (=1), the attribute is always returned in $request and therefore will be 
-// wirtten to the database.
-// therefore, if we initialize the boolean to 0 (which is already in memory in $user),
-// it will either be written to the database or set to 1 depending on what state the checkbox is set to.
+        // if a form checkbox is not set (= 0) its attribute is not returned in $request and therefore will not
+        // be written to the database.
+        // if a checkbox is set (=1), the attribute is always returned in $request and therefore will be 
+        // wirtten to the database.
+        // therefore, if we initialize the boolean to 0 (which is already in memory in $user),
+        // it will either be written to the database or set to 1 depending on what state the checkbox is set to.
 
         $user->loginpermitted = 0;
 
@@ -568,12 +574,12 @@ class UsersController extends Controller
         $user->update($request->all());
         if ($lastupdate->ne($user->updated_at))
         {
-// something has been modified in the user model
+            // something has been modified in the user model
             $user->updateuserid = \Auth::user()->id;
             $user->save();
         }
 
-//$contact->user_id = $user->id;
+        //$contact->user_id = $user->id;
         $contact->updateuserid = \Auth::user()->id;
 
         $contact->save();
@@ -589,19 +595,25 @@ class UsersController extends Controller
     /**
      * Unassign a role from a user
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function deleterole(Request $request, $id)
     {
+        /* If the user wanted to delete a role that was not the current role, the previous code required the user to select the role
+         * they wished to delete and request an update.  Then they could select delete role to delete the desired role.
+         * The new code no longer requires the update.  Code int master.plade.php will rerout the request here.
+         */
+
         if (!(\policy(new User)->update()))
         {
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
             return redirect()->back();
         }
 
-// deleting a role will delete the associated contact record.
-// test for sufficient rights to delete contact records
+        // deleting a role will delete the associated contact record.
+        // test for sufficient rights to delete contact records
         if (!(policy(new Contact)->delete()))
         {
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
@@ -627,35 +639,47 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-        $roleDisplayName = App\Role::where('id', $user->currentRole)->first()->displayname;
-        $rolename = App\Role::where('id', $user->currentRole)->first()->name;
+        // use $request->currentRole in case the user selected a role other than the currently assigned current role.
+        $deletedCurrentRole = $request->cuirrentRole == $user->currentRole;
 
-// get the contact record for the currentRole
-        $contact = $user->contactForRole($user->currentRole);
-// delete the role from the role_user pivot table
-        $user->roles()->detach($user->currentRole);
-// delete the contact record
+        $roleDisplayName = App\Role::where('id', $request->currentRole)->first()->displayname;
+        $rolename = App\Role::where('id', $request->currentRole)->first()->name;
+
+        // get the contact record for the currentRole
+        $contact = $user->contactForRole($request->currentRole);
+        // delete the role from the role_user pivot table
+        $user->roles()->detach($request->currentRole);
+        // delete the contact record
         $contact->delete();
-// get the roles currently assigned to this user
+
         $userRoles = $user->roles()->pluck('displayname', 'id')->toArray();
-        $userRoles = array_reverse($userRoles, true);
-        $keys = array_keys($userRoles);
-        $user->currentRole = $keys[0];
+        if ($deletedCurrentRole)
+        {
+            // only need to do this if user deleted the currently assigned role.  In this case we will randomly assign one
+            // of the remaining assigned roles as the users currentRole. There will always be at least one assigned role as
+            // we will not let the user delete their last role.
+            
+            // get the roles currently assigned to this user;
+            $userRoles = array_reverse($userRoles, true);
+            $keys = array_keys($userRoles);
+            // assign a new role as the current role.
+            $user->currentRole = $keys[0];
+        }
         $user->updateuserid = \Auth::user()->id;
         $user->save();
 
-// get the contact info for this user/role
+        // get the contact info for this user/role
         $contact = $user->contactForRole($user->currentRole);
 
-// change the timestamp keys to separate them from the user model keys
+        // change the timestamp keys to separate them from the user model keys
         $contact = $this->renameKey($contact, 'created_at', 'contact_created_at');
         $contact = $this->renameKey($contact, 'updated_at', 'contact_updated_at');
 
-// did we delete a role that affect instrument assignment
+        // did we delete a role that affect instrument assignment
         if ($rolename === 'manager' || $rolename === 'alumnus' || $rolename === 'musician' || $rolename === 'sub')
         {
-// deleted role is one that allows for instrument assignment
-// verify that at least one remaining role allows for instrument assignment
+            // deleted role is one that allows for instrument assignment
+            // verify that at least one remaining role allows for instrument assignment
             $instrumentCapable = false;
             // we have to get a fresh copy of user otherwise we get a stale copy of roles data
             $u = User::find($id);
@@ -680,16 +704,19 @@ class UsersController extends Controller
                     {
                         $resource->delete();
                     }
-                    
+                    // See if we can get multipl flash messages ##########################################################
                     flash()->info("Instrumentes have been unassigned.");
                 }
             }
         }
 
         flash()->success("Role '" . $roleDisplayName . "' successfully deleted from User '" . $user->username . "'.");
-        $userupdatedby = "Me";
-        $contactupdatedby = "Me Too";
-// return the edit user form with user info, user roles and contact info
+        // no user info is updated when Delete Role is called.  However because a role has been deleted the user object has been modified.
+        $userupdatedby = User::find($user->updateuserid)->firstname . ' ' . User::find($user->updateuserid)->lastname;
+        // contact info is for the new current role and therefore has not been changed.
+        $contactupdatedby = User::find($contact->updateuserid)->firstname . ' ' . User::find($contact->updateuserid)->lastname;
+
+        // return the edit user form with user info, user roles and contact info
         return view('user.editUser', compact('user', 'userRoles', 'contact', 'userupdatedby', 'contactupdatedby'));
     }
 
@@ -714,7 +741,7 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-// verify the user has one of the required roles allowing an instrument to be assigned.
+        // verify the user has one of the required roles allowing an instrument to be assigned.
         $instrumentCapable = false;
         $roles = $user->roles;
         foreach ($roles as $role)
@@ -732,7 +759,7 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-// build a list of intrusments for this user, if any
+        // build a list of intrusments for this user, if any
         $userResources = $user->resources;
 
         return view('user.instrument.indexUserInst', compact('user', 'userResources'));
@@ -759,8 +786,8 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-//  we shouldn't need to make this check because we should't be able to get here if this user does not have one of the required roles.
-// we'll keep it here for now.
+        //  we shouldn't need to make this check because we should't be able to get here if this user does not have one of the required roles.
+        // we'll keep it here for now.
         $instrumentCapable = false;
         $roles = $user->roles;
         foreach ($roles as $role)
@@ -780,7 +807,7 @@ class UsersController extends Controller
 
 
 
-// build a list of intruments for this user, if any
+        // build a list of intruments for this user, if any
         $userResources = $user->resources;
         $userInstruments = array();
         foreach ($userResources as $resource)
@@ -788,9 +815,9 @@ class UsersController extends Controller
             array_push($userInstruments, $resource->instrument->name);
         }
 
-// get a list of all available instruments    
+        // get a list of all available instruments    
         $allInstruments = App\Instrument::pluck('name', 'id')->toArray();
-// return all instruments minus currently assigned instruments
+        // return all instruments minus currently assigned instruments
         $instruments = array_diff($allInstruments, $userInstruments);
         $mgrskill = App\Skill::pluck('name', 'id')->toArray();
         $skill = App\Skill::pluck('name', 'id')->toArray();
@@ -829,7 +856,7 @@ class UsersController extends Controller
         flash()->success("Instrument '" . $instName . "' successfully added to user '" . $user->username . "'.");
 
         return $this->indexInstruments($request, $id); //return to list instruments for user form
-//return \redirect()->back(); // return to initialized add instrument form
+        //return \redirect()->back(); // return to initialized add instrument form
     }
 
     /**
@@ -840,7 +867,7 @@ class UsersController extends Controller
      */
     public function editProficiency(Request $request, $id)
     {
-// currently, resource rights are determined by user rights
+        // currently, resource rights are determined by user rights
         if (!(\policy(new User)->update()))
         {
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
@@ -877,7 +904,7 @@ class UsersController extends Controller
      */
     public function updateProficiency(Request $request, $id)
     {
-// currently, resource rights are determined by user rights        
+        // currently, resource rights are determined by user rights        
         if (!(\policy(new User)->update()))
         {
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();
@@ -903,7 +930,7 @@ class UsersController extends Controller
         $resource->update($request->all());
         if ($lastupdate->ne($resource->updated_at))
         {
-// something has been modified in the resource model
+            // something has been modified in the resource model
             $resource->updateuserid = \Auth::user()->id;
             $resource->save();
         }
@@ -922,7 +949,7 @@ class UsersController extends Controller
      */
     public function deleteInstrument(Request $request, $id)
     {
-// currently, resource rights are determined by user rights        
+        // currently, resource rights are determined by user rights        
         if (!(\policy(new User)->update()))
         {
             flash()->error("User '" . \Auth::user()->username . "' does not have sufficient rights for the requested operation")->important();

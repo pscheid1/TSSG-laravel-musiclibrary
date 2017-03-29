@@ -8,12 +8,18 @@
     document.title = 'Musicians Manager - Add Member';
 </script>
 
-<div><h2>Add a New Member</h2></div>
-<div class="row">
-    <div class="required col-md-12 pull-right">
-        <b>(required fields indicated with an *)</b>
+<div class="col-md-12">
+    <div class="col-md-5 pull-left">
+        <div><h2>Add a New Member</h2></div>
+        <div class="row">
+            <div class="required col-md-12 pull-right">
+                <b>(required fields indicated with an *)</b>
+                <br></br>
+            </div>
+        </div>
     </div>
 </div>
+
 <div class=""col-md-12>
     {!!Form::open(['route' => 'user.store']) !!}
     {!! csrf_field() !!}

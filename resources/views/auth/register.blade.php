@@ -8,15 +8,15 @@
     document.title = 'Musicians Manager - Register Guest';
 </script>
 
-<div><h2>Create a Guest Account</h2></div>
-<div class="row">
-    <div class="required col-md-12 pull-right">
-        <b>(required fields indicated with an *)</b>
-    </div>
-</div>
-<div class="row">
-    <div class="col-md-12">
-        &nbsp;
+<div class="col-md-12">
+    <div class="col-md-5 pull-left">
+        <div><h2>Create a Guest Account</h2></div>
+        <div class="row">
+            <div class="required col-md-12 pull-right">
+                <b>(required fields indicated with an *)</b>
+                <br></br>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -137,7 +137,7 @@
                     {!! Form::label('currentRole', '* Current Role:') !!} 
                 </div>
                 <div class="col-md-1 pull-left">
-                        {!! Form::select('userRoles[]', ['12' => 'Guest'], 12) !!}
+                    {!! Form::select('userRoles[]', ['12' => 'Guest'], 12) !!}
                 </div>
             </div>
             {{--
@@ -145,7 +145,7 @@
                 Posting the Form::model($user) above, still works the same and sends all the attributes (User and Contact).
             --}}    
             {{--{!! Form::model($contact, ['method' => 'PATCH', 'route' => ['user.update', $user]]) !!}--}}
-            
+
             <div class="row">
                 <div class="col-md-4 col-md-offset-1">
                     {!! Form::label('address1', 'Address One:') !!}

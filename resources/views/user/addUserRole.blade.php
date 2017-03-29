@@ -8,14 +8,19 @@
     document.title = 'Musicians Manager - Add Role to Member';
 </script>
 
-<div><h2>Add Role to Member: {{ $user->username }}</h2></div>
-<div class="row">
-    <div class="required col-md-12 pull-right">
-        <b>(required fields indicated with an *)</b>
+<div class="col-md-12">
+    <div class="col-md-5 pull-left">
+        <div><h2>Add Role to Member: {{ $user->username }}</h2></div>
+        <div class="row">
+            <div class="required col-md-12 pull-right">
+                <b>(required fields indicated with an *)</b>
+                <br></br>
+            </div>
+        </div>
     </div>
 </div>
-<br/>
-<div class=""col-md-12>
+
+<div class="col-md-12">
     {!! Form::model($user, ['method' => 'post', 'route' => ['user.addrole', $user]]) !!}
     <div class="container">
         <div class="col-md-5 pull-left" style="background-color:LightCyan; border:4px solid blue; border-radius:25px;">
@@ -120,7 +125,7 @@
                     {!! Form::text('note') !!}
                 </div>
             </div>
-           <div class="row">
+            <div class="row">
                 <div class="col-md-4 col-md-offset-1">
                     {!! Form::label(null,'Last Updated by:') !!}
                 </div>

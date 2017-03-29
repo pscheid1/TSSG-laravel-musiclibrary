@@ -8,16 +8,18 @@
     document.title = 'Musicians Manager - Add Instruments';
 </script>
 
-<div><h2>Add a new Instrument</h2></div>
-<div class="row">
-    <div class='col-md-2'></div>
-    <div class="required col-md-4">
-        <b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(required fields indicated with an *)</b>
+<div class="col-md-12">
+    <div class="col-md-5 pull-left">
+        <div><h2>Add a new Instrument</h2></div>
+        <div class="row">
+            <div class="required col-md-12 pull-right">
+                <b>(required fields indicated with an *)</b>
+                <br></br>
+            </div>
+        </div>
     </div>
 </div>
-<div class='row'>
-    <br/>
-</div>
+
 <div class="col-md-12">
     {!! Form::open(['route' => 'instrument.store']) !!}
     <div class="container">

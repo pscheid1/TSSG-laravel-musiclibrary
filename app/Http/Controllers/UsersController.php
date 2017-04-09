@@ -67,11 +67,11 @@ class UsersController extends Controller
             // build a list of intrusments for this user, if any
             $userResources = $user->resources;
             $userInstruments = array();
-            foreach ($userResources as $resource)
+           /* foreach ($userResources as $resource)
             {
                 array_push($userInstruments, $resource->instrument->name);
             }
-
+*/
             $instruments[$user->id] = $userInstruments;
         }
 
@@ -369,7 +369,7 @@ class UsersController extends Controller
      * @param  int  $id (user to be deleted)
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
         if (!(policy(new User)->delete()))
         {
@@ -402,7 +402,6 @@ class UsersController extends Controller
         {
             $contact->delete();
         }
-        $user->contacts()->sync([]);
 
         // Delete any assigend instruments (resources) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
         $resources = $user->resources;
@@ -419,7 +418,7 @@ class UsersController extends Controller
         flash()->success("User '" . "$user->username" . "' has been deleted from the database.");
 
         //return redirect()->back();
-        return $this->index();
+        return $this->index($request);
     }
 
     /**
@@ -603,7 +602,7 @@ class UsersController extends Controller
     {
         /* If the user wanted to delete a role that was not the current role, the previous code required the user to select the role
          * they wished to delete and request an update.  Then they could select delete role to delete the desired role.
-         * The new code no longer requires the update.  Code int master.plade.php will rerout the request here.
+         * The new code no longer requires the update.  Code in master.plade.php will re-rout the request here.
          */
 
         if (!(\policy(new User)->update()))
@@ -639,7 +638,7 @@ class UsersController extends Controller
             return redirect()->back();
         }
 
-        // use $request->currentRole in case the user selected a role other than the currently assigned current role.
+        // determine if user is deleting the currentRole or a different role
         $deletedCurrentRole = $request->cuirrentRole == $user->currentRole;
 
         $roleDisplayName = App\Role::where('id', $request->currentRole)->first()->displayname;
@@ -658,20 +657,26 @@ class UsersController extends Controller
             // only need to do this if user deleted the currently assigned role.  In this case we will randomly assign one
             // of the remaining assigned roles as the users currentRole. There will always be at least one assigned role as
             // we will not let the user delete their last role.
-            
             // get the roles currently assigned to this user;
             $userRoles = array_reverse($userRoles, true);
             $keys = array_keys($userRoles);
             // assign a new role as the current role.
             $user->currentRole = $keys[0];
+
+            if (\Auth::user()->username == $user->username)
+            {
+                // logged on user's role has been changed, recompute allowed rights
+                $user->makeMember($rolename);
+            }
         }
+        
         $user->updateuserid = \Auth::user()->id;
         $user->save();
 
         // get the contact info for this user/role
         $contact = $user->contactForRole($user->currentRole);
 
-        // change the timestamp keys to separate them from the user model keys
+        // change the timestamp keys in the contact model to distinguish them from the user model keys
         $contact = $this->renameKey($contact, 'created_at', 'contact_created_at');
         $contact = $this->renameKey($contact, 'updated_at', 'contact_updated_at');
 
@@ -693,6 +698,7 @@ class UsersController extends Controller
                 }
             }
 
+            $msg = '';
             if (!$instrumentCapable)
             {
                 // None of the existing assigned roles provide for instrument assignment.
@@ -705,12 +711,13 @@ class UsersController extends Controller
                         $resource->delete();
                     }
                     // See if we can get multipl flash messages ##########################################################
-                    flash()->info("Instrumentes have been unassigned.");
+                    $msg = "Instrumentes have been unassigned.\n";
                 }
             }
         }
 
-        flash()->success("Role '" . $roleDisplayName . "' successfully deleted from User '" . $user->username . "'.");
+        $msg = $msg . ("Role '" . $roleDisplayName . "' successfully deleted from User '" . $user->username . "'.\nNo other user information has been changed or saved.");
+        \flash()->success(nl2br($msg));
         // no user info is updated when Delete Role is called.  However because a role has been deleted the user object has been modified.
         $userupdatedby = User::find($user->updateuserid)->firstname . ' ' . User::find($user->updateuserid)->lastname;
         // contact info is for the new current role and therefore has not been changed.

@@ -308,105 +308,99 @@
 
             <script>
 
-// resourceid is optional and is used only in specific requests                
-function doSubmit(rqstType, rqstId, resourceid)
-{
-    //debugger;
-    /*
-     window.alert(rqstType);
-     var str1 = 'rqstId: ';
-     var str2 = str1.concat(rqstId);
-     window.alert(str2);
-     */
+            // resourceid is optional and is used only in specific requests                
+            function doSubmit(rqstType, rqstId, resourceid)
+            {
+                //debugger;
+                /*
+                 window.alert(rqstType);
+                 var str1 = 'rqstId: ';
+                 var str2 = str1.concat(rqstId);
+                 window.alert(str2);
+                 */
 
-    if (rqstType === "get")
-    {
-        // Show request
-        // change the form method from POST to GET, _method field remains empty
-        document.getElementById("myRqst").method = rqstType;
-    }
-    else if (rqstType === "getinstr")
-    {
-        // Show assigned instrument for editing
-        // method is already === get
-        // nothing else to do  
-    }
-    else if (rqstType === "delinstr")
-    {
-        // Delete assigned instrument 
-        // set the _method field to delinstr, form method remains POST
-        document.getElementById("_method").value = "delete";
-    }
-    else if (rqstType === "delete")
-    {
-        // set the _method field to DELETE, form method remains POST
-        document.getElementById("_method").value = rqstType;
-    }
-    else if (rqstType === "setPgSz")
-    {
-        // change the form method from POST to GET, _method field remains empty
-        document.getElementById("myRqst").method = 'get';
-    }
-    else if (rqstType === "delrole")
-    {
-        // nothing to do
-    }
-    else
-    {
-        var str1 = 'Unknown rqstType: ';
-        var str2 = str1.concat(rqstType);
-        window.alert(str2.concat(' - *aborting request*'));
-        // exit out of the script (no submit)
-        Abort();
-    }
+                if (rqstType === "get")
+                {
+                    // Show request
+                    // change the form method from POST to GET, _method field remains empty
+                    document.getElementById("myRqst").method = rqstType;
+                }
+                else if (rqstType === "getinstr")
+                {
+                    // Show assigned instrument for editing
+                    // method is already === get
+                    // nothing else to do  
+                }
+                else if (rqstType === "delinstr")
+                {
+                    // Delete assigned instrument 
+                    // set the _method field to delinstr, form method remains POST
+                    document.getElementById("_method").value = "delete";
+                }
+                else if (rqstType === "delete")
+                {
+                    // set the _method field to DELETE, form method remains POST
+                    document.getElementById("_method").value = rqstType;
+                }
+                else if (rqstType === "setPgSz")
+                {
+                    // change the form method from POST to GET, _method field remains empty
+                    document.getElementById("myRqst").method = 'get';
+                }
+                else if (rqstType === "delrole")
+                {
+                    // nothing to do
+                }
+                else
+                {
+                    var str1 = 'Unknown rqstType: ';
+                    var str2 = str1.concat(rqstType);
+                    window.alert(str2.concat(' - *aborting request*'));
+                    // exit out of the script (no submit)
+                    Abort();
+                }
 
-    var xaction = document.getElementById("myRqst").action;
-    if (rqstType === "getinstr")
-    {
-        document.getElementById("_resourceid").value = resourceid;
-        var indx = xaction.lastIndexOf('/');
-        xaction = xaction.substr(0, indx + 1);
-        xaction = xaction.concat("editproficiency");
-    }
-    else if (rqstType === "delinstr")
-    {
-        document.getElementById("_resourceid").value = resourceid;
-        var indx = xaction.lastIndexOf('/');
-        xaction = xaction.substr(0, indx + 1);
-        xaction = xaction.concat("delinstr");
-    }
-    else if (rqstType === "setPgSz")
-    {
-        xaction = document.getElementById("myRqst").action;
-        xaction = xaction.concat(rqstId);
-        xaction = xaction.concat('/setPgSz');
-    }
-    else if (rqstType === "delrole")
-    {
-        xaction = xaction.concat('/delrole');
-    }
-    else
-    {
-        // append requestId to form action        
-        xaction = xaction.concat(rqstId);
-    }
-    ;
-    document.getElementById("myRqst").action = xaction;
-    // submit the form
-    document.getElementById("myRqst").submit();
-}
+                var xaction = document.getElementById("myRqst").action;
+                if (rqstType === "getinstr")
+                {
+                    document.getElementById("_resourceid").value = resourceid;
+                    var indx = xaction.lastIndexOf('/');
+                    xaction = xaction.substr(0, indx + 1);
+                    xaction = xaction.concat("editproficiency");
+                }
+                else if (rqstType === "delinstr")
+                {
+                    document.getElementById("_resourceid").value = resourceid;
+                    var indx = xaction.lastIndexOf('/');
+                    xaction = xaction.substr(0, indx + 1);
+                    xaction = xaction.concat("delinstr");
+                }
+                else if (rqstType === "setPgSz")
+                {
+                    xaction = document.getElementById("myRqst").action;
+                    xaction = xaction.concat(rqstId);
+                    xaction = xaction.concat('/setPgSz');
+                }
+                else if (rqstType === "delrole")
+                {
+                    xaction = xaction.concat('/delrole');
+                }
+                else
+                {
+                    // append requestId to form action        
+                    xaction = xaction.concat(rqstId);
+                }
+                ;
+                document.getElementById("myRqst").action = xaction;
+                // submit the form
+                document.getElementById("myRqst").submit();
+            }
 
             </script>
 
             @yield('content')
         </div>
     </main>
-    <!--   (moved to <head>
-        <script src="//code.jquery.com/jquery.js"></script>
-        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    -->
-
     <script>
         /*
          $('#flash-overlay-modal').modal();

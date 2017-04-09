@@ -6,6 +6,7 @@
 <script>
     document.title = 'Musicians Manager - List Members';</script>
 <form role='form' name="myRqst" id="myRqst" action='/user/'   method='POST'>
+     {{ csrf_field() }}
     <input type="hidden" id="_method" name="_method" value="" />
     <table style="width:100%" border="1" >
         <caption><h2>Musicians Manager Members</h2></caption>

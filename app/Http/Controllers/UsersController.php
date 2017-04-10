@@ -403,7 +403,7 @@ class UsersController extends Controller
             $contact->delete();
         }
 
-        // Delete any assigend instruments (resources) <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        // Delete any assigend instruments (resources)
         $resources = $user->resources;
         if ($resources->count() > 0)
         {

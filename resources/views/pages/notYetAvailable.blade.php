@@ -8,7 +8,7 @@
 
 <div class="relative">
     <h4><b>Under Construction</b></h4>
-    <img src="images/underconstr.jpg" alt="" style="width:100px;height:100px;" />
+    <img src="/images/underconstr.jpg" alt="" style="width:100px;height:100px;" />
     
     <br /> <br /> <br />
     <b><p>The feature you have requested is not yet available.</p></b>

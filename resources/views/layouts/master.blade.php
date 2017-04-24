@@ -274,6 +274,13 @@
                             <li><a href="{{ route('group.create') }}">Add Group</a></li>
                         </ul>
                     </li> 
+                   <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">Set Lists<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ route('nya') }}">List Set Lists</a></li>
+                            <li><a href="{{ route('nya') }}">Add Set List</a></li>
+                        </ul>
+                    </li>
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown">Admin<span class="caret"></span></a>
                         <ul class="dropdown-menu">
